@@ -1,5 +1,7 @@
 # Wireless Sensor Network
 
+[description here]
+
 Requirments:
  - RTClib (Arduino library)
  - SdFat (Arduino library)
