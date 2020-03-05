@@ -5,7 +5,7 @@ This repository contains the files utilized to create a wireless sensor network 
 Each node utilizes a MZH16 C02 sensor, and a real time clock to take accurate measurements each second. These measurements are stored in microSD card within the node as an hourly file in a binary format. The network periodically propagates all node data to a central hub, where it can be collected on demand.
 
 ## Data analysis and visualization
-![Jupyter notebook](Data Analysis/Notebook.ipynb)
+![Jupyter notebook](Data%20Analysis/Notebook.ipynb)
 
 ## Node Hardware
 
