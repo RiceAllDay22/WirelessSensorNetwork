@@ -27,3 +27,5 @@ CombineDF = pd.DataFrame(CombineNP)
 CombineDF.columns = ['UNIXTIME', 'CO2']
 
 CombineDF.to_csv("Combined.csv", index=False, encoding='utf-8-sig')
+
+print('Hi')
