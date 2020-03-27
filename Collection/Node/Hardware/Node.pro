@@ -2,24 +2,24 @@ EAGLE AutoRouter Statistics:
 
 Job           : C:/Users/jkub6/Documents/Repos/WirelessSensorNetwork/WirelessSensorNetwork/Collection/Node/Hardware/Node.brd
 
-Start at      : 11:02:51 (3/11/2020)
-End at        : 11:03:16 (3/11/2020)
-Elapsed time  : 00:00:04
+Start at      : 17:51:31 (3/26/2020)
+End at        : 17:52:55 (3/26/2020)
+Elapsed time  : 00:00:49
 
-Signals       :    29   RoutingGrid: 12.5 mil  Layers: 2
-Connections   :    56   predefined:  0 ( 0 Vias )
+Signals       :    31   RoutingGrid: 6 mil  Layers: 2
+Connections   :    67   predefined:  6 ( 0 Vias )
 
-Router memory :   144448
+Router memory :   365500
 
-Passname          :    Busses     Route Optimize1 Optimize2 Optimize3 Optimize4
+Passname          : TopRouter     Route Optimize1 Optimize2 Optimize3 Optimize4 Optimize5 Optimize6 Optimize7 Optimize8 Optimize9Optimize10Optimize11Optimize12Optimize13
 
-Time per pass     :  00:00:00  00:00:01  00:00:01  00:00:00  00:00:01  00:00:01
-Number of Ripups  :         0         0         0         0         0         0
-max. Level        :         0         0         0         0         0         0
-max. Total        :         0         0         0         0         0         0
+Time per pass     :  00:00:38  00:00:00  00:00:01  00:00:01  00:00:01  00:00:00  00:00:01  00:00:01  00:00:01  00:00:00  00:00:01  00:00:01  00:00:01  00:00:01  00:00:01
+Number of Ripups  :         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+max. Level        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
+max. Total        :         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0
 
-Routed            :         5        56        56        56        56        56
-Vias              :         0        42        17        10        10         8
-Resolution        :     8.9 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
+Routed            :        37        61        59        61        61        61        61        61        61        60        61        61        61        61        61
+Vias              :         0        10        18        14        14        14        14        14        14        12        14        14        14        14        14
+Resolution        :    64.2 %   100.0 %    97.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %    98.5 %   100.0 %   100.0 %   100.0 %   100.0 %   100.0 %
 
 Final             : 100.0% finished
