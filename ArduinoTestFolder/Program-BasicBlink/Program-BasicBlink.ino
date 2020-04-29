@@ -9,7 +9,7 @@ void loop() {
   digitalWrite(LED_BUILTIN, HIGH);   
   delay(1000);                       
   digitalWrite(LED_BUILTIN, LOW);
-  Serial.println("These fill make a fine addition to my collection");
+  Serial.println("These will make a fine addition to my collection");
   delay(1000);
 }
 //End of Code
