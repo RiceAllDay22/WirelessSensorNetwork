@@ -29,7 +29,7 @@ void loop() {
   lcd.print(dt.minute(), DEC); lcd.print(':');
   lcd.print(dt.second(), DEC);
   lcd.println();
-  delay(1000);
+  while (rtc.now().unixtime() == dt.unixtime());
   lcd.setCursor(0,0);
 }
 
