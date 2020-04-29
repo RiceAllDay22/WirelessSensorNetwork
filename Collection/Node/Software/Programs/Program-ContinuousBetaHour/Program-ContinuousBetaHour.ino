@@ -1,31 +1,26 @@
 //---------------LIBRARIES---------------//
 #include <Wire.h>
-#include <NDIR_I2C.h>
 #include <LowPower.h>
-#include <RTClib.h>//
+#include <NDIR_I2C.h>
+#include <RTClib.h>
 #include <SdFat.h>
-
-RTC_DS3231 rtc;//
-NDIR_I2C mySensor(0x4D); 
-SdFat sd;
-SdFile file;
-const uint8_t sdChipSelect = SS;
-
-String string2, string4, string6, temp;
-String string1 = "Month";
-String string3 = "Day";
-String string5 = "Hour";
-String string7 = ".csv";
 
 
 //---------------VARIABLES---------------//
+NDIR_I2C mySensor(0x4D); 
+RTC_DS3231 rtc;
+SdFat sd;
+SdFile file;
+const uint8_t sdChipSelect = SS;
+String string2, string4, string6, temp;
+String string1 = "Month", string3 = "Day", string5 = "Hour", string7 = ".csv";
+
 DateTime dt;
 float GasData;
 uint32_t TimeUnix;
 byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 int  TimeMonth, TimeDay, TimeHour, TimeMinute, TimeSecond;
 bool HourCheck1, HourCheck2, HourCheck3, newHour;
-
 
 
 //---------------SETUP---------------//
@@ -37,15 +32,12 @@ void setup() {
   pinMode(DETACH_WIRE, INPUT_PULLUP);
   
   RTCBegin();
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
+  //Serial.println("TimeSet");
   MHZ16Begin();
   SDBegin();
 
-  delay(1000);
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //Serial.println("TimeSet");
-  delay(2000);
-  
   dt = rtc.now();
   TimeMonth = dt.month();
   TimeDay   = dt.day();
@@ -76,11 +68,9 @@ void loop() {
     if (TimeMinute == 0 and TimeSecond == 0) HourCheck1 = true;
     if (TimeMinute == 0 and TimeSecond == 1) HourCheck2 = true;
     if (TimeMinute == 0 and TimeSecond == 2) HourCheck3 = true;
-    
     if(HourCheck1 == true or HourCheck2 == true or HourCheck3 == true) newHour = true;
     Serial.println(newHour);
   }
-  
   if (newHour == true) {
     if (TimeSecond > 2) {
       newHour = false; HourCheck1 = false; HourCheck2 = false; HourCheck3 = false;
@@ -88,12 +78,13 @@ void loop() {
       newFile();  
     }
   }
- 
   WriteData();  
-  while (rtc.now().unixtime() == dt.unixtime()); // loop until next second
+  while (rtc.now().unixtime() == dt.unixtime());
 }
 
+//---------------FUNCTIONS---------------//
 
+//----------Create New File----------//
 void newFile() {
   file.sync();
   file.close();
@@ -107,8 +98,6 @@ void newFile() {
   file.print("UNIXTIME"); file.print(','); file.println("CO2"); 
 }
 
-
-//---------------FUNCTIONS---------------//
 
 //----------Retrieve Gas Data----------//
 float CollectGas() {
@@ -176,22 +165,3 @@ void SDBegin() {
   }
   Serial.println("SD Module Operational");
 }
-
-
-
-
-//if (newDay == false) { 
-//    if(TimeHour == 0 and TimeMinute == 0 and TimeSecond == 0)DayCheck1 = true;
-//    if(TimeHour == 0 and TimeMinute == 0 and TimeSecond == 1)DayCheck2 = true;
-//    if(TimeHour == 0 and TimeMinute == 0 and TimeSecond == 2)DayCheck3 = true;
-//
-//    if(DayCheck1 == true or DayCheck2 == true or DayCheck3 == true) newDay = true;
-//  Serial.println(newDay);
-//  }
-//
-//  if (newDay == true) {
-//    if (TimeHour == 0 and TimeMinute == 0 and TimeSecond > 2) {
-//      newDay = false; DayCheck1 = false; DayCheck2 = false; DayCheck3 = false;
-//      Serial.println("New File");
-//      newFile();  
-//    } 
