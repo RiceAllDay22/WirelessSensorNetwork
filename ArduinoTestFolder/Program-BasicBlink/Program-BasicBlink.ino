@@ -5,11 +5,11 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Ah yes the negotiator");
+  Serial.println("On");
   digitalWrite(LED_BUILTIN, HIGH);   
-  delay(1000);                       
+  delay(1000);   
+  Serial.println("Off");                    
   digitalWrite(LED_BUILTIN, LOW);
-  Serial.println("These will make a fine addition to my collection");
   delay(1000);
 }
 //End of Code
