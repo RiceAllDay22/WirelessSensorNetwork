@@ -9,6 +9,7 @@ void loop() {
   digitalWrite(LED_BUILTIN, HIGH);   
   delay(1000);                       
   digitalWrite(LED_BUILTIN, LOW);
+  Serial.println("General Kenobi");
   delay(1000);
 }
 //End of Code
