@@ -1,5 +1,6 @@
 //---------------LIBRARIES---------------//
 #include <Wire.h>
+#include <LowPower.h>
 #include <NDIR_I2C.h>
 #include <RTClib.h>
 #include <SdFat.h>
@@ -10,16 +11,15 @@ NDIR_I2C mySensor(0x4D);
 RTC_DS3231 rtc;
 SdFat sd;
 SdFile file;
+DateTime dt;
 const uint8_t sdChipSelect = SS;
 String string2, string4, string6, temp;
-String string1 = "Month", string3 = "Day", string5 = "Min", string7 = ".csv";
+String string1 = "Month", string3 = "Day", string5 = "Hour", string7 = ".csv";
 
-DateTime dt;
 float GasData;
 uint32_t TimeUnix;
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3;
-int  TimeMonth, TimeDay, TimeHour, TimeMinute, TimeSecond;
-bool MinCheck1, MinCheck2, MinCheck3, newMin;
+byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+bool wroteNewFile = true;
 
 
 //---------------SETUP---------------//
@@ -31,71 +31,70 @@ void setup() {
   pinMode(DETACH_WIRE, INPUT_PULLUP);
   
   RTCBegin();
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //rtc.adjust(DateTime(2020, 2, 3, 21, 50, 0));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
   //Serial.println("TimeSet");
   MHZ16Begin();
   SDBegin();
 
   dt = rtc.now();
-  TimeMonth  = dt.month();
-  TimeDay    = dt.day();
-  TimeHour   = dt.hour();
-  TimeMinute = dt.minute();
-  newFile();
+  CreateNewFile();
   delay(3000);
 }
 
 
 //---------------MAIN LOOP---------------//
 void loop() {
-  GasData  = CollectGas();
   dt = rtc.now();
-  
-  TimeUnix   = dt.unixtime();
-  TimeMonth  = dt.month();
-  TimeDay    = dt.day();
-  TimeHour   = dt.hour();
-  TimeMinute = dt.minute();
-  TimeSecond = dt.second();
-  
-  Serial.print(TimeMonth);  Serial.print(','); Serial.print(TimeDay);    Serial.print(',');
-  Serial.print(TimeHour);   Serial.print(','); Serial.print(TimeMinute); Serial.print(','); 
-  Serial.print(TimeSecond); Serial.print(','); Serial.print(TimeUnix);   Serial.print(',');
+  TimeUnix = dt.unixtime();
+  GasData  = CollectGas();
+  Serial.println(TimeUnix);  
   Serial.println(GasData);
+  WriteSample();  
 
-  if (newMin == false) { 
-    if (TimeSecond == 0) MinCheck1 = true;
-    if (TimeSecond == 1) MinCheck2 = true;
-    if (TimeSecond == 2) MinCheck3 = true;
-    if(MinCheck1 == true or MinCheck2 == true or MinCheck3 == true) newMin = true;
-    Serial.println(newMin);
+  if (dt.second() == 0 && wroteNewFile == false) {
+    wroteNewFile = true;
+    file.close();
+    CreateNewFile();
   }
-  if (newMin == true) {
-    if (TimeSecond > 2) {
-      newMin = false; MinCheck1 = false; MinCheck2 = false; MinCheck3 = false;
-      Serial.println("New File");
-      newFile();  
-    }
+  else if (dt.second() != 0) {
+    wroteNewFile = false;
   }
-  WriteData();  
-  while (rtc.now().unixtime() == dt.unixtime()); 
+  while (rtc.now().unixtime() == dt.unixtime());
 }
+
 
 //---------------FUNCTIONS---------------//
 
 //----------Create New File----------//
-void newFile() {
-  file.sync();
-  file.close();
-  string2 = String(TimeMonth);
-  string4 = String(TimeDay);
-  string6 = String(TimeMinute);
-  temp = String(string2 + string3 + string4 + string5 + string6 + string7);
-  char filename[temp.length()+1];
-  temp.toCharArray(filename, sizeof(filename));
+void CreateNewFile() {
+  if (digitalRead(DETACH_WIRE)) {
+    Serial.println("Not creating new file: (DETATCH_WIRE HIGH)");
+    return;
+  }
+  char filename[19];
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
-  file.print("UNIXTIME"); file.print(','); file.println("CO2"); 
+  file.println("UNIXTIME,CO2");
+  file.sync();
+  Serial.println("Created new file: " + String(filename));
+}
+
+
+//----------Write Data to SD Card----------//
+void WriteSample() {  
+  if (digitalRead(DETACH_WIRE)) {
+    Serial.println("File Closed: (DETATCH_WIRE HIGH)");
+    file.close();
+    return;
+  }
+  digitalWrite(LED_PIN, HIGH);
+  String line = String(TimeUnix) + "," + String(GasData);
+  file.println(line);
+  file.sync();
+  //file.close();
+  digitalWrite(LED_PIN, LOW);
+  Serial.println("Sample Written: " + String(GasData));
 }
 
 
@@ -107,21 +106,6 @@ float CollectGas() {
   else
     data = 0.0;
   return data;
-}
-
-
-//----------Write Data to SD Card----------//
-void WriteData() {
-  if (!digitalRead(DETACH_WIRE)) {
-    digitalWrite(LED_PIN, HIGH);
-    file.print(TimeUnix);file.print(',');file.println(GasData);
-    digitalWrite(LED_PIN, LOW);
-  }
-  else {
-    Serial.println("File Closed");
-    file.sync();
-    file.close();
-  }
 }
 
 
