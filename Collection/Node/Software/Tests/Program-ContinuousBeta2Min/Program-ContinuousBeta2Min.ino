@@ -12,13 +12,11 @@ RTC_DS3231 rtc;
 SdFat sd;
 SdFile file;
 DateTime dt;
-const uint8_t sdChipSelect = SS;
-String string2, string4, string6, temp;
-String string1 = "Month", string3 = "Day", string5 = "Hour", string7 = ".csv";
 
+const uint8_t sdChipSelect = SS;
+byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 float GasData;
 uint32_t TimeUnix;
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 bool wroteNewFile = true;
 
 
@@ -29,9 +27,10 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(DETACH_WIRE, INPUT_PULLUP);
-  
+
+  Serial.println("Hello?");
   RTCBegin();
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
   //Serial.println("TimeSet");
   MHZ16Begin();
@@ -48,7 +47,7 @@ void loop() {
   dt = rtc.now();
   TimeUnix = dt.unixtime();
   GasData  = CollectGas();
-  Serial.println(TimeUnix);  
+  Serial.println(TimeUnix);
   Serial.println(GasData);
   WriteSample();  
 
@@ -80,7 +79,6 @@ void CreateNewFile() {
   Serial.println("Created new file: " + String(filename));
 }
 
-
 //----------Write Data to SD Card----------//
 void WriteSample() {  
   if (digitalRead(DETACH_WIRE)) {
@@ -97,7 +95,6 @@ void WriteSample() {
   Serial.println("Sample Written: " + String(GasData));
 }
 
-
 //----------Retrieve Gas Data----------//
 float CollectGas() {
   float data;
@@ -109,19 +106,21 @@ float CollectGas() {
 }
 
 
+//---------------STARTUP MODULES---------------//
+
 //----------RTC Begin----------//
 void RTCBegin() {
   bool success = false;
   while (success == false) {
-    if(rtc.begin())
+    if(rtc.begin()) {
       success = true;
+      Serial.println("Stuck?");}
     else
       Serial.println("RTC Failed");
     delay(1000);
   }
   Serial.println("RTC Operational");
 }
-
 
 //----------Gas Begin----------//
 void MHZ16Begin() {
@@ -135,7 +134,6 @@ void MHZ16Begin() {
   }
   Serial.println("Sensor Operational");
 }
-
 
 //----------SD Module Begin ----------//
 void SDBegin() {
