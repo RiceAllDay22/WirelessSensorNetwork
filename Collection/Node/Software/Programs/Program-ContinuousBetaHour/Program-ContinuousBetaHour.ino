@@ -11,11 +11,11 @@ NDIR_I2C mySensor(0x4D);
 RTC_DS3231 rtc;
 SdFat sd;
 SdFile file;
+DateTime dt;
 const uint8_t sdChipSelect = SS;
 String string2, string4, string6, temp;
 String string1 = "Month", string3 = "Day", string5 = "Hour", string7 = ".csv";
 
-DateTime dt;
 float GasData;
 uint32_t TimeUnix;
 byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
@@ -81,6 +81,7 @@ void loop() {
   WriteData();  
   while (rtc.now().unixtime() == dt.unixtime());
 }
+
 
 //---------------FUNCTIONS---------------//
 

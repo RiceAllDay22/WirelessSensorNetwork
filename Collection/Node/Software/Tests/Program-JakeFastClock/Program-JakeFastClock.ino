@@ -1,21 +1,24 @@
+//---------------LIBRARIES---------------//
 #include <Wire.h>
-#include <RTClib.h>//
 #include <SdFat.h>
 
+
+//---------------VARIABLES---------------//
 byte DETACH_WIRE = 3;
 byte LED_PIN     = 2;
-
 
 SdFat sd;
 SdFile file;
 DateTime dt;
-float gasData;
 const uint8_t sdChipSelect = SS;
+float gasData;
 bool wroteNewFile = true;
 
-class FastClock {  // for testing clock hours
+
+//--------------FAST CLOCK--------------//
+class FastClock {
   DateTime current;
-  long start_unixtime = DateTime(2020, 3, 1, 10, 0, 0).unixtime();
+  long start_unixtime = DateTime(2020, 4, 29, 18, 0, 0).unixtime();
   int count = 0;
   int count2 = 0;
 
@@ -41,28 +44,25 @@ class FastClock {  // for testing clock hours
   }
 };
 
-//RTC_DS3231 rtc;
-FastClock rtc;
 
+//---------------SETUP---------------//
 void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
-  
   pinMode(LED_PIN, OUTPUT);
   pinMode(DETACH_WIRE, INPUT_PULLUP);
-  
-  RTCBegin();
+
+  FastClock rtc;
   SDBegin();
 
   dt = rtc.now();
-  
   file = CreateNewFile();
 }
 
+
+//---------------MAIN LOOP---------------//
 void loop() {
-  // loop until next sample
-  while (rtc.now().unixtime() < dt.unixtime() + 1);
-  
+  while (rtc.now().unixtime() == dt.unixtime());
   float gasData = 1;
   dt = rtc.now();
 
@@ -78,21 +78,11 @@ void loop() {
   }
 }
 
-void WriteSample() {  
-  if (digitalRead(DETACH_WIRE)) {
-    Serial.println("File Closed: (DETATCH_WIRE HIGH)");
-    file.close();
-    return;
-  }
-  
-  digitalWrite(LED_PIN, HIGH);
-  String line = String(dt.unixtime()) + "," + String(gasData);
-  file.println(line);
-  file.sync();
-  digitalWrite(LED_PIN, LOW);
-  // Serial.println("Sample Written");
-}
 
+
+//---------------FUNCTIONS---------------//
+
+//----------Create New File----------//
 SdFile CreateNewFile() {
   if (digitalRead(DETACH_WIRE)) {
     Serial.println("Not creating new file: (DETATCH_WIRE HIGH)");
@@ -108,19 +98,25 @@ SdFile CreateNewFile() {
   Serial.println("Created new file: " + String(filename));
 }
 
-void RTCBegin() {
-  bool success = false;
-  while (success == false) {
-    if(rtc.begin())
-      success = true;
-    else
-      Serial.println("RTC Failed");
-    delay(1000);
+
+//----------Write Data to SD Card----------//
+void WriteSample() {  
+  if (digitalRead(DETACH_WIRE)) {
+    Serial.println("File Closed: (DETATCH_WIRE HIGH)");
+    file.close();
+    return;
   }
-  Serial.println("RTC Operational");
+  
+  digitalWrite(LED_PIN, HIGH);
+  String line = String(dt.unixtime()) + "," + String(gasData);
+  file.println(line);
+  file.sync();
+  digitalWrite(LED_PIN, LOW);
+  // Serial.println("Sample Written");
 }
 
 
+//----------SD Module Begin----------//
 void SDBegin() {
   bool success = false;
   while (success == false) {
