@@ -12,13 +12,11 @@ RTC_DS3231 rtc;
 SdFat sd;
 SdFile file;
 DateTime dt;
-const uint8_t sdChipSelect = SS;
-String string2, string4, string6, temp;
-String string1 = "Month", string3 = "Day", string5 = "Hour", string7 = ".csv";
 
+byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+const uint8_t sdChipSelect = SS;
 float GasData;
 uint32_t TimeUnix;
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 bool wroteNewFile = true;
 
 
@@ -34,12 +32,14 @@ void setup() {
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
   //Serial.println("TimeSet");
+  delay(2500);
   MHZ16Begin();
+  delay(5000);
   SDBegin();
-
+  delay(2500);
   dt = rtc.now();
   CreateNewFile();
-  delay(3000);
+  delay(2500);
 }
 
 
@@ -109,6 +109,8 @@ float CollectGas() {
 }
 
 
+//---------------STARTUP MODULES---------------//
+
 //----------RTC Begin----------//
 void RTCBegin() {
   bool success = false;
@@ -122,7 +124,6 @@ void RTCBegin() {
   Serial.println("RTC Operational");
 }
 
-
 //----------Gas Begin----------//
 void MHZ16Begin() {
   bool success = false;
@@ -135,7 +136,6 @@ void MHZ16Begin() {
   }
   Serial.println("Sensor Operational");
 }
-
 
 //----------SD Module Begin ----------//
 void SDBegin() {

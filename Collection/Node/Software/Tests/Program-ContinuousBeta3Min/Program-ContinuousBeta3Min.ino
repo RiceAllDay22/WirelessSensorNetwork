@@ -15,7 +15,7 @@ DateTime dt;
 
 byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 const uint8_t sdChipSelect = SS;
-float GasData;
+int GasData;
 uint32_t TimeUnix;
 bool wroteNewFile = true;
 
@@ -88,21 +88,30 @@ void WriteSample() {
     return;
   }
   digitalWrite(LED_PIN, HIGH);
-  String line = String(TimeUnix) + "," + String(GasData);
-  file.println(line);
+
+  file.write((dt.unixtime() >> 24) & 0xFF);
+  file.write((dt.unixtime() >> 16) & 0xFF);
+  file.write((dt.unixtime() >> 8) & 0xFF);
+  file.write((dt.unixtime() >> 0) & 0xFF);
+
+  file.write((GasData >> 24) & 0xFF);
+  file.write((GasData >> 16) & 0xFF);
+  file.write((GasData >> 8) & 0xFF);
+  file.write((GasData >> 0) & 0xFF);
+
   file.sync();
-  //file.close();
+  
   digitalWrite(LED_PIN, LOW);
   Serial.println("Sample Written: " + String(GasData));
 }
 
 //----------Retrieve Gas Data----------//
-float CollectGas() {
-  float data;
+int CollectGas() {
+  int data;
   if (mySensor.measure())
     data = mySensor.ppm;
   else
-    data = 0.0;
+    data = 0;
   return data;
 }
 
