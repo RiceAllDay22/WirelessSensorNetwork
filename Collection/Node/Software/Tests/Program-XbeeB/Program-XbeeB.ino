@@ -12,8 +12,8 @@ void setup() {
 }
  
 void loop() {
-  if (XBee.available() > 1){
-    int data = XBee.read();
+  while (XBee.available()){
+    uint8_t data = XBee.read();
     Serial.println(data);
   }
   Serial.println("Nada");
