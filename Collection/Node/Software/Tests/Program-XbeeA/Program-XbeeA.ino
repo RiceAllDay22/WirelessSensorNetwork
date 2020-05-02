@@ -17,7 +17,9 @@ void setup() {
 void loop() {
   if (digitalRead(BUTTON_PIN) == LOW) {
     Serial.println("Fine collection");
-    XBee.write(value);
+    for (int value = 0; i < 10; i++) {
+      XBee.write(value);
+    }
     delay(100);
   }
 }
