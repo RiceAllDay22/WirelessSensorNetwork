@@ -1,7 +1,6 @@
 //Arduino UNO XBee Transmission Code
 #include <SoftwareSerial.h>
 SoftwareSerial XBee(2, 3);
-uint8_t value = 250;
 byte BUTTON_PIN = 12;
  
 void setup() {
@@ -17,7 +16,7 @@ void setup() {
 void loop() {
   if (digitalRead(BUTTON_PIN) == LOW) {
     Serial.println("Fine collection");
-    for (int value = 0; i < 10; i++) {
+    for (uint8_t value = 10; value < 250; value = value+10) {
       XBee.write(value);
     }
     delay(100);

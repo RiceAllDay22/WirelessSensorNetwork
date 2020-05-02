@@ -14,7 +14,7 @@ void setup() {
 void loop() {
   while (XBee.available()){
     uint8_t data = XBee.read();
-    Serial.println(data);
+    Serial.print(data); Serial.print(",");
   }
   Serial.println("Nada");
   delay(200);
