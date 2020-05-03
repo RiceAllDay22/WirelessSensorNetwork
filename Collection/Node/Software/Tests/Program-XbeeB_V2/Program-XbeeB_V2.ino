@@ -1,4 +1,3 @@
-  
 //Arduino UNO XBee Receiver Code
 #include <SoftwareSerial.h>
 SoftwareSerial XBee(2, 3);
@@ -14,9 +13,11 @@ void setup() {
  
 void loop() {
   while (XBee.available()){
-    uint8_t data = XBee.read();
-    Serial.print(data); Serial.print(",");
+    //uint8_t data = XBee.read();
+    char data = XBee.read();
+    Serial.print(data);
+    //delay(50);
   }
-  Serial.println("Nada");
-  delay(200);
+  //Serial.println("Nada");
+  //delay(200);
 }

@@ -1,7 +1,7 @@
 //Arduino UNO XBee Transmission Code
 #include <SoftwareSerial.h>
 SoftwareSerial XBee(2, 3);
-byte BUTTON_PIN = 12;
+byte BUTTON_PIN = 5;
  
 void setup() {
   Serial.begin(9600); 
