@@ -2,10 +2,8 @@
 #include <SoftwareSerial.h>
 #include <SdFat.h>
 
-
 SoftwareSerial XBee(2, 3);
 byte BUTTON_PIN = 5;
-
 const uint8_t chipSelect = SS;
 SdFat sd;
 SdFile file;
@@ -17,16 +15,14 @@ size_t n;
 void setup() {
   Serial.begin(9600); 
   Serial.println("Transmitter");
-
-  if (!sd.begin(chipSelect, SPI_HALF_SPEED)) Serial.println("Begin Fail");
-  //if (!file.open("Test.csv", O_READ)) Serial.println("Open Fail");
-
   pinMode(2, INPUT);
   pinMode(3, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   XBee.begin(9600);
+  if (!sd.begin(chipSelect, SPI_HALF_SPEED)) Serial.println("Begin Fail");
   Serial.println("Ah yes the negotiator");
 }
+
  
 void loop() {
   if (digitalRead(BUTTON_PIN) == LOW) {
@@ -36,11 +32,10 @@ void loop() {
       for (byte i = 0; i < strlen(line); i++) { 
         Serial.print(line[i]); 
         XBee.write(line[i]);
-        delay(1);
+        //delay(1);
       }
       if (line[n - 1] != '\n') Serial.println(F(" <-- missing nl"));
     }
-    //file.sync(); 
     file.close();
   }
   delay(100);

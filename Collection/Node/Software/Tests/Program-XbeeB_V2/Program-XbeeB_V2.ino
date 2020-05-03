@@ -10,14 +10,12 @@ void setup() {
   XBee.begin(9600);
   Serial.println("Flying is for droids.");
 }
+
  
 void loop() {
   while (XBee.available()){
-    //uint8_t data = XBee.read();
     char data = XBee.read();
     Serial.print(data);
     //delay(50);
   }
-  //Serial.println("Nada");
-  //delay(200);
 }
