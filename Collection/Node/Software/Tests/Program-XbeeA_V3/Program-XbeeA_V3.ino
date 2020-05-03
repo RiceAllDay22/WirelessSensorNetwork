@@ -27,7 +27,7 @@ void setup() {
 void loop() {
   if (digitalRead(BUTTON_PIN) == LOW) {
     Serial.println("Fine addition");
-    if (!file.open("HourFile.csv", O_READ)) { Serial.println("Open Fail"); return;}
+    if (!file.open("Test.csv", O_READ)) { Serial.println("Open Fail"); return;}
     while ((n = file.fgets(line, sizeof(line))) > 0) {
       for (byte i = 0; i < strlen(line); i++) { 
         Serial.print(line[i]); 
