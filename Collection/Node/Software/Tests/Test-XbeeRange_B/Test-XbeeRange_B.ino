@@ -2,36 +2,24 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial XBee(2, 3);
-byte WIRE_PIN   = 11;
-byte BUTTON_PIN = 12;
 byte LED_PIN    = 5;
-int value = 49;
-
+int value;
 
 void setup() {
   Serial.begin(9600); 
   Serial.println("Receiver");
   pinMode(2, INPUT);
   pinMode(3, OUTPUT);
-  pinMode(WIRE_PIN, INPUT_PULLUP);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
   XBee.begin(9600);
-  Serial.println("Flying is for droids.");
+  Serial.println("No nothing too fancy.");
 }
 
  
 void loop() {
-  if (digitalRead(WIRE_PIN)) value = 49;
-  else value = 50;
-  
-  if (digitalRead(BUTTON_PIN) == LOW) {
-    XBee.write(value);
-    Serial.println(value);
-    delay(200);
-  }
-  
   while (XBee.available()){
     digitalWrite(LED_PIN, HIGH);
+    delay(10);
     char data = XBee.read();
     Serial.print(data);
   }

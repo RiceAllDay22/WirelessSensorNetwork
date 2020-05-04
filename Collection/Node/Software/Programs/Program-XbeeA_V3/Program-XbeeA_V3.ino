@@ -43,8 +43,7 @@ void loop() {
   }
 
   while (XBee.available()){
-    digitalWrite(LED_PIN, HIGH);
-    digitalWrite(LED_PIN, LOW);
+    digitalWrite(LED_PIN, HIGH); delay(10); digitalWrite(LED_PIN, LOW);
     char data = XBee.read();
     Serial.println(data);
   }
