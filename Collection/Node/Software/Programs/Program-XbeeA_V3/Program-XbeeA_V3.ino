@@ -2,8 +2,11 @@
 #include <SoftwareSerial.h>
 #include <SdFat.h>
 
+
 SoftwareSerial XBee(2, 3);
 byte BUTTON_PIN = 5;
+byte LED_PIN    = 8;
+
 const uint8_t sdChipSelect = SS;
 SdFat sd;
 SdFile file;
@@ -11,12 +14,13 @@ const size_t LINE_DIM = 50;
 char line[LINE_DIM];
 size_t n;
 
- 
+
 void setup() {
   Serial.begin(9600); 
   Serial.println("Transmitter");
   pinMode(2, INPUT);
   pinMode(3, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   XBee.begin(9600);
   SDBegin();
@@ -40,8 +44,9 @@ void loop() {
     Serial.println("My collection");
   }
 
-  
   while (XBee.available()){
+    digitalWrite(LED_PIN, HIGH);
+    digitalWrite(LED_PIN, LOW);
     char data = XBee.read();
     Serial.println(data);
   }
