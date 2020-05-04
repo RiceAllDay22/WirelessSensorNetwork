@@ -2,7 +2,6 @@
 #include <SoftwareSerial.h>
 #include <SdFat.h>
 
-
 SoftwareSerial XBee(2, 3);
 byte BUTTON_PIN = 5;
 byte LED_PIN    = 8;
@@ -36,7 +35,6 @@ void loop() {
       for (byte i = 0; i < strlen(line); i++) { 
         Serial.print(line[i]); 
         XBee.write(line[i]);
-        //delay(100);
       }
       if (line[n - 1] != '\n') Serial.println(F(" <-- missing nl"));
     }
@@ -50,7 +48,6 @@ void loop() {
     char data = XBee.read();
     Serial.println(data);
   }
-  
   delay(100);
 }
 

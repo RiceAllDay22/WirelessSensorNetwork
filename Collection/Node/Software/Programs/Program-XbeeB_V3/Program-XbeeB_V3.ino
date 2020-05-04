@@ -1,7 +1,6 @@
 //Arduino UNO XBee Receiver Code
 #include <SoftwareSerial.h>
 
-
 SoftwareSerial XBee(2, 3);
 byte BUTTON_PIN = 5;
 byte WIRE_PIN   = 12;
@@ -13,8 +12,8 @@ void setup() {
   Serial.println("Receiver");
   pinMode(2, INPUT);
   pinMode(3, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(WIRE_PIN, INPUT_PULLUP);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
   XBee.begin(9600);
   Serial.println("Flying is for droids.");
 }
@@ -31,6 +30,8 @@ void loop() {
   }
   
   while (XBee.available()){
+    digitalWrite(LED_PIN, HIGH);
+    digitalWrite(LED_PIN, LOW);
     char data = XBee.read();
     Serial.print(data);
   }
