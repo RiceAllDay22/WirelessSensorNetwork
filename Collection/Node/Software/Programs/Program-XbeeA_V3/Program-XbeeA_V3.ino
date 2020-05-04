@@ -23,6 +23,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   XBee.begin(9600);
   SDBegin();
+  if (!file.open("Test.csv", O_READ)) { Serial.println("Open Fail"); return;}
   Serial.println("Ah yes the negotiator");
 }
 
@@ -38,7 +39,7 @@ void loop() {
       }
       if (line[n - 1] != '\n') Serial.println(F(" <-- missing nl"));
     }
-    file.close();
+    file.sync();
     Serial.println("My collection");
   }
 
