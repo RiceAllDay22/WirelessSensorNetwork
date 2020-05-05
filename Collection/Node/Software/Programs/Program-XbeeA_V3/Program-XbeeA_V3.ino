@@ -32,10 +32,16 @@ void loop() {
     Serial.println("Fine addition");
     FileOpen();
     while ((n = file.fgets(line, sizeof(line))) > 0) {
-      for (byte i = 0; i < strlen(line); i++) { 
-        Serial.print(line[i]); 
-        XBee.write(line[i]);
+      //for (byte i = 0; i < strlen(line); i++) { 
+        //Serial.print(line[i]); 
+        //XBee.write(line[i]);
+      //}
+      for (byte i = 0; i < strlen(line); i = i + 2) {
+        char data = line[i] +
+        Serial.print(line[i]) ; Serial.print(line[i+1]);
+        
       }
+      
       if (line[n - 1] != '\n') Serial.println(F(" <-- missing nl"));
     }
     file.close();
