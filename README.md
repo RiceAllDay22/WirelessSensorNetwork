@@ -24,4 +24,7 @@ Arduino Library Requirments:
  - RTClib
  - SdFat
 
+resources:
+[One Drive Resources Folder](https://uofutah-my.sharepoint.com/:f:/g/personal/u1010401_umail_utah_edu/Ekx1kX9h63tNoVFmzbePeowB8LEIOgGHBQhFq369KU12vQ?e=vul3PO)
+
 (c) Copyright 2020 Jacob Larkin and Adriann Liceralde
