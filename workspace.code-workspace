@@ -11,5 +11,9 @@
 			"path": "Analysis"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"sstream": "cpp"
+		}
+	}
 }

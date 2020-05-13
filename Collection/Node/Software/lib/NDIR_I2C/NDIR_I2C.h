@@ -22,6 +22,8 @@ Please keep the above information when you use this code in your project.
 #ifndef _NDIR_I2C_H_
 #define _NDIR_I2C_H_
 
+#include <stdint.h>
+
 class NDIR_I2C {
     public:
 		NDIR_I2C(uint8_t i2c_addr);

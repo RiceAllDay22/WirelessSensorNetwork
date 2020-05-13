@@ -9,13 +9,24 @@ This file is a part of the Wireless Sensor Network project.
 #ifndef SDCARD_CONTROLLER_H
 #define SDCARD_CONTROLLER_H
 
+#include "SdFat.h"
+
+
+enum class SDCardModes {
+  SIMULATED,
+  SD_FAT
+};
+
 
 class SDCardController {
-    private: 
+    private:
+        SDCardModes mode;
+        SdFat sd;
+        int MAX_CONNECTION_ATTEMPTS = 10;
+        int CONNECTION_ATTEMPT_DELAY = 1000;
     public:
-        SDCardController();
-        SDCardController(bool simulate);
-        bool silumate = false;
+        SDCardController(SDCardModes mode);
+        bool begin();
 };
 
 

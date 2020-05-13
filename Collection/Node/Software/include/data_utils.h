@@ -11,7 +11,6 @@ This file is a part of the Wireless Sensor Network project.
 #define DATA_UTILS_H
 
 #include <stdint.h>
-//#include <cstdint>
 #include <stddef.h>
 
 

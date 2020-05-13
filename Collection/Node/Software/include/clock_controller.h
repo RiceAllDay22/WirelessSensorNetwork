@@ -9,13 +9,26 @@ This file is a part of the Wireless Sensor Network project.
 #ifndef CLOCK_CONTROLLER_H
 #define CLOCK_CONTROLLER_H
 
+#include <RTClib.h>
+
+
+enum class ClockModes {
+  SIMULATED,
+  RTC_DS3231
+};
+
 
 class ClockController {
-    private: 
+    private:
+        ClockModes mode;
+        DateTime dt;
+        RTC_DS3231 rtc;
+        int MAX_CONNECTION_ATTEMPTS = 10;
+        int CONNECTION_ATTEMPT_DELAY = 1000;
+
     public:
-        ClockController();
-        ClockController(bool simulate);
-        bool silumate = false;
+        ClockController(ClockModes mode);
+        bool begin();
 };
 
 

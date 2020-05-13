@@ -49,7 +49,7 @@ bool wroteNewFile = true;
 
 //---------------SETUP---------------//
 void setup() {
-  Serial.begin(9600);
+    Serial.begin(9600);
   Serial.println("Begin");
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);

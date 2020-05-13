@@ -8,27 +8,37 @@ This file is a part of the Wireless Sensor Network project.
 
 #include <Arduino.h>
 
+#define DEBUG
+#define BAUD_RATE 9600
+
 #include "c02_sensor_controller.h"
 #include "clock_controller.h"
 #include "sdcard_controller.h"
 #include "data_utils.h"
+#include "communication_controller.h"
+#include "debug_utils.h"
 
-#ifdef SIMULATE
-  #define SIMULATE 0
-#else
-  #define SIMULATE 1
-#endif
+#define CLOCK_MODE ClockModes::RTC_DS3231
+#define C02_SENSOR_MODE C02SensorModes::MHZ16
+#define SDCARD_MODE SDCardModes::SD_FAT
+#define COMMUNICATION_MODE CommunicationModes::NRF24L01
 
-C02SensorController c02Sensor = C02SensorController(SIMULATE);
-ClockController clock = ClockController(SIMULATE);
-SDCardController sdCard = SDCardController(SIMULATE);
+ClockController clock(CLOCK_MODE);
+C02SensorController c02Sensor(C02_SENSOR_MODE);
+SDCardController sdCard(SDCARD_MODE);
+CommunicationController communications(COMMUNICATION_MODE);
 
 
 void setup() {
+    DEBUG_INIT();
 
+    clock.begin();
+    c02Sensor.begin();
+    sdCard.begin();
+    communications.begin();
 }
 
 
 void loop() {
-
+    
 }
