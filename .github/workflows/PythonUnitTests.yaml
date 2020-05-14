@@ -24,7 +24,9 @@ jobs:
         pipenv install --dev
     - name: Lint with pylint
       run: |
-        pipenv run pylint
+        cd ./Analysis
+        pipenv run {cd ..; pylint ./Analysis --rcfile ./Analysis/.pylintrc}
     - name: Test with pytest
       run: |
+        cd ./Analysis
         pipenv run pytest

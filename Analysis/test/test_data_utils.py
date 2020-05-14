@@ -43,4 +43,3 @@ for name in dir_contents:
 def test_checksum_files(filename, file_object):
     """Test checksums for all files in assets/checksum_files."""
     assert filename == data_utils.compute_checksum(file_object)
-
