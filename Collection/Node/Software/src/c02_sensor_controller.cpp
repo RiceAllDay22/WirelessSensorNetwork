@@ -17,6 +17,7 @@ sensor(NDIR_I2C(I2C_ADDRESS)) {
     this->mode = mode;
 }
 
+
 bool C02SensorController::begin() {
     if (mode == C02SensorModes::MHZ16) {
         int attempts = 0;
@@ -33,4 +34,9 @@ bool C02SensorController::begin() {
     }
 
     return true;
+}
+
+
+int C02SensorController::collectData() {
+    return 0;
 }

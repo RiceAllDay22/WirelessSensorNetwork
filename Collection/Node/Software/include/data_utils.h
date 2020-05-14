@@ -14,8 +14,9 @@ This file is a part of the Wireless Sensor Network project.
 #include <stddef.h>
 
 
-uint32_t
-crc32(uint32_t crc, const void *buf, size_t size);
+uint32_t crc32_update(uint32_t crc, uint8_t data);
+
+uint32_t crc32_ascii(char *s);
 
 
 #endif

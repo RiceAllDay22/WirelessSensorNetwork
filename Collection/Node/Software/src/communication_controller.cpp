@@ -10,8 +10,16 @@ This file is a part of the Wireless Sensor Network project.
 #include "communication_controller.h"
 
 
-CommunicationController::CommunicationController(CommunicationModes mode) {}
+CommunicationController::CommunicationController(CommunicationModes mode) {
+    this->mode = mode;
+}
+
 
 bool CommunicationController::begin() {
+    return true;
+}
+
+
+bool CommunicationController::sendFiles() {
     return true;
 }

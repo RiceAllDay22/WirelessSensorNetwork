@@ -29,6 +29,11 @@ class ClockController {
     public:
         ClockController(ClockModes mode);
         bool begin();
+        int unixtime();
+        bool isNextSecond();
+        bool isNextMinute();
+        bool isNextHour();
+        bool isNextDay();
 };
 
 

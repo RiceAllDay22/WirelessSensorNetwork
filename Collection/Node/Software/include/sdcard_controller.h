@@ -22,11 +22,14 @@ class SDCardController {
     private:
         SDCardModes mode;
         SdFat sd;
+        const uint8_t sdChipSelect = SS;
         int MAX_CONNECTION_ATTEMPTS = 10;
         int CONNECTION_ATTEMPT_DELAY = 1000;
     public:
         SDCardController(SDCardModes mode);
         bool begin();
+        bool writeDataPoint(int unixtime, int gasData);
+        bool createNewFile();
 };
 
 

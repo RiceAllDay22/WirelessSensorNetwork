@@ -11,15 +11,19 @@ import binascii
 import numpy as np
 
 
+def compute_checksum_bytes(bytes, prev=0) -> int:
+    """Compute and return checksum (CRC32) of given bytes."""
+    return binascii.crc32(bytes, prev)
+
 
 def compute_checksum(file_object, chunk_size=65536) -> int:
-    """Compute and return checksum (CRC32) of given bytes."""
+    """Compute and return checksum of given file object."""
     prev = 0
     while True:
         chunk = file_object.read(chunk_size)
         if not chunk:
             break
-        prev = binascii.crc32(chunk, prev)
+        prev = compute_checksum_bytes(chunk, prev)
     return "%08X" % (prev & 0xFFFFFFFF)
 
 

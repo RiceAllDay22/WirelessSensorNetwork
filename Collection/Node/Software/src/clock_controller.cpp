@@ -15,6 +15,7 @@ ClockController::ClockController(ClockModes mode) {
     this->mode = mode;
 }
 
+
 bool ClockController::begin() {
     if (mode == ClockModes::RTC_DS3231) {
         int attempts = 0;
@@ -30,5 +31,30 @@ bool ClockController::begin() {
         return true;
     }
 
+    return true;
+}
+
+
+int ClockController::unixtime() {
+    return dt.unixtime();
+}
+
+
+bool ClockController::isNextSecond() {
+    return true;
+}
+
+
+bool ClockController::isNextMinute() {
+    return true;
+}
+
+
+bool ClockController::isNextHour() {
+    return true;
+}
+
+
+bool ClockController::isNextDay() {
     return true;
 }

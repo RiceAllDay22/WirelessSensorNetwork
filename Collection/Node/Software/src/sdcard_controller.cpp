@@ -15,10 +15,11 @@ SDCardController::SDCardController(SDCardModes mode) {
     this->mode = mode;
 }
 
+
 bool SDCardController::begin() {
     if (mode == SDCardModes::SD_FAT) {
         int attempts = 0;
-        while (!sd.begin()) {
+        while (!sd.begin(sdChipSelect)) {
             DEBUG_PRINT("SDFAT failed to start");
             if (++attempts >= MAX_CONNECTION_ATTEMPTS) {
                 DEBUG_PRINT("Max attempts reached. Aborting");
@@ -30,5 +31,15 @@ bool SDCardController::begin() {
         return true;
     }
 
+    return true;
+}
+
+
+bool SDCardController::writeDataPoint(int unixtime, int gasData) {
+    return true;
+}
+
+
+bool SDCardController::createNewFile() {
     return true;
 }

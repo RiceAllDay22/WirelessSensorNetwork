@@ -19,9 +19,11 @@ enum class CommunicationModes {
 
 class CommunicationController {
     private:
+        CommunicationModes mode;
     public:
         CommunicationController(CommunicationModes mode);
         bool begin();
+        bool sendFiles();
 };
 
 
