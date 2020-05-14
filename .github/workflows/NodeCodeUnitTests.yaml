@@ -18,4 +18,6 @@ jobs:
     - name: Run PlatformIO Remote Tests
       env:
         PLATFORMIO_AUTH_TOKEN : ${{ secrets.PLATFORMIO_AUTH_TOKEN }}
-      run: platformio remote --agent raspberrypi test ./Collection/Node/Software -v
+      run: |
+        cd ./Collection/Node/Software
+        platformio remote --agent raspberrypi test -v
