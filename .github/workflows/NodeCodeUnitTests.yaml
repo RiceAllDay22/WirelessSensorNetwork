@@ -20,7 +20,10 @@ jobs:
         ls -a
         echo ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }}
     - name: Login to PlatformIO
+      env:
+        PLATFOMIO_ACCOUNT_USERNAME: ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }}
+        PLATFORMIO_ACCOUNT_PASSWORD: ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
       run: |
-        platformio account login -u ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }} -p ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
+        platformio account login -u $PLATFOMIO_ACCOUNT_USERNAME -p $PLATFORMIO_ACCOUNT_PASSWORD
     - name: Run PlatformIO
       run: platformio remote --agent raspberrypi test ./Collection/Node/Software -v
