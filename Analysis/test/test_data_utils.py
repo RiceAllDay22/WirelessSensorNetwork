@@ -42,4 +42,4 @@ for name in dir_contents:
 @pytest.mark.parametrize("filename, file_object", file_tuples, ids=filenames)
 def test_checksum_files(filename, file_object):
     """Test checksums for all files in assets/checksum_files."""
-    assert filename == data_utils.compute_checksum(file_object)
+    assert filename.upper() == data_utils.compute_checksum(file_object).upper()

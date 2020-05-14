@@ -24,7 +24,7 @@ jobs:
         PLATFOMIO_ACCOUNT_USERNAME: ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }}
         PLATFORMIO_ACCOUNT_PASSWORD: ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
       run: |
-        echo $PLATFOMIO_ACCOUNT_USERNAME
+        echo $PLATFOMIO_ACCOUNT_USERNAME | wc
         platformio account login -u $PLATFOMIO_ACCOUNT_USERNAME -p $PLATFORMIO_ACCOUNT_PASSWORD
     - name: Run PlatformIO
       run: platformio remote --agent raspberrypi test ./Collection/Node/Software -v
