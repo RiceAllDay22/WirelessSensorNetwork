@@ -1,4 +1,4 @@
-name: PlatformIO CI
+name: Node Code Unit Tests
 
 on: [push]
 
@@ -15,10 +15,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install platformio
+    - name: ls
+      run: ls -a
     - name: Login to PlatformIO
       run: |
-        platformio account login
-        ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }}
-        ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
+        platformio account login -u ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }} -p ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
     - name: Run PlatformIO
-      run: platformio remote --agent raspberrypi test -v
+      run: platformio remote --agent raspberrypi test ./Collection/Node/Software -v
