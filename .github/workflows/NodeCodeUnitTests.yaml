@@ -22,6 +22,7 @@ jobs:
     - name: Login to PlatformIO
       env:
         PLATFOMIO_ACCOUNT_USERNAME: ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }}
+      env:
         PLATFORMIO_ACCOUNT_PASSWORD: ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}
       run: |
         platformio account login -u $PLATFOMIO_ACCOUNT_USERNAME -p $PLATFORMIO_ACCOUNT_PASSWORD
