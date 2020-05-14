@@ -15,8 +15,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install platformio
-    - name: Login to PlatformIO
-      run: |
-        sh -c 'platformio account login -u ${{ secrets.PLATFOMIO_ACCOUNT_USERNAME }} -p ${{ secrets.PLATFORMIO_ACCOUNT_PASSWORD }}'
-    - name: Run PlatformIO
+    - name: Run PlatformIO Remote Tests
+      env:
+        PLATFORMIO_AUTH_TOKEN : ${{ secrets.PLATFORMIO_AUTH_TOKEN }}
       run: platformio remote --agent raspberrypi test ./Collection/Node/Software -v
