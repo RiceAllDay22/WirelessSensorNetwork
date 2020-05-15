@@ -20,4 +20,4 @@ jobs:
         PLATFORMIO_AUTH_TOKEN : ${{ secrets.PLATFORMIO_AUTH_TOKEN }}
       run: |
         cd ./Collection/Node/Software
-        platformio remote --agent raspberrypi test -v
+        platformio remote --agent raspberrypi test -v -e unoDebug

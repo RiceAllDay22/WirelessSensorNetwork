@@ -22,9 +22,16 @@ class ClockController {
     private:
         ClockModes mode;
         DateTime dt;
+        int prevSecond;
+        int prevMinute;
+        int prevHour;
+        int prevDay;
         RTC_DS3231 rtc;
         int MAX_CONNECTION_ATTEMPTS = 10;
         int CONNECTION_ATTEMPT_DELAY = 1000;
+        uint32_t simulationTicks;
+
+        void simulationTick();
 
     public:
         ClockController(ClockModes mode);
@@ -34,6 +41,7 @@ class ClockController {
         bool isNextMinute();
         bool isNextHour();
         bool isNextDay();
+        uint32_t MAX_SIMULATION_TICKS = 1000;
 };
 
 

@@ -29,14 +29,19 @@ bool C02SensorController::begin() {
             }
             delay(CONNECTION_ATTEMPT_DELAY);
         }
-        DEBUG_PRINT("MHZ16 has started");
-        return true;
     }
 
+    DEBUG_PRINT("C02 sensor controller has started");
     return true;
 }
 
 
 int C02SensorController::collectData() {
+    DEBUG_PRINT("Collecting gas data");
+
+    if (mode == C02SensorModes::SIMULATED) {
+        return 50;
+    }
+    
     return 0;
 }

@@ -18,5 +18,7 @@ uint32_t crc32_update(uint32_t crc, uint8_t data);
 
 uint32_t crc32_ascii(char *s);
 
+uint32_t crc32_bytes_update(uint32_t crc, void* buffer, uint32_t length);
+
 
 #endif

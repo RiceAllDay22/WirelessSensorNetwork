@@ -27,34 +27,78 @@ bool ClockController::begin() {
             }
             delay(CONNECTION_ATTEMPT_DELAY);
         }
-        DEBUG_PRINT("RTC_DS3231 has started");
-        return true;
+        dt = rtc.now();
     }
 
+    else if (mode == ClockModes::SIMULATED) {
+        dt = DateTime(0, 0, 0, 0, 0, 0).unixtime();
+    }
+
+    prevSecond = dt.second();
+    prevMinute = dt.minute();
+    prevHour = dt.hour();
+    prevDay = dt.day();
+
+    DEBUG_PRINT("Clock controller has started");
     return true;
 }
 
 
+void ClockController::simulationTick() {
+    if (mode == ClockModes::SIMULATED) {
+        simulationTicks++;
+        if (simulationTicks >= MAX_SIMULATION_TICKS) {
+            simulationTicks = 0;
+            dt = DateTime(dt.unixtime() + 1);
+        }
+    }
+}
+
+
 int ClockController::unixtime() {
+    simulationTick();
     return dt.unixtime();
 }
 
 
 bool ClockController::isNextSecond() {
-    return true;
+    simulationTick();
+    if (dt.second() != prevSecond) {
+        prevSecond = dt.second();
+        return true;
+    }
+
+    return false;
 }
 
 
 bool ClockController::isNextMinute() {
-    return true;
+    simulationTick();
+    if (dt.minute() != prevMinute) {
+        return true;
+    }
+
+    return false;
 }
 
 
 bool ClockController::isNextHour() {
-    return true;
+    simulationTick();
+    if (dt.hour() != prevHour) {
+        prevHour = dt.hour();
+        return true;
+    }
+
+    return false;
 }
 
 
 bool ClockController::isNextDay() {
-    return true;
+    simulationTick();
+    if (dt.day() != prevDay) {
+        prevDay = dt.day();
+        return true;
+    }
+
+    return false;
 }

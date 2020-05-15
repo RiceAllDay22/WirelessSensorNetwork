@@ -11,24 +11,21 @@ This file is a part of the Wireless Sensor Network project.
 #define DEBUG_UTILS_H
 
 
-#ifdef DEBUG
+#ifdef DEBUG_MESSAGES
     #include <Arduino.h>
-
-    bool DEBUG_INITIALIZED = false;
 
     #ifndef BAUD_RATE
         #define BAUD_RATE 9600
     #endif
     
     #define DEBUG_INIT() {\
-        extern bool DEBUG_INITIALIZED;\
-        if(!DEBUG_INITIALIZED) {\
-            DEBUG_INITIALIZED = true;\
-            Serial.begin(BAUD_RATE);\
-        }\
+        Serial.begin(BAUD_RATE);\
+        while(!Serial);\
+        Serial.println("Debug initialized");\
     }
 
     #define DEBUG_PRINT(str) {\
+        Serial.print('<');\
         Serial.print(millis());\
         Serial.print(": ");\
         Serial.print(__PRETTY_FUNCTION__);\
@@ -36,7 +33,7 @@ This file is a part of the Wireless Sensor Network project.
         Serial.print(__FILE__);\
         Serial.print(':');\
         Serial.print(__LINE__);\
-        Serial.print(' ');\
+        Serial.print(">: ");\
         Serial.println(str);\
     }
 

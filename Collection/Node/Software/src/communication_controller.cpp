@@ -9,6 +9,8 @@ This file is a part of the Wireless Sensor Network project.
 
 #include "communication_controller.h"
 
+#include "debug_utils.h"
+
 
 CommunicationController::CommunicationController(CommunicationModes mode) {
     this->mode = mode;
@@ -16,10 +18,17 @@ CommunicationController::CommunicationController(CommunicationModes mode) {
 
 
 bool CommunicationController::begin() {
+    DEBUG_PRINT("communication controller has started");
     return true;
 }
 
 
 bool CommunicationController::sendFiles() {
+    DEBUG_PRINT("Sending files");
+
+    if (mode == CommunicationModes::SIMULATED) {
+        return true;
+    }
+
     return true;
 }

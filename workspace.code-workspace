@@ -13,7 +13,8 @@
 	],
 	"settings": {
 		"files.associations": {
-			"sstream": "cpp"
-		}
+            "sstream": "cpp",
+            "utility": "cpp"
+        }
 	}
 }

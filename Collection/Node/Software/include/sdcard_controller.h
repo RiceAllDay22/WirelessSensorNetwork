@@ -13,8 +13,10 @@ This file is a part of the Wireless Sensor Network project.
 
 
 enum class SDCardModes {
-  SIMULATED,
-  SD_FAT
+  SIMULATED_SERIAL,
+  SIMULATED_EMULATED,
+  SD_FAT_ASCII,
+  SD_FAT_BINARY
 };
 
 
@@ -25,10 +27,11 @@ class SDCardController {
         const uint8_t sdChipSelect = SS;
         int MAX_CONNECTION_ATTEMPTS = 10;
         int CONNECTION_ATTEMPT_DELAY = 1000;
+        uint32_t checksum = 0;
     public:
         SDCardController(SDCardModes mode);
         bool begin();
-        bool writeDataPoint(int unixtime, int gasData);
+        bool writeDataPoint(uint32_t unixtime, uint32_t gasData);
         bool createNewFile();
 };
 
