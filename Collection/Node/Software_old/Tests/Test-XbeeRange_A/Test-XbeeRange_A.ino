@@ -2,7 +2,7 @@
 #include <SoftwareSerial.h>
 
 SoftwareSerial XBee(2, 3);
-int value = 49;
+uint32_t value = 260;
 
 void setup() {
   Serial.begin(9600); 
