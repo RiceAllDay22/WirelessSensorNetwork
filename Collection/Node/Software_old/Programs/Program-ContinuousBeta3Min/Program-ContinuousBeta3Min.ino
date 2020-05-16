@@ -15,7 +15,7 @@ DateTime dt;
 
 byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 const uint8_t sdChipSelect = SS;
-float GasData;
+uint16_t GasData;
 uint32_t TimeUnix;
 bool wroteNewFile = true;
 
@@ -97,12 +97,12 @@ void WriteSample() {
 }
 
 //----------Retrieve Gas Data----------//
-float CollectGas() {
-  float data;
+uint16_t CollectGas() {
+  uint16_t data;
   if (mySensor.measure())
     data = mySensor.ppm;
   else
-    data = 0.0;
+    data = 0;
   return data;
 }
 
