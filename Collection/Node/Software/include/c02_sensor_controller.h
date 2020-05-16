@@ -29,7 +29,7 @@ class C02SensorController {
     public:
         C02SensorController(C02SensorModes mode);
         bool begin();
-        int collectData();
+        uint32_t collectData();
 };
 
 

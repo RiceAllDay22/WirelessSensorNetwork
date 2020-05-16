@@ -24,6 +24,7 @@ class SDCardController {
     private:
         SDCardModes mode;
         SdFat sd;
+        SdFile file;
         const uint8_t sdChipSelect = SS;
         int MAX_CONNECTION_ATTEMPTS = 10;
         int CONNECTION_ATTEMPT_DELAY = 1000;
@@ -32,7 +33,7 @@ class SDCardController {
         SDCardController(SDCardModes mode);
         bool begin();
         bool writeDataPoint(uint32_t unixtime, uint32_t gasData);
-        bool createNewFile();
+        bool createNewFile(char* filename);
 };
 
 

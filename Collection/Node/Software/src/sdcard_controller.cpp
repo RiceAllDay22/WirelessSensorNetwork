@@ -21,16 +21,16 @@ bool SDCardController::begin() {
     if (mode == SDCardModes::SD_FAT_ASCII || mode == SDCardModes::SD_FAT_BINARY) {
         int attempts = 0;
         while (!sd.begin(sdChipSelect)) {
-            DEBUG_PRINT("SDFAT failed to start");
+            DEBUG_PRINT(F("SDFAT failed to start"));
             if (++attempts >= MAX_CONNECTION_ATTEMPTS) {
-                DEBUG_PRINT("Max attempts reached. Aborting");
+                DEBUG_PRINT(F("Max attempts reached. Aborting"));
                 return false;
             }
             delay(CONNECTION_ATTEMPT_DELAY);
         }
     }
 
-    DEBUG_PRINT("SD card controller has started");
+    DEBUG_PRINT(F("SD card controller has started"));
     return true;
 }
 
@@ -40,18 +40,48 @@ bool SDCardController::writeDataPoint(uint32_t unixtime, uint32_t gasData) {
     checksum = crc32_bytes_update(checksum, buffer, sizeof(uint32_t)*2);
 
     if (mode == SDCardModes::SIMULATED_SERIAL) {
-        Serial.print("<DataPoint: ");
+        Serial.print("<DataPoint: (");
         Serial.print(unixtime);
         Serial.print(", ");
         Serial.print(gasData);
-        Serial.print(">");
+        Serial.print(")>");
     }
+
+    else if (mode == SDCardModes::SD_FAT_ASCII) {
+        String line = String(unixtime) + "," + String(gasData);
+        file.println(line);
+        file.sync();
+    }
+
+    else if (mode == SDCardModes::SD_FAT_BINARY) {
+        file.write(buffer, sizeof(uint32_t)*2);
+        file.sync();
+    }
+
+    DEBUG_PRINT(F("Data point written"));
 
     return true;
 }
 
 
-bool SDCardController::createNewFile() {
-    DEBUG_PRINT("Creating new file");
+bool SDCardController::createNewFile(char* filename) {
+    DEBUG_PRINT(F("Creating new file"));
+
+    if (mode == SDCardModes::SIMULATED_SERIAL) {
+        Serial.print("<NewFileCreated: \"");
+        Serial.print(filename);
+        Serial.print("\">");
+    }
+
+    else if (mode == SDCardModes::SD_FAT_ASCII || mode == SDCardModes::SD_FAT_BINARY) {
+        file.open(filename, O_CREAT|O_WRITE|O_APPEND);
+
+        if (mode == SDCardModes::SD_FAT_ASCII)
+            file.println("UNIXTIME,CO2");
+
+        file.sync();
+        DEBUG_PRINT("Created new file: " + String(filename));
+    }
+
     return true;
 }

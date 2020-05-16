@@ -29,6 +29,9 @@ def compute_checksum(file_object, chunk_size=65536) -> int:
 
 def load_file(filename: str) -> np.array:
     """Load the given file, verify integrity, and return as a numpy array."""
+    unshaped = np.fromfile(filename, dtype='<uint32')[:-1]
+    shaped = np.reshape(unshaped, (-1, 2))
+    return shaped
 
 
 def verify_integrity(file_object):

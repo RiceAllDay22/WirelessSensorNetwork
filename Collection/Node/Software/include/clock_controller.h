@@ -41,6 +41,7 @@ class ClockController {
         bool isNextMinute();
         bool isNextHour();
         bool isNextDay();
+        char* currentFilename();
         uint32_t MAX_SIMULATION_TICKS = 1000;
 };
 

@@ -22,25 +22,31 @@ bool C02SensorController::begin() {
     if (mode == C02SensorModes::MHZ16) {
         int attempts = 0;
         while (!sensor.begin()) {
-            DEBUG_PRINT("MHZ16 failed to start");
+            DEBUG_PRINT(F("MHZ16 failed to start"));
             if (++attempts >= MAX_CONNECTION_ATTEMPTS) {
-                DEBUG_PRINT("Max attempts reached. Aborting");
+                DEBUG_PRINT(F("Max attempts reached. Aborting"));
                 return false;
             }
             delay(CONNECTION_ATTEMPT_DELAY);
         }
     }
 
-    DEBUG_PRINT("C02 sensor controller has started");
+    DEBUG_PRINT(F("C02 sensor controller has started"));
     return true;
 }
 
 
-int C02SensorController::collectData() {
-    DEBUG_PRINT("Collecting gas data");
+uint32_t C02SensorController::collectData() {
+    DEBUG_PRINT(F("Collecting gas data"));
 
-    if (mode == C02SensorModes::SIMULATED) {
+    if (mode == C02SensorModes::SIMULATED)
         return 50;
+
+    else if (mode == C02SensorModes::MHZ16) {
+        if (sensor.measure())
+            return sensor.ppm;
+        else
+            return 0;
     }
     
     return 0;

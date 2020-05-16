@@ -20,9 +20,9 @@ bool ClockController::begin() {
     if (mode == ClockModes::RTC_DS3231) {
         int attempts = 0;
         while (!rtc.begin()) {
-            DEBUG_PRINT("RTC_DS3231 failed to start");
+            DEBUG_PRINT(F("RTC_DS3231 failed to start"));
             if (++attempts >= MAX_CONNECTION_ATTEMPTS) {
-                DEBUG_PRINT("Max attempts reached. Aborting");
+                DEBUG_PRINT(F("Max attempts reached. Aborting"));
                 return false;
             }
             delay(CONNECTION_ATTEMPT_DELAY);
@@ -39,7 +39,7 @@ bool ClockController::begin() {
     prevHour = dt.hour();
     prevDay = dt.day();
 
-    DEBUG_PRINT("Clock controller has started");
+    DEBUG_PRINT(F("Clock controller has started"));
     return true;
 }
 
@@ -101,4 +101,11 @@ bool ClockController::isNextDay() {
     }
 
     return false;
+}
+
+
+char* ClockController::currentFilename() {
+    char filename[19];
+    sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+    return filename;
 }

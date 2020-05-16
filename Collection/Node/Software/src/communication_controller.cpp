@@ -18,13 +18,13 @@ CommunicationController::CommunicationController(CommunicationModes mode) {
 
 
 bool CommunicationController::begin() {
-    DEBUG_PRINT("communication controller has started");
+    DEBUG_PRINT(F("communication controller has started"));
     return true;
 }
 
 
 bool CommunicationController::sendFiles() {
-    DEBUG_PRINT("Sending files");
+    DEBUG_PRINT(F("Sending files"));
 
     if (mode == CommunicationModes::SIMULATED) {
         return true;

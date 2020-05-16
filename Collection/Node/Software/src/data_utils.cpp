@@ -11,8 +11,6 @@ This file is a part of the Wireless Sensor Network project.
 
 #include "avr/pgmspace.h"
 
-#include <Arduino.h>
-
 
 const uint32_t PROGMEM crc_table[16] = {
     0x00000000, 0x1db71064, 0x3b6e20c8, 0x26d930ac,

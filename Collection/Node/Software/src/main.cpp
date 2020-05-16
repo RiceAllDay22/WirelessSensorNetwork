@@ -45,23 +45,21 @@ void setup() {
     sdCard.begin();
     communication.begin();
 
-    DEBUG_PRINT("Finished setup()");
+    DEBUG_PRINT(F("Finished setup()"));
 }
 
 
 void loop() {
     while(!clock.isNextSecond());
 
-    int gasData = c02Sensor.collectData();
+    uint32_t gasData = c02Sensor.collectData();
     sdCard.writeDataPoint(clock.unixtime(), gasData);
 
-    if (clock.isNextHour()) {
-        sdCard.createNewFile();
-    }
+    if (clock.isNextHour())
+        sdCard.createNewFile(clock.currentFilename());
 
-    if (clock.isNextDay()) {
+    if (clock.isNextDay())
         communication.sendFiles();
-    }
 }
 
 
