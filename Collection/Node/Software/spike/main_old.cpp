@@ -11,23 +11,23 @@ This file is a part of the Wireless Sensor Network project.
 #include <SdFat.h>
 //#include "NDIR_I2C/NDIR_I2C.h"
 
-#include "c02_sensor_controller.h"
+#include "CO2_sensor_controller.h"
 #include "clock_controller.h"
 #include "sdcard_controller.h"
 #include "data_utils.h"
 
 
-C02SensorController c02Sensor;
+CO2SensorController CO2Sensor;
 ClockController clock;
 SDCardController sdCard;
 
 
 #ifdef NO_HARDWARE
-  c02SensorController = C02SensorController(true);
+  CO2SensorController = CO2SensorController(true);
   clockController = ClockController(true);
   sdCardConroller = SDCardController(true);
 #else
-  c02SensorController = C02SensorController();
+  CO2SensorController = CO2SensorController();
   clockController = ClockController();
   sdCardConroller = SDCardController();
 #endif

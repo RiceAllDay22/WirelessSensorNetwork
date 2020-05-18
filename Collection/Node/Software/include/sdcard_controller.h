@@ -15,7 +15,7 @@ This file is a part of the Wireless Sensor Network project.
 enum class SDCardModes {
   SIMULATED_SERIAL,
   SIMULATED_EMULATED,
-  SD_FAT_ASCII,
+  SD_FAT_CSV,
   SD_FAT_BINARY
 };
 

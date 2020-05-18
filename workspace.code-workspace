@@ -14,7 +14,13 @@
 	"settings": {
 		"files.associations": {
             "sstream": "cpp",
-            "utility": "cpp"
+            "utility": "cpp",
+            "vector": "cpp",
+            "xstring": "cpp",
+            "xutility": "cpp",
+            "array": "cpp",
+            "string": "cpp",
+            "string_view": "cpp"
         }
 	}
 }

@@ -8,7 +8,20 @@ This file is a part of the Wireless Sensor Network project.
 """
 
 import binascii
+import os
+from enum import Enum
 import numpy as np
+import pandas as pd
+
+
+class FileType(Enum):
+    """Defines the types of file formats that can be used."""
+    CSV = 1
+    BINARY = 2
+
+
+class InvalidFileError(Exception):
+    """Raised when there is an error parsing the C code."""
 
 
 def compute_checksum_bytes(data, prev=0) -> int:
@@ -27,12 +40,46 @@ def compute_checksum(file_object, chunk_size=65536) -> int:
     return "%08X" % (prev & 0xFFFFFFFF)
 
 
-def load_file(filename: str) -> np.array:
-    """Load the given file, verify integrity, and return as a numpy array."""
-    unshaped = np.fromfile(filename, dtype='<uint32')[:-1]
-    shaped = np.reshape(unshaped, (-1, 2))
-    return shaped
+def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
+    """Load the given file, verify integrity, and return as a pandas DataFrame."""
+    if file_type == FileType.BINARY:
+        size = os.path.getsize(filepath)
 
+        if ((size - 4) % 8) != 0:
+            raise InvalidFileError("\"{0}\" is invalid, incorrect alignment".format(filepath))
 
-def verify_integrity(file_object):
-    """Verify the integrity of the given file object. Throw exceptions on bad files."""
+        
+        unshaped = np.fromfile(filepath, dtype='<u4')
+        checksum = unshaped[-1]
+
+        if not checksum == compute_checksum_bytes(unshaped[:-1].tobytes()):
+            raise InvalidFileError("\"{0}\" is invalid, incorrect checksum".format(filepath))
+
+        for i in range(0, unshaped.size-1, 2):
+            if not ((i < 2) or (unshaped[i] == unshaped[i-2]+1)):
+                raise InvalidFileError("\"{0}\" is invalid, unixtime\
+                                       not sequential".format(filepath))
+
+        shaped = np.reshape(unshaped[:-1], (-1, 2))
+        return pd.DataFrame(shaped, columns=["UNIXTIME", "CO2"])
+
+    elif file_type == FileType.CSV:
+        try:
+            data_frame = pd.read_csv(filepath, sep=',', dtype="<u4")
+        except:
+            raise InvalidFileError("\"{0}\" is invalid, could not load as csv.".format(filepath))
+
+        if len(data_frame.columns) != 2:
+            raise InvalidFileError("\"{0}\" is invalid, wrong number of columns.".format(filepath))
+
+        if (data_frame.columns != ["UNIXTIME", "CO2"]).any():
+            raise InvalidFileError("\"{0}\" is invalid, incorrect column headers.".format(filepath))
+        
+        prev = None
+        for num in data_frame["UNIXTIME"]:
+            if not ((prev is None) or (num == prev+1)):
+                raise InvalidFileError("\"{0}\" is invalid, unixtime\
+                                       not sequential".format(filepath))
+            prev = num
+        print(data_frame)
+        return data_frame

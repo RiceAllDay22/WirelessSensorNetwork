@@ -18,7 +18,7 @@ SDCardController::SDCardController(SDCardModes mode) {
 
 
 bool SDCardController::begin() {
-    if (mode == SDCardModes::SD_FAT_ASCII || mode == SDCardModes::SD_FAT_BINARY) {
+    if (mode == SDCardModes::SD_FAT_CSV || mode == SDCardModes::SD_FAT_BINARY) {
         int attempts = 0;
         while (!sd.begin(sdChipSelect)) {
             DEBUG_PRINT(F("SDFAT failed to start"));
@@ -37,24 +37,28 @@ bool SDCardController::begin() {
 
 bool SDCardController::writeDataPoint(uint32_t unixtime, uint32_t gasData) {
     uint32_t buffer[2] = {unixtime, gasData};
-    checksum = crc32_bytes_update(checksum, buffer, sizeof(uint32_t)*2);
+    uint32_t length = sizeof(uint32_t)*2;
+    checksum = crc32_bytes_update(checksum, buffer, length);
 
     if (mode == SDCardModes::SIMULATED_SERIAL) {
         Serial.print("<DataPoint: (");
         Serial.print(unixtime);
         Serial.print(", ");
         Serial.print(gasData);
-        Serial.print(")>");
+        Serial.print("), CRC32: 0x");
+        Serial.print(checksum, HEX);
+        Serial.println(">");
     }
 
-    else if (mode == SDCardModes::SD_FAT_ASCII) {
-        String line = String(unixtime) + "," + String(gasData);
-        file.println(line);
+    else if (mode == SDCardModes::SD_FAT_CSV) {
+        file.println(String(unixtime) + "," + String(gasData));
         file.sync();
     }
 
     else if (mode == SDCardModes::SD_FAT_BINARY) {
+        file.seekEnd(length);
         file.write(buffer, sizeof(uint32_t)*2);
+        file.write(&checksum, sizeof(uint32_t));
         file.sync();
     }
 
@@ -73,10 +77,10 @@ bool SDCardController::createNewFile(char* filename) {
         Serial.print("\">");
     }
 
-    else if (mode == SDCardModes::SD_FAT_ASCII || mode == SDCardModes::SD_FAT_BINARY) {
+    else if (mode == SDCardModes::SD_FAT_CSV || mode == SDCardModes::SD_FAT_BINARY) {
         file.open(filename, O_CREAT|O_WRITE|O_APPEND);
 
-        if (mode == SDCardModes::SD_FAT_ASCII)
+        if (mode == SDCardModes::SD_FAT_CSV)
             file.println("UNIXTIME,CO2");
 
         file.sync();
