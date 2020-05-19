@@ -13,9 +13,10 @@ This file is a part of the Wireless Sensor Network project.
 
 
 enum class CO2SensorModes {
-  SIMULATED,
+  FAKE_CONSTANT,
+  FAKE_RANDOM,  // not yet implemented
   MHZ16,
-  SEN0219
+  SEN0219  // not yet implemented
 };
 
 
@@ -24,12 +25,13 @@ class CO2SensorController {
         const uint8_t I2C_ADDRESS = 0x4D;
         CO2SensorModes mode;
         NDIR_I2C sensor;
-        int MAX_CONNECTION_ATTEMPTS = 10;
-        int CONNECTION_ATTEMPT_DELAY = 1000;
+        int16_t MAX_CONNECTION_ATTEMPTS = 10;
+        uint16_t CONNECTION_ATTEMPT_DELAY = 1000;
     public:
         CO2SensorController(CO2SensorModes mode);
         bool begin();
         uint32_t collectData();
+        uint32_t CONSTANT_VALUE = 1;
 };
 
 

@@ -48,7 +48,7 @@ def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
         if ((size - 4) % 8) != 0:
             raise InvalidFileError("\"{0}\" is invalid, incorrect alignment".format(filepath))
 
-        
+
         unshaped = np.fromfile(filepath, dtype='<u4')
         checksum = unshaped[-1]
 
@@ -74,7 +74,7 @@ def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
 
         if (data_frame.columns != ["UNIXTIME", "CO2"]).any():
             raise InvalidFileError("\"{0}\" is invalid, incorrect column headers.".format(filepath))
-        
+
         prev = None
         for num in data_frame["UNIXTIME"]:
             if not ((prev is None) or (num == prev+1)):

@@ -18,29 +18,36 @@ SDCardController::SDCardController(SDCardModes mode) {
 
 
 bool SDCardController::begin() {
+    DEBUG_PRINTLN(F("Starting SD card controller"));
+
     if (mode == SDCardModes::SD_FAT_CSV || mode == SDCardModes::SD_FAT_BINARY) {
         int attempts = 0;
         while (!sd.begin(sdChipSelect)) {
-            DEBUG_PRINT(F("SDFAT failed to start"));
+            DEBUG_PRINTLN(F("SDFAT failed to start"));
             if (++attempts >= MAX_CONNECTION_ATTEMPTS) {
-                DEBUG_PRINT(F("Max attempts reached. Aborting"));
+                DEBUG_PRINTLN(F("Max attempts reached. Aborting"));
                 return false;
             }
             delay(CONNECTION_ATTEMPT_DELAY);
         }
     }
 
-    DEBUG_PRINT(F("SD card controller has started"));
     return true;
 }
 
 
 bool SDCardController::writeDataPoint(uint32_t unixtime, uint32_t gasData) {
+    DEBUG_PRINTLN("Writing datapoint");
+
     uint32_t buffer[2] = {unixtime, gasData};
     uint32_t length = sizeof(uint32_t)*2;
     checksum = crc32_bytes_update(checksum, buffer, length);
 
-    if (mode == SDCardModes::SIMULATED_SERIAL) {
+    if (mode == SDCardModes::NONE) {
+        return true;
+    }
+
+    else if (mode == SDCardModes::FAKE_SERIAL || PRINT_TO_SERIAL) {
         Serial.print("<DataPoint: (");
         Serial.print(unixtime);
         Serial.print(", ");
@@ -62,16 +69,20 @@ bool SDCardController::writeDataPoint(uint32_t unixtime, uint32_t gasData) {
         file.sync();
     }
 
-    DEBUG_PRINT(F("Data point written"));
-
     return true;
 }
 
 
 bool SDCardController::createNewFile(char* filename) {
-    DEBUG_PRINT(F("Creating new file"));
+    DEBUG_PRINT("Creating new file");
 
-    if (mode == SDCardModes::SIMULATED_SERIAL) {
+    checksum = 0;
+
+    if (mode == SDCardModes::NONE) {
+        return true;
+    }
+
+    else if (mode == SDCardModes::FAKE_SERIAL) {
         Serial.print("<NewFileCreated: \"");
         Serial.print(filename);
         Serial.print("\">");
@@ -88,4 +99,9 @@ bool SDCardController::createNewFile(char* filename) {
     }
 
     return true;
+}
+
+
+uint32_t SDCardController::fileSize() {
+    return file.fileSize();
 }

@@ -38,14 +38,10 @@ CommunicationController communication(COMMUNICATION_MODE);
 
 
 void setup() {
-    DEBUG_INIT();
-    
     clock.begin();
     CO2Sensor.begin();
     sdCard.begin();
     communication.begin();
-
-    DEBUG_PRINT(F("Finished setup()"));
 }
 
 

@@ -13,7 +13,8 @@ This file is a part of the Wireless Sensor Network project.
 
 
 enum class ClockModes {
-  SIMULATED,
+  FAKE_FAST,
+  FAKE_SERIAL,
   RTC_DS3231
 };
 
@@ -22,27 +23,28 @@ class ClockController {
     private:
         ClockModes mode;
         DateTime dt;
-        int prevSecond;
-        int prevMinute;
-        int prevHour;
-        int prevDay;
+        uint8_t prevSecond;
+        uint8_t prevMinute;
+        uint8_t prevHour;
+        uint8_t prevDay;
         RTC_DS3231 rtc;
         int MAX_CONNECTION_ATTEMPTS = 10;
         int CONNECTION_ATTEMPT_DELAY = 1000;
         uint32_t simulationTicks;
 
-        void simulationTick();
+        void fakeTick();
 
     public:
         ClockController(ClockModes mode);
         bool begin();
-        int unixtime();
+        void setTime(uint32_t unixtime);
+        uint32_t unixtime();
         bool isNextSecond();
         bool isNextMinute();
         bool isNextHour();
         bool isNextDay();
         char* currentFilename();
-        uint32_t MAX_SIMULATION_TICKS = 1000;
+        uint32_t MAX_FAKE_TICKS = 5;
 };
 
 
