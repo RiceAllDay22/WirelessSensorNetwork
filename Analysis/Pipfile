@@ -14,11 +14,13 @@ matplotlib = "*"
 pandas = "*"
 scipy = "*"
 jupyterlab = "*"
-cartopy = {path = "./lib/Cartopy-0.18.0-cp38-cp38-win_amd64.whl", sys_platform = "== 'win32'"}
+cartopy = {sys_platform = "== 'linux'"}
+"cartopy_win" = {path = "./lib/Cartopy-0.18.0-cp38-cp38-win_amd64.whl", sys_platform = "== 'win32'"}
 geoviews = "*"
 ipykernel = "*"
 bokeh = "*"
 tables = "*"
+bleach = ">=3.1.4"
 
 [requires]
 python_version = "3.8"
