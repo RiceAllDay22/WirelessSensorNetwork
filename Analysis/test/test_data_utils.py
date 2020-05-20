@@ -8,11 +8,10 @@ This file is a part of the Wireless Sensor Network project.
 
 import os
 import pytest
-
-from analyzer import data_utils
-
 import numpy as np
 import pandas as pd
+
+from analyzer import data_utils
 
 
 def test_compute_checksum_byte():
@@ -123,7 +122,7 @@ for name in os.listdir(CSV_INVALID_PATH):
 @pytest.mark.parametrize("file_path", csv_invalid_file_paths, ids=csv_invalid_filenames)
 def test_load_csv_invalid(file_path):
     """Assure all csv files in CSV_INVALID_PATH are invalid."""
-    with pytest.raises(data_utils.InvalidFileError) as pytest_wrapped_e:
+    with pytest.raises(data_utils.InvalidFileError):
         data_utils.load_file(file_path, data_utils.FileType.CSV)
 
 
@@ -172,7 +171,7 @@ def test_load_dat_5_entries():
 def test_load_dat_5_entries_higher():
     """Assure 5_entries.dat is loaded correctly."""
     correct_array = np.array([[12626695, 286331153], [12626696, 572662306], [12626697, 858993459],
-                             [12626698, 1145324612], [12626699, 1431655765]], dtype="<u4")
+                              [12626698, 1145324612], [12626699, 1431655765]], dtype="<u4")
     correct_frame = pd.DataFrame(correct_array, columns=["UNIXTIME", "CO2"])
     filepath = os.path.join(DAT_VALID_PATH, "5_entries_higher.dat")
     loaded_frame = data_utils.load_file(filepath, data_utils.FileType.BINARY)
@@ -190,9 +189,10 @@ def test_load_dat_50_entries():
                               [29, 690563369], [30, 808464432], [31, 825307441], [32, 842150450],
                               [33, 858993459], [34, 875836468], [35, 892679477], [36, 909522486],
                               [37, 926365495], [38, 943208504], [39, 960051513], [40, 1077952576],
-                              [41, 1094795585], [42, 1111638594], [43, 1128481603], [44, 1145324612],
-                              [45, 1162167621], [46, 1179010630], [47, 1195853639], [48, 1212696648],
-                              [49, 1229539657], [50, 1347440720]], dtype="<u4")
+                              [41, 1094795585], [42, 1111638594], [43, 1128481603],
+                              [44, 1145324612], [45, 1162167621], [46, 1179010630],
+                              [47, 1195853639], [48, 1212696648], [49, 1229539657],
+                              [50, 1347440720]], dtype="<u4")
     correct_frame = pd.DataFrame(correct_array, columns=["UNIXTIME", "CO2"])
     filepath = os.path.join(DAT_VALID_PATH, "50_entries.dat")
     loaded_frame = data_utils.load_file(filepath, data_utils.FileType.BINARY)
@@ -213,5 +213,28 @@ for name in os.listdir(DAT_INVALID_PATH):
 @pytest.mark.parametrize("file_path", dat_invalid_file_paths, ids=dat_invalid_filenames)
 def test_load_dat_invalid(file_path):
     """Assure all dat files in DAT_INVALID_PATH are invalid."""
-    with pytest.raises(data_utils.InvalidFileError) as pytest_wrapped_e:
+    with pytest.raises(data_utils.InvalidFileError):
         data_utils.load_file(file_path, data_utils.FileType.BINARY)
+
+
+
+def test_merge_files(tmp_path):
+    """Assure that node output directories are merged correctly."""
+    node_folders_path = "./test/assets/node_data/valid/3_nodes_csv"
+    temp_directory = tmp_path / "test_merge_files"
+    temp_directory.mkdir()
+    output_path = temp_directory / "./test_merge_files.hdf"
+
+    calculated_dataframe = data_utils.merge_files(node_folders_path, output_path)
+
+    assert (calculated_dataframe.columns == ["UNIXTIME", "UID", "CO2", "LONGITUDE", "LATITUDE",
+                                             "ELEVATION"]).all()
+    assert (calculated_dataframe.dtypes == ["uint32", "uint16", "uint32", "float32", "float32",
+                                            "int16"]).all()
+    assert calculated_dataframe.shape == (17983, 6)
+
+    correct_hash = 1470239008443347379
+
+    assert correct_hash == pd.util.hash_pandas_object(calculated_dataframe, index=True).sum()
+    assert correct_hash == pd.util.hash_pandas_object(pd.read_hdf(output_path, "ALL"),
+                                                      index=True).sum()

@@ -1,6 +1,8 @@
 #Visual Stucio Code config folder
 .vscode
 
+jlstuff
+
 #pylint
 #.pylintrc
 

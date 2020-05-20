@@ -14,6 +14,11 @@ matplotlib = "*"
 pandas = "*"
 scipy = "*"
 jupyterlab = "*"
+cartopy = {path = "./lib/Cartopy-0.18.0-cp38-cp38-win_amd64.whl"}
+geoviews = "*"
+ipykernel = "*"
+bokeh = "*"
+tables = "*"
 
 [requires]
 python_version = "3.8"

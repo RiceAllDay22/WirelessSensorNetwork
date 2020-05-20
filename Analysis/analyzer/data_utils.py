@@ -15,7 +15,7 @@ import pandas as pd
 
 
 class FileType(Enum):
-    """Defines the types of file formats that can be used."""
+    """Defines the types of file formats that are supported."""
     CSV = 1
     BINARY = 2
 
@@ -24,12 +24,12 @@ class InvalidFileError(Exception):
     """Raised when there is an error parsing the C code."""
 
 
-def compute_checksum_bytes(data, prev=0) -> int:
+def compute_checksum_bytes(data: bytes, prev: int = 0) -> int:
     """Compute and return checksum (CRC32) of given bytes."""
     return binascii.crc32(data, prev)
 
 
-def compute_checksum(file_object, chunk_size=65536) -> int:
+def compute_checksum(file_object, chunk_size: int = 65536) -> int:
     """Compute and return checksum of given file object."""
     prev = 0
     while True:
@@ -40,8 +40,8 @@ def compute_checksum(file_object, chunk_size=65536) -> int:
     return "%08X" % (prev & 0xFFFFFFFF)
 
 
-def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
-    """Load the given file, verify integrity, and return as a pandas DataFrame."""
+def load_file(filepath: str, file_type: FileType = FileType.BINARY) -> pd.DataFrame:
+    """Load the given .dat/.csv file, verify integrity, and return as a pandas DataFrame."""
     if file_type == FileType.BINARY:
         size = os.path.getsize(filepath)
 
@@ -61,11 +61,11 @@ def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
                                        not sequential".format(filepath))
 
         shaped = np.reshape(unshaped[:-1], (-1, 2))
-        return pd.DataFrame(shaped, columns=["UNIXTIME", "CO2"])
+        data_frame = pd.DataFrame(shaped, columns=["UNIXTIME", "CO2"])
 
     elif file_type == FileType.CSV:
         try:
-            data_frame = pd.read_csv(filepath, sep=',', dtype="<u4")
+            data_frame = pd.read_csv(filepath, sep=',', dtype={0:"uint32", 1:"uint32"})
         except:
             raise InvalidFileError("\"{0}\" is invalid, could not load as csv.".format(filepath))
 
@@ -81,5 +81,46 @@ def load_file(filepath: str, file_type=FileType.BINARY) -> pd.DataFrame:
                 raise InvalidFileError("\"{0}\" is invalid, unixtime\
                                        not sequential".format(filepath))
             prev = num
-        print(data_frame)
-        return data_frame
+
+    return data_frame
+
+
+def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
+    """Take a folder of Node output folders, return as DataFrame and save to HDF5 File."""
+    node_info_filepath = os.path.join(folderpath, "node_info.csv")
+    info_dataframe = pd.read_csv(node_info_filepath, dtype={0:"uint16", 1:"float32", 2:"float32",
+                                                            3:"int16"})
+
+    data_frame = pd.DataFrame()
+
+    for uid in info_dataframe["UID"]:
+        subfolderpath = os.path.join(folderpath, str(uid))
+        subfolder_dataframe = pd.DataFrame()
+        for filename in os.listdir(subfolderpath):
+            filepath = os.path.join(subfolderpath, filename)
+            if os.path.isfile(filepath):
+                if filename.endswith(".dat"):
+                    file_type = FileType.BINARY
+                elif filename.endswith(".csv"):
+                    file_type = FileType.CSV
+                else:
+                    continue
+                file_dataframe = load_file(filepath, file_type)
+                subfolder_dataframe = subfolder_dataframe.append(file_dataframe)
+
+        subfolder_dataframe.insert(1, "UID", uid)
+        subfolder_dataframe["UID"] = subfolder_dataframe["UID"].astype("uint16")
+        data_frame = data_frame.append(subfolder_dataframe)
+
+
+    data_frame = data_frame.merge(info_dataframe, on="UID")
+    data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE', 'ELEVATION'])
+
+    if output_filepath is not None:
+        data_frame.to_hdf(output_filepath, key="ALL", complevel=9, mode="w")
+
+    return data_frame
+
+    #check if exists
+    #check if included not defined in node_info too
+    #tests assert datatype
