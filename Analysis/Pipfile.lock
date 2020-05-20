@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0b9f78b16975c130c3fa56e927e21239540adb963416a8afe8317ce25b19ad87"
+            "sha256": "118e2ed134ecdf6427f06de98e6a3e5ae09e11cda38855b6cf63f7538d2c83d3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -54,7 +54,8 @@
             "version": "==0.18.0"
         },
         "cartopy-win": {
-            "path": "./lib/Cartopy-0.18.0-cp38-cp38-win_amd64.whl",
+            "path": "./shared-wheels/Cartopy-0.18.0-cp38-cp38-win_amd64.whl",
+            "platform_machine": "== 'AMD64'",
             "sys_platform": "== 'win32'"
         },
         "certifi": {
@@ -950,6 +951,14 @@
                 "sha256:ee73862862a156bf77ff92b09034fc4825dd3af9cf81bc5b360668d425f3c5f1"
             ],
             "version": "==0.1.9"
+        },
+        "wheel": {
+            "hashes": [
+                "sha256:8788e9155fe14f54164c1b9eb0a319d98ef02c160725587ad60f14ddc57b6f96",
+                "sha256:df277cb51e61359aba502208d680f90c0493adec6f0e848af94948778aed386e"
+            ],
+            "index": "pypi",
+            "version": "==0.34.2"
         },
         "wrapt": {
             "hashes": [

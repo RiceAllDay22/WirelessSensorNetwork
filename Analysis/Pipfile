@@ -7,6 +7,7 @@ verify_ssl = true
 pytest = "*"
 pylint = "*"
 pydocstyle = "*"
+wheel = "*"
 
 [packages]
 numpy = "*"
@@ -15,7 +16,7 @@ pandas = "*"
 scipy = "*"
 jupyterlab = "*"
 cartopy = {sys_platform = "== 'linux'"}
-"cartopy_win" = {path = "./lib/Cartopy-0.18.0-cp38-cp38-win_amd64.whl", sys_platform = "== 'win32'"}
+"cartopy_win" = {path = "./shared-wheels/Cartopy-0.18.0-cp38-cp38-win_amd64.whl", sys_platform = "== 'win32'", platform_machine = "== 'AMD64'"}
 geoviews = "*"
 ipykernel = "*"
 bokeh = "*"
