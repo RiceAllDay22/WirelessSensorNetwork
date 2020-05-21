@@ -20,7 +20,7 @@ jobs:
       id: PythonUnitTestsCache
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('./Analysis/Pipfile') }}
+        key: ${{ runner.os }}-pip_cache-${{ hashFiles('./Analysis/Pipfile') }}
         restore-keys: |
           ${{ runner.os  }}-test
     - name: Install pipenv, libproj-dev, and libgeos-dev
