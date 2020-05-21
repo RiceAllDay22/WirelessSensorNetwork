@@ -235,6 +235,7 @@ def test_merge_files(tmp_path):
     assert calculated_dataframe.shape == (17983, 6)
 
     correct_hash = "722b014c4cbc707b4dbaca373856f8c9"
+    print(calculated_dataframe)
 
     calculated_hash = hashlib.md5(calculated_dataframe.to_csv().encode()).hexdigest()
     output_file_hash = hashlib.md5(pd.read_hdf(output_path, "ALL").to_csv().encode()).hexdigest()
