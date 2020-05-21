@@ -229,8 +229,7 @@ def test_merge_files(tmp_path):
 
     assert (calculated_dataframe.columns == ["UNIXTIME", "UID", "CO2", "LONGITUDE", "LATITUDE",
                                              "ELEVATION"]).all()
-    assert (calculated_dataframe.dtypes == ["uint32", "uint16", "uint32", "float32", "float32",
-                                            "int16"]).all()
+    assert (calculated_dataframe.dtypes == ["<u4", "<u2", "<u4", "<f4", "<f4", "<i2"]).all()
     assert calculated_dataframe.shape == (17983, 6)
 
     correct_hash = 1470239008443347379

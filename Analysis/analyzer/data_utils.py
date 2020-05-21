@@ -88,8 +88,8 @@ def load_file(filepath: str, file_type: FileType = FileType.BINARY) -> pd.DataFr
 def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
     """Take a folder of Node output folders, return as DataFrame and save to HDF5 File."""
     node_info_filepath = os.path.join(folderpath, "node_info.csv")
-    info_dataframe = pd.read_csv(node_info_filepath, dtype={0:"uint16", 1:"float32", 2:"float32",
-                                                            3:"int16"})
+    info_dataframe = pd.read_csv(node_info_filepath, dtype={"UID":"<u2", "LONGITUDE":"<f4",
+                                                            "LATITUDE":"<f4", "ELEVATION":"<i2"})
 
     data_frame = pd.DataFrame()
 
@@ -114,6 +114,8 @@ def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
 
 
     data_frame = data_frame.merge(info_dataframe, on="UID")
+    data_frame = data_frame.astype({"UNIXTIME":"<u4", "UID":"<u2", "CO2":"<u4", "LONGITUDE":"<f4",
+                                    "LATITUDE":"<f4", "ELEVATION":"<i2"})
     data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE', 'ELEVATION'])
 
     if output_filepath is not None:
