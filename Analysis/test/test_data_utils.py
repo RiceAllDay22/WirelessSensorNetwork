@@ -234,6 +234,8 @@ def test_merge_files(tmp_path):
 
     correct_hash = 1470239008443347379
 
+    print(calculated_dataframe)
+
     assert correct_hash == pd.util.hash_pandas_object(calculated_dataframe, index=True).sum()
     assert correct_hash == pd.util.hash_pandas_object(pd.read_hdf(output_path, "ALL"),
                                                       index=True).sum()
