@@ -118,6 +118,7 @@ def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
                                     "LATITUDE":"<f4", "ELEVATION":"<i2"})
     data_frame = data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE',
                                          'ELEVATION'])
+    data_frame = data_frame.reset_index(drop=True)
 
     if output_filepath is not None:
         data_frame.to_hdf(output_filepath, key="ALL", complevel=9, mode="w")

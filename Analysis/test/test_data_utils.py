@@ -232,9 +232,7 @@ def test_merge_files(tmp_path):
     assert (calculated_dataframe.dtypes == ["<u4", "<u2", "<u4", "<f4", "<f4", "<i2"]).all()
     assert calculated_dataframe.shape == (17983, 6)
 
-    correct_hash = 1470239008443347379
-
-    print(calculated_dataframe)
+    correct_hash = -7953131703459622317
 
     assert correct_hash == pd.util.hash_pandas_object(calculated_dataframe, index=True).sum()
     assert correct_hash == pd.util.hash_pandas_object(pd.read_hdf(output_path, "ALL"),
