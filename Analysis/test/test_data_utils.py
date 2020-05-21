@@ -7,8 +7,6 @@ This file is a part of the Wireless Sensor Network project.
 """
 
 import os
-import hashlib
-
 import pytest
 import numpy as np
 import pandas as pd
@@ -234,11 +232,8 @@ def test_merge_files(tmp_path):
     assert (calculated_dataframe.dtypes == ["<u4", "<u2", "<u4", "<f4", "<f4", "<i2"]).all()
     assert calculated_dataframe.shape == (17983, 6)
 
-    correct_hash = "722b014c4cbc707b4dbaca373856f8c9"
-    print(calculated_dataframe)
+    correct_hash = 1470239008443347379
 
-    calculated_hash = hashlib.md5(calculated_dataframe.to_csv().encode()).hexdigest()
-    output_file_hash = hashlib.md5(pd.read_hdf(output_path, "ALL").to_csv().encode()).hexdigest()
-
-    assert correct_hash == calculated_hash
-    assert correct_hash == output_file_hash
+    assert correct_hash == pd.util.hash_pandas_object(calculated_dataframe, index=True).sum()
+    assert correct_hash == pd.util.hash_pandas_object(pd.read_hdf(output_path, "ALL"),
+                                                      index=True).sum()

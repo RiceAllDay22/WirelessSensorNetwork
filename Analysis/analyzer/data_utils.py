@@ -116,7 +116,8 @@ def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
     data_frame = data_frame.merge(info_dataframe, on="UID")
     data_frame = data_frame.astype({"UNIXTIME":"<u4", "UID":"<u2", "CO2":"<u4", "LONGITUDE":"<f4",
                                     "LATITUDE":"<f4", "ELEVATION":"<i2"})
-    data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE', 'ELEVATION'])
+    data_frame = data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE',
+                                         'ELEVATION'])
 
     if output_filepath is not None:
         data_frame.to_hdf(output_filepath, key="ALL", complevel=9, mode="w")
