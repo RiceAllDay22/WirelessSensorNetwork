@@ -135,7 +135,3 @@ def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
         data_frame.to_hdf(output_filepath, key="ALL", complevel=9, mode="w")
 
     return data_frame
-
-    #check if exists
-    #check if included not defined in node_info too
-    #tests assert datatype
