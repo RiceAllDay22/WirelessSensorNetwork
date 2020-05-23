@@ -21,7 +21,10 @@ class FileType(Enum):
 
 
 class InvalidFileError(Exception):
-    """Raised when there is an error parsing the C code."""
+    """Raised when there is an error parsing data file."""
+
+class InvalidMergeFolder(Exception):
+    """Raised when there is an error merging the given folder."""
 
 
 def compute_checksum_bytes(data: bytes, prev: int = 0) -> int:
@@ -88,8 +91,13 @@ def load_file(filepath: str, file_type: FileType = FileType.BINARY) -> pd.DataFr
 def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
     """Take a folder of Node output folders, return as DataFrame and save to HDF5 File."""
     node_info_filepath = os.path.join(folderpath, "node_info.csv")
-    info_dataframe = pd.read_csv(node_info_filepath, dtype={"UID":"<u2", "LONGITUDE":"<f4",
-                                                            "LATITUDE":"<f4", "ELEVATION":"<i2"})
+
+    try:
+        info_dataframe = pd.read_csv(node_info_filepath, dtype={"UID":"<u2", "LONGITUDE":"<f4",
+                                                                "LATITUDE":"<f4",
+                                                                "ELEVATION":"<i2"})
+    except:
+        raise InvalidMergeFolder("Error reading node_info.csv in " + str(folderpath))
 
     data_frame = pd.DataFrame()
 
@@ -105,7 +113,10 @@ def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
                     file_type = FileType.CSV
                 else:
                     continue
-                file_dataframe = load_file(filepath, file_type)
+                try:
+                    file_dataframe = load_file(filepath, file_type)
+                except:
+                    raise InvalidMergeFolder("Invalid file error on " + str(filepath))
                 subfolder_dataframe = subfolder_dataframe.append(file_dataframe)
 
         subfolder_dataframe.insert(1, "UID", uid)

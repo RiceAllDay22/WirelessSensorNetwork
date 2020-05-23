@@ -218,22 +218,59 @@ def test_load_dat_invalid(file_path):
 
 
 
-def test_merge_files(tmp_path):
+MERGE_VALID_PATH = "./test/assets/node_data/valid"
+
+merge_valid_folder_paths = []
+merge_valid_foldernames = []
+for name in os.listdir(MERGE_VALID_PATH):
+    path = os.path.join(MERGE_VALID_PATH, name)
+    if os.path.isdir(path):
+        merge_valid_folder_paths.append(path)
+        merge_valid_foldernames.append(name)
+
+@pytest.mark.parametrize("folder_path", merge_valid_folder_paths, ids=merge_valid_foldernames)
+def test_merge_files_valid(folder_path, tmp_path):
     """Assure that node output directories are merged correctly."""
-    node_folders_path = "./test/assets/node_data/valid/3_nodes_csv"
+
     temp_directory = tmp_path / "test_merge_files"
     temp_directory.mkdir()
     output_path = temp_directory / "./test_merge_files.hdf"
 
-    calculated_dataframe = data_utils.merge_files(node_folders_path, output_path)
+    calculated_dataframe = data_utils.merge_files(folder_path, output_path)
 
     assert (calculated_dataframe.columns == ["UNIXTIME", "UID", "CO2", "LONGITUDE", "LATITUDE",
                                              "ELEVATION"]).all()
     assert (calculated_dataframe.dtypes == ["<u4", "<u2", "<u4", "<f4", "<f4", "<i2"]).all()
-    assert calculated_dataframe.shape == (17983, 6)
 
-    correct_hash = -7953131703459622317
+    correct_file = open(os.path.join(folder_path, "correct_info.txt"), "r")
 
+    correct_rows = int(correct_file.readline())
+    correct_hash = int(correct_file.readline())
+
+    assert calculated_dataframe.shape == (correct_rows, 6)
     assert correct_hash == pd.util.hash_pandas_object(calculated_dataframe, index=True).sum()
     assert correct_hash == pd.util.hash_pandas_object(pd.read_hdf(output_path, "ALL"),
                                                       index=True).sum()
+
+
+
+MERGE_INVALID_PATH = "./test/assets/node_data/invalid"
+
+merge_invalid_folder_paths = []
+merge_invalid_foldernames = []
+for name in os.listdir(MERGE_INVALID_PATH):
+    path = os.path.join(MERGE_INVALID_PATH, name)
+    if os.path.isdir(path):
+        merge_invalid_folder_paths.append(path)
+        merge_invalid_foldernames.append(name)
+
+@pytest.mark.parametrize("folder_path", merge_invalid_folder_paths, ids=merge_invalid_foldernames)
+def test_merge_files_invalid(folder_path, tmp_path):
+    """Assure that node output directories that are invalid throw an exception."""
+
+    temp_directory = tmp_path / "test_merge_files"
+    temp_directory.mkdir()
+    output_path = temp_directory / "./test_merge_files.hdf"
+
+    with pytest.raises(data_utils.InvalidMergeFolder):
+        data_utils.merge_files(folder_path, output_path)
