@@ -24,7 +24,6 @@ tables = "*"
 bleach = ">=3.1.4"
 xarray = "*"
 datashader = "*"
-xesmf = "*"
 
 [requires]
 python_version = "3.8"
