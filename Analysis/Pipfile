@@ -16,12 +16,15 @@ pandas = "*"
 scipy = "*"
 jupyterlab = "*"
 cartopy = {sys_platform = "== 'linux'"}
-"cartopy_win" = {path = "./shared-wheels/Cartopy-0.18.0-cp38-cp38-win_amd64.whl", sys_platform = "== 'win32'", platform_machine = "== 'AMD64'"}
+cartopy_win = {path = "./shared-wheels/Cartopy-0.18.0-cp38-cp38-win_amd64.whl",sys_platform = "== 'win32'",platform_machine = "== 'AMD64'"}
 geoviews = "*"
 ipykernel = "*"
 bokeh = "*"
 tables = "*"
 bleach = ">=3.1.4"
+xarray = "*"
+datashader = "*"
+xesmf = "*"
 
 [requires]
 python_version = "3.8"
