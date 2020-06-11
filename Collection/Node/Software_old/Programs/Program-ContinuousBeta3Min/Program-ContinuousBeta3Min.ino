@@ -28,6 +28,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(DETACH_WIRE, INPUT_PULLUP);
 
+  Serial.println("Check");
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
