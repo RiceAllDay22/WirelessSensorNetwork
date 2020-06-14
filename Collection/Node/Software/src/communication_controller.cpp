@@ -18,7 +18,7 @@ CommunicationController::CommunicationController(CommunicationModes mode) {
 
 
 bool CommunicationController::begin() {
-    DEBUG_PRINT("communication controller has started");
+    DEBUG_PRINTLN(F("Starting communication controller"));
     return true;
 }
 
@@ -26,8 +26,16 @@ bool CommunicationController::begin() {
 bool CommunicationController::sendFiles() {
     DEBUG_PRINT("Sending files");
 
-    if (mode == CommunicationModes::SIMULATED) {
+    if (mode == CommunicationModes::NONE) {
         return true;
+    }
+
+    else if (mode == CommunicationModes::FAKE_SERIAL) {
+
+    }
+
+    else if (mode == CommunicationModes::NRF24L01) {
+
     }
 
     return true;

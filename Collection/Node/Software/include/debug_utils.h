@@ -13,34 +13,11 @@ This file is a part of the Wireless Sensor Network project.
 
 #ifdef DEBUG_MESSAGES
     #include <Arduino.h>
-
-    #ifndef BAUD_RATE
-        #define BAUD_RATE 9600
-    #endif
-    
-    #define DEBUG_INIT() {\
-        Serial.begin(BAUD_RATE);\
-        while(!Serial);\
-        Serial.println("Debug initialized");\
-    }
-
-    #define DEBUG_PRINT(str) {\
-        Serial.print('<');\
-        Serial.print(millis());\
-        Serial.print(": ");\
-        Serial.print(__PRETTY_FUNCTION__);\
-        Serial.print(' ');\
-        Serial.print(__FILE__);\
-        Serial.print(':');\
-        Serial.print(__LINE__);\
-        Serial.print(">: ");\
-        Serial.println(str);\
-    }
-
+    #define DEBUG_PRINT(x) Serial.print(x);
+    #define DEBUG_PRINTLN(x) Serial.println(x);
 #else
-   #define DEBUG_INIT()
-   #define DEBUG_PRINT(str)
+    #define DEBUG_PRINT(x)
+    #define DEBUG_PRINTLN(x)
 #endif
-
 
 #endif

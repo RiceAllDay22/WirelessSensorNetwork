@@ -1,3 +1,5 @@
+![Python Unit Tests](https://github.com/jkub6/WirelessSensorNetwork/workflows/Python%20Unit%20Tests/badge.svg)
+![Node Code Unit Tests](https://github.com/jkub6/WirelessSensorNetwork/workflows/Node%20Code%20Unit%20Tests/badge.svg)
 # Wireless Sensor Network
 
 This repository contains the files utilized to create a wireless sensor network to identify, locate, and quantify the presence of C02 in an open field.

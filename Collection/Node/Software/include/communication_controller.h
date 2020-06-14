@@ -10,10 +10,13 @@ This file is a part of the Wireless Sensor Network project.
 #ifndef COMMUNICATION_CONTROLLER_H
 #define COMMUNICATION_CONTROLLER_H
 
+#include <SoftwareSerial.h>
+
 
 enum class CommunicationModes {
-  SIMULATED,
-  NRF24L01
+  FAKE_SERIAL,  // not yet implemented
+  NRF24L01,  // not yet implemented
+  NONE
 };
 
 

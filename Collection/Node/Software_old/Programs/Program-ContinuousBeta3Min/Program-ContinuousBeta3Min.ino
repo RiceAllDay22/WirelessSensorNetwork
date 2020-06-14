@@ -15,7 +15,7 @@ DateTime dt;
 
 byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 const uint8_t sdChipSelect = SS;
-float GasData;
+uint16_t GasData;
 uint32_t TimeUnix;
 bool wroteNewFile = true;
 
@@ -28,6 +28,7 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(DETACH_WIRE, INPUT_PULLUP);
 
+  Serial.println("Check");
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
@@ -97,12 +98,12 @@ void WriteSample() {
 }
 
 //----------Retrieve Gas Data----------//
-float CollectGas() {
-  float data;
+uint16_t CollectGas() {
+  uint16_t data;
   if (mySensor.measure())
     data = mySensor.ppm;
   else
-    data = 0.0;
+    data = 0;
   return data;
 }
 

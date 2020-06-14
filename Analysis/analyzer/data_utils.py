@@ -8,15 +8,31 @@ This file is a part of the Wireless Sensor Network project.
 """
 
 import binascii
+import os
+from enum import Enum
 import numpy as np
+import pandas as pd
 
 
-def compute_checksum_bytes(data, prev=0) -> int:
+class FileType(Enum):
+    """Defines the types of file formats that are supported."""
+    CSV = 1
+    BINARY = 2
+
+
+class InvalidFileError(Exception):
+    """Raised when there is an error parsing data file."""
+
+class InvalidMergeFolder(Exception):
+    """Raised when there is an error merging the given folder."""
+
+
+def compute_checksum_bytes(data: bytes, prev: int = 0) -> int:
     """Compute and return checksum (CRC32) of given bytes."""
     return binascii.crc32(data, prev)
 
 
-def compute_checksum(file_object, chunk_size=65536) -> int:
+def compute_checksum(file_object, chunk_size: int = 65536) -> int:
     """Compute and return checksum of given file object."""
     prev = 0
     while True:
@@ -27,9 +43,95 @@ def compute_checksum(file_object, chunk_size=65536) -> int:
     return "%08X" % (prev & 0xFFFFFFFF)
 
 
-def load_file(filename: str) -> np.array:
-    """Load the given file, verify integrity, and return as a numpy array."""
+def load_file(filepath: str, file_type: FileType = FileType.BINARY) -> pd.DataFrame:
+    """Load the given .dat/.csv file, verify integrity, and return as a pandas DataFrame."""
+    if file_type == FileType.BINARY:
+        size = os.path.getsize(filepath)
+
+        if ((size - 4) % 8) != 0:
+            raise InvalidFileError("\"{0}\" is invalid, incorrect alignment".format(filepath))
 
 
-def verify_integrity(file_object):
-    """Verify the integrity of the given file object. Throw exceptions on bad files."""
+        unshaped = np.fromfile(filepath, dtype='<u4')
+        checksum = unshaped[-1]
+
+        if not checksum == compute_checksum_bytes(unshaped[:-1].tobytes()):
+            raise InvalidFileError("\"{0}\" is invalid, incorrect checksum".format(filepath))
+
+        for i in range(0, unshaped.size-1, 2):
+            if not ((i < 2) or (unshaped[i] == unshaped[i-2]+1)):
+                raise InvalidFileError("\"{0}\" is invalid, unixtime\
+                                       not sequential".format(filepath))
+
+        shaped = np.reshape(unshaped[:-1], (-1, 2))
+        data_frame = pd.DataFrame(shaped, columns=["UNIXTIME", "CO2"])
+
+    elif file_type == FileType.CSV:
+        try:
+            data_frame = pd.read_csv(filepath, sep=',', dtype={0:"uint32", 1:"uint32"})
+        except:
+            raise InvalidFileError("\"{0}\" is invalid, could not load as csv.".format(filepath))
+
+        if len(data_frame.columns) != 2:
+            raise InvalidFileError("\"{0}\" is invalid, wrong number of columns.".format(filepath))
+
+        if (data_frame.columns != ["UNIXTIME", "CO2"]).any():
+            raise InvalidFileError("\"{0}\" is invalid, incorrect column headers.".format(filepath))
+
+        prev = None
+        for num in data_frame["UNIXTIME"]:
+            if not ((prev is None) or (num == prev+1)):
+                raise InvalidFileError("\"{0}\" is invalid, unixtime\
+                                       not sequential".format(filepath))
+            prev = num
+
+    return data_frame
+
+
+def merge_files(folderpath: str, output_filepath: str = None) -> pd.DataFrame:
+    """Take a folder of Node output folders, return as DataFrame and save to HDF5 File."""
+    node_info_filepath = os.path.join(folderpath, "node_info.csv")
+
+    try:
+        info_dataframe = pd.read_csv(node_info_filepath, dtype={"UID":"<u2", "LONGITUDE":"<f4",
+                                                                "LATITUDE":"<f4",
+                                                                "ELEVATION":"<i2"})
+    except:
+        raise InvalidMergeFolder("Error reading node_info.csv in " + str(folderpath))
+
+    data_frame = pd.DataFrame()
+
+    for uid in info_dataframe["UID"]:
+        subfolderpath = os.path.join(folderpath, str(uid))
+        subfolder_dataframe = pd.DataFrame()
+        for filename in os.listdir(subfolderpath):
+            filepath = os.path.join(subfolderpath, filename)
+            if os.path.isfile(filepath):
+                if filename.endswith(".dat"):
+                    file_type = FileType.BINARY
+                elif filename.endswith(".csv"):
+                    file_type = FileType.CSV
+                else:
+                    continue
+                try:
+                    file_dataframe = load_file(filepath, file_type)
+                except:
+                    raise InvalidMergeFolder("Invalid file error on " + str(filepath))
+                subfolder_dataframe = subfolder_dataframe.append(file_dataframe)
+
+        subfolder_dataframe.insert(1, "UID", uid)
+        subfolder_dataframe["UID"] = subfolder_dataframe["UID"].astype("uint16")
+        data_frame = data_frame.append(subfolder_dataframe)
+
+
+    data_frame = data_frame.merge(info_dataframe, on="UID")
+    data_frame = data_frame.astype({"UNIXTIME":"<u4", "UID":"<u2", "CO2":"<u4", "LONGITUDE":"<f4",
+                                    "LATITUDE":"<f4", "ELEVATION":"<i2"})
+    data_frame = data_frame.sort_values(['UNIXTIME', 'UID', 'CO2', 'LONGITUDE', 'LATITUDE',
+                                         'ELEVATION'])
+    data_frame = data_frame.reset_index(drop=True)
+
+    if output_filepath is not None:
+        data_frame.to_hdf(output_filepath, key="ALL", complevel=9, mode="w")
+
+    return data_frame
