@@ -30,7 +30,7 @@ void setup() {
 
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //rtc.adjust(DateTime(2020, 4, 5, 20, 5, 0));
+  //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   //Serial.println("TimeSet");
   delay(2500);
   MHZ16Begin();
