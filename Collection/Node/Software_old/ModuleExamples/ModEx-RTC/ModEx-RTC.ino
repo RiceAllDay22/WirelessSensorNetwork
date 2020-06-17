@@ -3,16 +3,15 @@ RTC_DS3231 rtc;
 DateTime dt;
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 1, 14, 9, 0, 0));
 }
 
 void loop() {
-  dt = rtc.now();
-  Serial.println(dt.unixtime());
-  delay(1000);
+  dt = rtc.now(); 
+  //Serial.println(dt.unixtime());
   while (rtc.now().unixtime() == dt.unixtime());
   
 }
