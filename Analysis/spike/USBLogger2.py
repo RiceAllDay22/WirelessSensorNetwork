@@ -6,8 +6,9 @@ import sys
 import datetime
 
 #File Selector
-user      = 'adria'
-file      = '2020-06-11--10.csv'
+#user      = 'adria'
+user      = 'Adriann Liceralde'
+file      = '2020-06-13--10.csv'
 subfolder = 'SolarProduction'
 os.chdir('C:\\Users\\'+str(user)+'\\Desktop\\Repository\\WirelessSensorNetwork\\Data\\Power\\'
          + str(subfolder))
@@ -36,11 +37,25 @@ print('Max V:'  , maxV)
 print('Avg V:'  , avgV)
 print('Wh:   ' , totalWh)
 
-dataNP = dataPD.to_numpy()
-print(dataNP[:,0])
+
+timeArray    = np.array(dataPD['Time'])
+currentArray = np.array(dataPD['Current(A)'])
+voltageArray = np.array(dataPD['Voltage(V)'])
 if len(sys.argv) > 3:
     if int(sys.argv[3]) == 1:
-        plt.plot(dataNP[:,0], dataNP[:,2], 'r')
+        plt.plot(currentArray, 'r')
+        plt.show()
+    elif int(sys.argv[3]) == 2:
+        plt.plot(voltageArray, 'b')
+        plt.show()
+    
+    
+    elif int(sys.argv[3]) == 3:
+        fig, ax1 = plt.subplots()
+        ax2 = ax1.twinx()
+        
+        ax1.plot(currentArray, 'r')
+        ax2.plot(voltageArray, 'b--')
         plt.show()
 
 

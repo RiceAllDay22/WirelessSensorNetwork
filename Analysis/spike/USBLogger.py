@@ -5,7 +5,8 @@ import os
 import sys
 
 #File Selector
-user      = 'adria'
+#user      = 'adria'
+user      = 'Adriann Liceralde'
 file      = '2020-06-11--10.csv'
 subfolder = 'SolarProduction'
 os.chdir('C:\\Users\\'+str(user)+'\\Desktop\\Repository\\WirelessSensorNetwork\\Data\\Power\\'
