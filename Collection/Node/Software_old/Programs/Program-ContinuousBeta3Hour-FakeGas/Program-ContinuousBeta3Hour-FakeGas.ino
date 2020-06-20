@@ -29,12 +29,12 @@ void setup() {
   pinMode(DETACH_WIRE, INPUT_PULLUP);
 
   RTCBegin();
-  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   //Serial.println("TimeSet");
   delay(2500);
-  MHZ16Begin();
-  delay(5000);
+  //MHZ16Begin();
+  //delay(5000);
   SDBegin();
   delay(2500);
   dt = rtc.now();
@@ -48,8 +48,8 @@ void loop() {
   dt = rtc.now();
   TimeUnix = dt.unixtime();
   GasData  = CollectGas();
-  //Serial.println(TimeUnix);
-  //Serial.println(GasData);
+  Serial.println(TimeUnix);
+  Serial.println(GasData);
   WriteSample();  
 
   if (dt.minute() == 0 && wroteNewFile == false) {
@@ -83,7 +83,7 @@ void CreateNewFile() {
 //----------Write Data to SD Card----------//
 void WriteSample() {  
   if (digitalRead(DETACH_WIRE)) {
-    //Serial.println("File Closed: (DETATCH_WIRE HIGH)");
+    Serial.println("File Closed: (DETATCH_WIRE HIGH)");
     file.close();
     return;
   }
@@ -93,16 +93,13 @@ void WriteSample() {
   file.sync();
   //file.close();
   digitalWrite(LED_PIN, LOW);
-  //Serial.println("Sample Written: " + String(GasData));
+  Serial.println("Sample Written: " + String(GasData));
 }
 
 //----------Retrieve Gas Data----------//
 uint16_t CollectGas() {
   uint16_t data;
-  if (mySensor.measure())
-    data = mySensor.ppm;
-  else
-    data = 0.0;
+  data = random(420, 440);
   return data;
 }
 
