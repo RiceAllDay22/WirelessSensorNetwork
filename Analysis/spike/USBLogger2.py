@@ -8,15 +8,16 @@ import datetime
 #File Selector
 #user      = 'adria'
 user      = 'Adriann Liceralde'
-file      = '2020-06-16--20.csv'
+date      =  sys.argv[1]
+file      = date +'.csv'
 subfolder = 'SolarProduction'
 #subfolder = 'Charge'
-subfolder = 'Discharge'
+#subfolder = 'Discharge'
 os.chdir('C:\\Users\\'+str(user)+'\\Desktop\\Repository\\WirelessSensorNetwork\\Data\\Power\\'
          + str(subfolder))
 os.getcwd()
 dataPD = pd.read_csv(file)
-dataPD = dataPD.iloc[int(sys.argv[1]):int(sys.argv[2])]
+dataPD = dataPD.iloc[int(sys.argv[2]):int(sys.argv[3])]
 
 #Summarize Info
 dataPD['mWh'] = dataPD['Current(A)']*1000/3600*dataPD['Voltage(V)']
@@ -50,14 +51,14 @@ print('')
 timeArray    = np.array(dataPD['Time'])
 currentArray = np.array(dataPD['Current(A)'])
 voltageArray = np.array(dataPD['Voltage(V)'])
-if len(sys.argv) > 3:
-    if int(sys.argv[3]) == 1:
+if len(sys.argv) > 4:
+    if int(sys.argv[4]) == 1:
         plt.plot(currentArray, 'r')
         plt.xlabel('Index')
         plt.ylabel('Current')
         plt.title(file[0:-4])
         plt.show()
-    elif int(sys.argv[3]) == 2:
+    elif int(sys.argv[4]) == 2:
         plt.plot(voltageArray, 'b')
         plt.xlabel('Index')
         plt.ylabel('Voltage')
@@ -65,12 +66,12 @@ if len(sys.argv) > 3:
         plt.show()
     
     
-    elif int(sys.argv[3]) == 3:
+    elif int(sys.argv[4]) == 3:
         fig, ax1 = plt.subplots()
         ax2 = ax1.twinx()
         
         ax1.plot(currentArray, 'r')
-        ax2.plot(voltageArray, 'b--')
+        ax2.plot(voltageArray, 'b-')
 
         ax1.set_xlabel('Index')
         ax1.set_ylabel('Current')
