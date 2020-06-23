@@ -1,4 +1,4 @@
-   //---------------LIBRARIES---------------//
+//---------------LIBRARIES---------------//
 #include <Wire.h>
 #include <LowPower.h>
 #include <NDIR_I2C.h>
@@ -29,7 +29,7 @@ void setup() {
   pinMode(DETACH_WIRE, INPUT_PULLUP);
 
   RTCBegin();
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   //Serial.println("TimeSet");
   delay(2500);
@@ -52,12 +52,12 @@ void loop() {
   Serial.println(GasData);
   WriteSample();  
 
-  if (dt.minute() == 0 && wroteNewFile == false) {
+  if (dt.second() == 0 && wroteNewFile == false) {
     wroteNewFile = true;
     file.close();
     CreateNewFile();
   }
-  else if (dt.minute() != 0) {
+  else if (dt.second() != 0) {
     wroteNewFile = false;
   }
   while (rtc.now().unixtime() == dt.unixtime());
@@ -73,7 +73,7 @@ void CreateNewFile() {
     return;
   }
   char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.println("UNIXTIME,CO2");
   file.sync();
@@ -88,8 +88,18 @@ void WriteSample() {
     return;
   }
   digitalWrite(LED_PIN, HIGH);
-  String line = String(TimeUnix) + "," + String(GasData);
-  file.println(line);
+  //String line = String(TimeUnix) + "," + String(GasData);
+  //file.println(line);
+  file.write((TimeUnix >> 24) & 0xFF);
+  file.write((TimeUnix >> 16) & 0xFF);
+  file.write((TimeUnix >> 8) & 0xFF);
+  file.write((TimeUnix >> 0) & 0xFF);
+
+  //file.write((GasData >> 24) & 0xFF);
+  //file.write((GasData >> 16) & 0xFF);
+  file.write((GasData >> 8) & 0xFF);
+  file.write((GasData >> 0) & 0xFF);
+  
   file.sync();
   //file.close();
   digitalWrite(LED_PIN, LOW);

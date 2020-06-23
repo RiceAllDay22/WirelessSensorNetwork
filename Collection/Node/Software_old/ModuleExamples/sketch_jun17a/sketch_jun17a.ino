@@ -13,7 +13,7 @@ void setup() {
 
 void loop() {
   digitalWrite(5, HIGH);
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 30; i++) {
     dt = rtc.now(); 
     Serial.println(dt.unixtime());
     while (rtc.now().unixtime() == dt.unixtime());
