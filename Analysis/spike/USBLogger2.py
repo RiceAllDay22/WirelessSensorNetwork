@@ -10,9 +10,9 @@ import datetime
 user      = 'Adriann Liceralde'
 date      =  sys.argv[1]
 file      = date +'.csv'
-subfolder = 'SolarProduction'
-#subfolder = 'Charge'
-#subfolder = 'Discharge'
+#subfolder = 'SolarProduction'
+subfolder = 'Charge'
+subfolder = 'Discharge'
 os.chdir('C:\\Users\\'+str(user)+'\\Desktop\\Repository\\WirelessSensorNetwork\\Data\\Power\\'
          + str(subfolder))
 os.getcwd()
@@ -20,8 +20,14 @@ dataPD = pd.read_csv(file)
 dataPD = dataPD.iloc[int(sys.argv[2]):int(sys.argv[3])]
 
 #Summarize Info
-dataPD['mWh'] = dataPD['Current(A)']*1000/3600*dataPD['Voltage(V)']
-totalWh = round(dataPD['mWh'].sum()/1000, 2)
+dataPD['mAh'] = dataPD['Current(A)']*1000/3600 - 0.0075
+dataPD['mWh'] = dataPD['mAh']*dataPD['Voltage(V)']
+
+totalmAh = round(dataPD['mAh'].sum()/1000, 2)
+totalWh  = round(dataPD['mWh'].sum()/1000, 2)
+
+
+
 startTime  = datetime.datetime.strptime(dataPD['Time'].iloc[0] , '%H:%M:%S')
 endTime    = datetime.datetime.strptime(dataPD['Time'].iloc[-1], '%H:%M:%S')
 
@@ -38,14 +44,15 @@ print('Start:' , startTime.time())
 print('End:  ' , endTime.time())
 print('Total:' , endTime - startTime)
 print('')
-print('Max mA:' , maxmA)
-print('Min mA:' , minmA)
-print('Avg mA:' , avgmA)
+print('Max A:' , maxmA)
+print('Min A:' , minmA)
+print('Avg A:' , avgmA)
 
 print('Max  V:'  , maxV)
 print('Min  V:'  , minV)
 print('Avg  V:'  , avgV)
-print('Wh:   ' , totalWh)
+print('Wh:  ' , totalWh)
+print('Ah:  ' , totalmAh)
 print('')
 
 timeArray    = np.array(dataPD['Time'])
