@@ -2,6 +2,7 @@ int sensorIn = A0;
 
 void setup(){
   Serial.begin(9600);
+  analogReference(DEFAULT);
 }
 
 void loop(){
@@ -19,8 +20,8 @@ void loop(){
   else
   {
     int voltage_diference = voltage-400;
-    float Concentration=voltage_diference*50.0/16.0;
-    Serial.print(Concentration); Serial.println("ppm");
+    float concentration=voltage_diference*50.0/16.0;
+    Serial.print(concentration); Serial.println("ppm");
   }
-  delay(100);
+  delay(1000);
 }

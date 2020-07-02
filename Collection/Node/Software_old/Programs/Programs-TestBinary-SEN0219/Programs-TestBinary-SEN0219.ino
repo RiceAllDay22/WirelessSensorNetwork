@@ -13,7 +13,9 @@ SdFat sd;
 SdFile file;
 DateTime dt;
 
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+byte LED_PIN = 6, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+int sensorIn = A7;
+
 const uint8_t sdChipSelect = SS;
 uint16_t GasData;
 uint32_t TimeUnix;
@@ -30,11 +32,12 @@ void setup() {
 
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
+  //rtc.adjust(DateTime(2020, 7, 1, 13, 29, 0));
   //Serial.println("TimeSet");
   delay(2500);
   //MHZ16Begin();
-  //delay(5000);
+  SEN0219Begin();
+  delay(5000);
   SDBegin();
   delay(2500);
   dt = rtc.now();
@@ -92,15 +95,16 @@ void WriteSample() {
     return;
   }
   digitalWrite(LED_PIN, HIGH);
-  String line = String(TimeUnix) + "," + String(GasData);
-  file.println(line);
-  //file.write((TimeUnix >> 24) & 0xFF);
-  //file.write((TimeUnix >> 16) & 0xFF);
-  //file.write((TimeUnix >> 8) & 0xFF);
-  //file.write((TimeUnix >> 0) & 0xFF);
+  //String line = String(TimeUnix) + "," + String(GasData);
+  //file.println(line);
+  
+  file.write((TimeUnix >> 24) & 0xFF);
+  file.write((TimeUnix >> 16) & 0xFF);
+  file.write((TimeUnix >> 8) & 0xFF);
+  file.write((TimeUnix >> 0) & 0xFF);
 
-  //file.write((GasData >> 8) & 0xFF);
-  //file.write((GasData >> 0) & 0xFF);
+  file.write((GasData >> 8) & 0xFF);
+  file.write((GasData >> 0) & 0xFF);
   
   file.sync();
   //file.close();
@@ -109,11 +113,20 @@ void WriteSample() {
 }
 
 //----------Retrieve Gas Data----------//
-uint16_t CollectGas() {
+uint16_t CollectFakeGas() {
   uint16_t data;
   data = random(420, 440);
   return data;
 }
+
+uint16_t CollectGas() {
+  analogReference(DEFAULT);
+  int sensorValue = analogRead(sensorIn);
+  float voltage = sensorValue*(5000/1024.0);
+  uint16_t data = (voltage-400)*50.0/16.0;
+  return data;
+}
+
 
 
 //---------------STARTUP MODULES---------------//
@@ -143,6 +156,24 @@ void MHZ16Begin() {
   }
   Serial.println("Sensor Operational");
 }
+
+void SEN0219Begin() {
+  analogReference(DEFAULT);
+  int sensorValue_in = analogRead(sensorIn);
+  float voltage_in = sensorValue_in*(5000/1024.0);
+  
+  bool success = false;
+  while (success == false) {
+    if(voltage_in > 400)
+      success = true;
+    else
+      Serial.println("Pre-Heating");
+    delay(1000);
+  }
+  Serial.println("Sensor Operational");
+}
+
+
 
 //----------SD Module Begin ----------//
 void SDBegin() {
