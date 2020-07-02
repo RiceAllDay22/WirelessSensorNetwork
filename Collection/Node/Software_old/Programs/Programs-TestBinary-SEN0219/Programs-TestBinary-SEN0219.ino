@@ -59,12 +59,12 @@ void loop() {
   //float voltage = sensorValue * 5.0/1023.0;
   //Serial.println(voltage);
 
-  if (dt.second() == 0 && wroteNewFile == false) {
+  if (dt.minute() == 0 && wroteNewFile == false) {
     wroteNewFile = true;
     file.close();
     CreateNewFile();
   }
-  else if (dt.second() != 0) {
+  else if (dt.minute() != 0) {
     wroteNewFile = false;
   }
   while (rtc.now().unixtime() == dt.unixtime());
@@ -80,7 +80,7 @@ void CreateNewFile() {
     return;
   }
   char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.println("UNIXTIME,CO2");
   file.sync();
