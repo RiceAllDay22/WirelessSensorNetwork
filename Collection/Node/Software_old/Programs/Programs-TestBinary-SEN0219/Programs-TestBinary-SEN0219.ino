@@ -82,7 +82,7 @@ void CreateNewFile() {
   char filename[19];
   sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
-  file.println("UNIXTIME,CO2");
+  //file.println("UNIXTIME,CO2");
   file.sync();
   Serial.println("Created new file: " + String(filename));
 }

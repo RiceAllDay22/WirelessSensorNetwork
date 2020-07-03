@@ -13,7 +13,7 @@ SdFat sd;
 SdFile file;
 DateTime dt;
 
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+byte LED_PIN = 6, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 const uint8_t sdChipSelect = SS;
 uint16_t GasData;
 uint32_t TimeUnix;
@@ -52,16 +52,12 @@ void loop() {
   Serial.println(GasData);
   WriteSample();  
 
-  //int sensorValue = analogRead(A0);
-  //float voltage = sensorValue * 5.0/1023.0;
-  //Serial.println(voltage);
-
-  if (dt.second() == 0 && wroteNewFile == false) {
+  if (dt.minute() == 0 && wroteNewFile == false) {
     wroteNewFile = true;
     file.close();
     CreateNewFile();
   }
-  else if (dt.second() != 0) {
+  else if (dt.minute() != 0) {
     wroteNewFile = false;
   }
   while (rtc.now().unixtime() == dt.unixtime());
@@ -77,9 +73,9 @@ void CreateNewFile() {
     return;
   }
   char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
-  file.println("UNIXTIME,CO2");
+  //file.println("UNIXTIME,CO2");
   file.sync();
   Serial.println("Created new file: " + String(filename));
 }
@@ -92,16 +88,10 @@ void WriteSample() {
     return;
   }
   digitalWrite(LED_PIN, HIGH);
-  String line = String(TimeUnix) + "," + String(GasData);
-  file.println(line);
-  //file.write((TimeUnix >> 24) & 0xFF);
-  //file.write((TimeUnix >> 16) & 0xFF);
-  //file.write((TimeUnix >> 8) & 0xFF);
-  //file.write((TimeUnix >> 0) & 0xFF);
-
-  //file.write((GasData >> 8) & 0xFF);
-  //file.write((GasData >> 0) & 0xFF);
-  
+  //String line = String(TimeUnix) + "," + String(GasData);
+  //file.println(line);
+  file.write((TimeUnix >> 24) & 0xFF); file.write((TimeUnix >> 16) & 0xFF); file.write((TimeUnix >> 8) & 0xFF); file.write((TimeUnix >> 0) & 0xFF);
+  file.write((GasData >> 8) & 0xFF); file.write((GasData >> 0) & 0xFF);
   file.sync();
   //file.close();
   digitalWrite(LED_PIN, LOW);
