@@ -48,8 +48,8 @@ void loop() {
   dt = rtc.now();
   TimeUnix = dt.unixtime();
   GasData  = CollectGas();
-  Serial.println(TimeUnix);
-  Serial.println(GasData);
+  //Serial.println(TimeUnix);
+  //Serial.println(GasData);
   WriteSample();  
 
   if (dt.minute() == 0 && wroteNewFile == false) {
@@ -83,7 +83,7 @@ void CreateNewFile() {
 //----------Write Data to SD Card----------//
 void WriteSample() {  
   if (digitalRead(DETACH_WIRE)) {
-    Serial.println("File Closed: (DETATCH_WIRE HIGH)");
+    //Serial.println("File Closed: (DETATCH_WIRE HIGH)");
     file.close();
     return;
   }

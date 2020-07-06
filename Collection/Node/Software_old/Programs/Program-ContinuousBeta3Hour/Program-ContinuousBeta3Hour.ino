@@ -13,7 +13,7 @@ SdFat sd;
 SdFile file;
 DateTime dt;
 
-byte LED_PIN = 2, BUTTON_PIN = 5, DETACH_WIRE = 3; 
+byte LED_PIN = 6, BUTTON_PIN = 5, DETACH_WIRE = 3; 
 const uint8_t sdChipSelect = SS;
 uint16_t GasData;
 uint32_t TimeUnix;
@@ -25,7 +25,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
   pinMode(LED_PIN, OUTPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  //pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(DETACH_WIRE, INPUT_PULLUP);
 
   RTCBegin();
