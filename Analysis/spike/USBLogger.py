@@ -6,8 +6,8 @@ import sys
 import datetime
 
 #File Selector
-#user      = 'adria'
-user      = 'Adriann Liceralde'
+user      = 'adria'
+#user      = 'Adriann Liceralde'
 date      =  sys.argv[1]
 file      = date +'.csv'
 subfolder = 'SolarProduction'
@@ -20,13 +20,11 @@ dataPD = pd.read_csv(file)
 dataPD = dataPD.iloc[int(sys.argv[2]):int(sys.argv[3])]
 
 #Summarize Info
-dataPD['mAh'] = dataPD['Current(A)']*1000/3600 - 0.0075
-dataPD['mWh'] = dataPD['mAh']*dataPD['Voltage(V)']
+dataPD['mAh'] = (dataPD['Current(A)']+0.020) * 1000/3600
+#dataPD['mWh'] = dataPD['mAh']*dataPD['Voltage(V)']
 
-totalmAh = round(dataPD['mAh'].sum()/1000, 2)
-totalWh  = round(dataPD['mWh'].sum()/1000, 2)
-
-
+totalAh = dataPD['mAh'].sum()/1000
+totalWh = totalAh*3.7 
 
 startTime  = datetime.datetime.strptime(dataPD['Time'].iloc[0] , '%H:%M:%S')
 endTime    = datetime.datetime.strptime(dataPD['Time'].iloc[-1], '%H:%M:%S')
@@ -47,12 +45,12 @@ print('')
 print('Max A:' , maxmA)
 print('Min A:' , minmA)
 print('Avg A:' , avgmA)
-
-print('Max  V:'  , maxV)
-print('Min  V:'  , minV)
-print('Avg  V:'  , avgV)
-print('Wh:  ' , totalWh)
-print('Ah:  ' , totalmAh)
+print('Max V:'  , maxV)
+print('Min V:'  , minV)
+print('Avg V:'  , avgV)
+print('')
+print('Wh:  ' , round(totalWh,3))
+print('Ah:  ' , round(totalAh,3))
 print('')
 
 timeArray    = np.array(dataPD['Time'])
