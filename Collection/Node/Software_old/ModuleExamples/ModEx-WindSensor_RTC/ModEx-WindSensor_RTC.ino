@@ -1,9 +1,13 @@
 //////////////////// SETUP ////////////////////
 #include <Wire.h>
-const byte WSPEED = 3;
-const byte WDIR = A0;
+#include <RTClib.h>
 
-long lastWindCheck = 0;
+RTC_DS3231 rtc;
+DateTime dt;
+const byte WSPEED = 3;
+const byte WDIR   = A0;
+
+long lastWindCheck        = 0;
 volatile long lastWindIRQ = 0;
 volatile byte windClicks  = 0;
 int winddir; 
@@ -16,17 +20,41 @@ void setup() {
 
   attachInterrupt(1, wspeedIRQ, FALLING);
   interrupts();
+  RTCBegin();
 }
 
 //////////////////// MAIN LOOP ////////////////////
 void loop() {
-  Serial.print("Data:");
+  dt = rtc.now(); 
+  Serial.print(dt.unixtime());
+  Serial.print(",");
   Serial.print(get_wind_speed());
   Serial.print(",");
   Serial.println(get_wind_direction());
-  delay(1000);
+  lastwindIRQ = 1;
+  while (rtc.now().unixtime() == dt.unixtime());
+  currentwindIRQ = 
+  
+  
 }
 
+void wspeedIRQ() {
+    windClicks++;           // 1.492MPH for each click per second.
+}
+
+
+
+void RTCBegin() {
+  bool success = false;
+  while (success == false) {
+    if(rtc.begin())
+      success = true;
+    else
+      Serial.println("RTC Failed");
+    delay(1000);
+  }
+  Serial.println("RTC Operational");
+}
 
 
 //////////////////// WIND SPEED ////////////////////
@@ -35,7 +63,6 @@ void wspeedIRQ() {
   if (millis() - lastWindIRQ > 10) { // Ignore switch-bounce glitches less than 10ms (142MPH max reading) after the reed switch closes
     lastWindIRQ = millis(); // Current time
     windClicks++;           // 1.492MPH for each click per second.
-    Serial.println(windClicks);
   }
 }
 
@@ -43,7 +70,7 @@ void wspeedIRQ() {
 float get_wind_speed() {
   float deltaTime = (millis() - lastWindCheck) / 1000.0 ;    // 0.750 sec
   float windSpeed = (float)windClicks / deltaTime;           // 3 clicks / 0.750 sec  = 4
-  Serial.print(windClicks);Serial.print(",");
+
   windClicks    = 0;                  // Reset and start watching for new wind
   lastWindCheck = millis();           // Reset
   windSpeed    *= 1.492;              // 4 * 1.492 = 5.968MPH

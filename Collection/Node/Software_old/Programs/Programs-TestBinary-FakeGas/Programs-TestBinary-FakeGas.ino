@@ -33,8 +33,8 @@ void setup() {
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   //Serial.println("TimeSet");
   delay(2500);
-  //MHZ16Begin();
-  //delay(5000);
+  MHZ16Begin();
+  delay(5000);
   SDBegin();
   delay(2500);
   dt = rtc.now();
@@ -99,9 +99,18 @@ void WriteSample() {
 }
 
 //----------Retrieve Gas Data----------//
-uint16_t CollectGas() {
+uint16_t CollectFakeGas() {
   uint16_t data;
   data = random(420, 440);
+  return data;
+}
+
+uint16_t CollectGas() {
+  uint16_t data;
+  if (mySensor.measure())
+    data = mySensor.ppm;
+  else
+    data = 0.0;
   return data;
 }
 
