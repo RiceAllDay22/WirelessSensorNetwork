@@ -31,16 +31,13 @@ void loop() {
   Serial.print(get_wind_speed());
   Serial.print(",");
   Serial.println(get_wind_direction());
-  lastwindIRQ = 1;
+  //lastwindIRQ = 1;
   while (rtc.now().unixtime() == dt.unixtime());
-  currentwindIRQ = 
+  //currentwindIRQ = 
   
   
 }
 
-void wspeedIRQ() {
-    windClicks++;           // 1.492MPH for each click per second.
-}
 
 
 
@@ -59,12 +56,12 @@ void RTCBegin() {
 
 //////////////////// WIND SPEED ////////////////////
 void wspeedIRQ() {
-// Activated by the magnet in the anemometer (2 ticks per rotation), attached to input D3 
-  if (millis() - lastWindIRQ > 10) { // Ignore switch-bounce glitches less than 10ms (142MPH max reading) after the reed switch closes
-    lastWindIRQ = millis(); // Current time
-    windClicks++;           // 1.492MPH for each click per second.
+  if ((unsigned long)( millis() - lastWindIRQ) > 10 ) {
+    lastWindIRQ = millis(); 
+    windClicks++;           
   }
 }
+
 
 
 float get_wind_speed() {

@@ -20,6 +20,7 @@ uint8_t  totalClicks;
 uint8_t  windDir;
 uint16_t gasData;
 volatile byte windClicks  = 0;
+volatile long lastWindIRQ = 0;
 bool wroteNewFile = true;
 
 
@@ -69,7 +70,6 @@ void loop() {
     wroteNewFile = false;
   }
 
-  totalClicks = 0;
   while ( rtc.now().unixtime() == dt.unixtime() );
   totalClicks = windClicks;
   windClicks  = 0;
@@ -95,12 +95,11 @@ void CreateNewFile() {
 //----------Write Data to SD Card----------//
 void WriteSample() {  
   if (digitalRead(DETACH_PIN)) {
-    //Serial.println("File Closed: (DETATCH_PIN HIGH)");
+    Serial.println("File Closed: (DETATCH_PIN HIGH)");
     digitalWrite(LED_PIN, HIGH);
     file.close();
     return;
   }
-  //digitalWrite(LED_PIN, HIGH);
   //String line = String(timeUnix) + "," + String(gasData);
   //file.println(line);
   file.write((timeUnix >> 24) & 0xFF); file.write((timeUnix >> 16) & 0xFF); file.write((timeUnix >> 8) & 0xFF); file.write((timeUnix >> 0) & 0xFF);
@@ -127,9 +126,10 @@ uint16_t CollectGas() {
 
 //----------Retrieve Wind Data----------//
 void wspeedIRQ() {
-  delay(20);
-  windClicks++;           // 1.492MPH for each click per second.
-  //Serial.println(windClicks);
+  if ((unsigned long)( millis() - lastWindIRQ) > 10 ) {
+    lastWindIRQ = millis(); 
+    windClicks++;           
+  }
 }
 
 int averageAnalogRead(int pinToRead) {
