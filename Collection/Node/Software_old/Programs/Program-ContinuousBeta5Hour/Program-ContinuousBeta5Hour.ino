@@ -20,7 +20,7 @@ DateTime dt;
 
 byte DETACH_PIN = 5, LED_PIN = 4, WSPEED_PIN = 3, WDIR_PIN = A0;
 const uint8_t sdChipSelect = SS;
-uint32_t timeUnix[6];
+uint32_t timeUnix[5];
 uint8_t  totalClicks;
 uint8_t  windDir[5];
 uint16_t gasData[5];
@@ -53,7 +53,6 @@ void setup() {
   digitalWrite(LED_PIN, LOW);
   attachInterrupt(1, wspeedIRQ, FALLING);
   interrupts();
-  Serial.println("Begin");
 }
 
 
@@ -65,14 +64,26 @@ void loop() {
     timeUnix[i]  = dt.unixtime();
     windDir[i]   = WindDirection(); 
     gasData[i]   = CollectGas();
-    //Serial.println(dt.unixtime());
+    lcd.print(timeUnix[i]); lcd.setCursor(0,1);
+    lcd.print(windClicks); lcd.print(','); lcd.print(windDir[i]);  lcd.print(','); lcd.print(gasData[i]);
+    
+    if (dt.minute() == 0 && wroteNewFile == false) {
+      wroteNewFile = true;
+      file.close();
+      CreateNewFile();
+    }
+    else if (dt.minute() != 0) {
+      wroteNewFile = false;
+    }
+    
     while ( rtc.now().unixtime() == dt.unixtime() );
+    lcd.clear();
+    lcd.setCursor(0,0);
   }
   totalClicks = windClicks;
-  Serial.print("Clicks:"); Serial.println(totalClicks);
   windClicks  = 0;
   WriteSample();
-  
+ 
 }
 
 //---------------FILE HANDLING---------------//
@@ -98,22 +109,17 @@ void WriteSample() {
   }
 
   String line[5];
-    for (int j=0; j<5; j++) {
-      line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
-      Serial.print(totalClicks); Serial.print(",");Serial.println(windDir[j]);
-      file.println(line[j]);
-    }
+  for (int j=0; j<5; j++) {
+    line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
+    file.println(line[j]);
+  }
   file.sync();
-  //file.close();
-  //digitalWrite(LED_PIN, LOW);
-  Serial.println("Sample Written"); // + String(gasData));
+  //Serial.println("Sample Written");
 }
 
 
 //---------------FUNCTIONS---------------//
 //---------------------------------------//
-
-
 
 
 //----------Retrieve Gas Data----------//
