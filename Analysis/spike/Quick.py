@@ -43,8 +43,8 @@ for i in range(lines):
     allWindDir  = np.append(allWindDir,  wd)
     allGasData  = np.append(allGasData, gas)
 
-allWindDir   *= 22.5
-allWindSpeed *= 1.492
+#allWindDir   *= 22.5
+#allWindSpeed *= 1.492
 CombineNP = np.column_stack((allUnixTime, allWindSpeed, allWindDir, allGasData))
 CombineDF = pd.DataFrame(CombineNP)
 CombineDF.columns  = ['UnixTime', 'Wind Speed', 'Wind Dir', 'GasData']

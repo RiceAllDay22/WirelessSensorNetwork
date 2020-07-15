@@ -4,6 +4,11 @@
 #include <NDIR_I2C.h>
 #include <RTClib.h>
 #include <SdFat.h>
+#include <LiquidCrystal_I2C.h>
+#include <SPI.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
+
 
 
 //---------------VARIABLES---------------//
@@ -34,6 +39,13 @@ void setup() {
   pinMode(WDIR_PIN,   INPUT);
   digitalWrite(LED_PIN,HIGH);
 
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0,0);
+  lcd.clear();
+
+
+
   RTCBegin();      delay(2500);
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
@@ -55,10 +67,13 @@ void loop() {
   timeUnix  = dt.unixtime();
   windDir   = WindDirection(); 
   gasData   = CollectGas();
-  Serial.print(timeUnix);    Serial.print(",");
-  Serial.print(totalClicks); Serial.print(",");
-  Serial.print(windDir);     Serial.print(",");
-  Serial.println(gasData);
+  lcd.print(totalClicks); lcd.print(',');
+  lcd.print(windDir);    lcd.print(',');
+  lcd.print(gasData);
+  //Serial.print(timeUnix);    Serial.print(",");
+  //Serial.print(totalClicks); Serial.print(",");
+  //Serial.print(windDir);     Serial.print(",");
+  //Serial.println(gasData);
   WriteSample();  
   
   if (dt.minute() == 0 && wroteNewFile == false) {
@@ -71,6 +86,7 @@ void loop() {
   }
 
   while ( rtc.now().unixtime() == dt.unixtime() );
+  lcd.clear();
   totalClicks = windClicks;
   windClicks  = 0;
 }
@@ -142,7 +158,7 @@ int averageAnalogRead(int pinToRead) {
   return(runningValue);
 }
 
-int WindDirection() {
+uint8_t WindDirection() {
   unsigned int adc = averageAnalogRead(WDIR_PIN);
   if (adc < 1)   return(-1);
   if (adc < 380) return (5); //113
