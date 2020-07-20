@@ -42,7 +42,6 @@ void loop() {
   Serial.print(CalDirection);
   Serial.print(';');
   Serial.println(WindSpeed);
-  delay(1000);
 
 }
 
