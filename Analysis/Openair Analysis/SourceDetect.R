@@ -6,8 +6,9 @@
 
 ########## Load Data ##########
 library(openair)
-testdata                = read.csv('2020-07-22--09.csv', 
-                                   header = FALSE)
+file = 'PostFallsTest.csv'
+file = '2020-07-22--09.csv'
+testdata                = read.csv(file, header = FALSE)
 colnames(testdata)[1:4] = c('UnixTime', 'ws', 'wd', 'co2')
 testdata$date           = ISOdatetime(1970,1,1,0,0,0) + testdata$UnixTime 
 testdata$UnixTime       = NULL
@@ -15,10 +16,10 @@ testdata                = testdata[c(4,1,2,3)]
 #testdata$ws[testdata$ws == 0.0] = 0.1
 
 pollutant = 'co2'
-pollutant = 'no2'
 testdata$ws = testdata$ws/5*2.25
-testdata$ws = testdata$ws/5*1.492/2.237
-testdata$wd = testdata$wd*22.5
+
+#testdata$ws = testdata$ws/5*1.492/2.237
+#testdata$wd = testdata$wd*22.5
 
 
 ########## Edit Data ##########

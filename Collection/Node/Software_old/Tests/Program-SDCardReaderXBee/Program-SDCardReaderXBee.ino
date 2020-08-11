@@ -1,4 +1,14 @@
+#include <Wire.h>
+#include <LowPower.h>
+#include <NDIR_I2C.h>
+#include <RTClib.h>
 #include <SdFat.h>
+#include <LiquidCrystal_I2C.h>
+#include <SPI.h>
+#include <SoftwareSerial.h>
+LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
+SoftwareSerial XBee(7, 6); // (rx, tx)
+
 
 const uint8_t chipSelect = SS;
 SdFat sd;
