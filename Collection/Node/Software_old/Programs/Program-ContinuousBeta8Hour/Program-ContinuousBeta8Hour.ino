@@ -29,6 +29,7 @@ volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
 bool wroteNewFile = true;
+char filename[19];
 
 int VaneValue;
 int Direction;
@@ -66,7 +67,7 @@ void setup() {
 //---------------LOOP--------------------//
 //---------------------------------------//
 void loop() {
-  for (int i=0; i<1; i++) {
+  for (int i=0; i<5; i++) {
     dt           = rtc.now();
     timeUnix[i]  = dt.unixtime();
     windDir[i]   = WindDirection(); 
@@ -78,24 +79,21 @@ void loop() {
     //lcd.print(timeUnix[i]); lcd.setCursor(0,1);
     //lcd.print(windClicks); lcd.print(','); lcd.print(windDir[i]);  lcd.print(','); lcd.print(gasData[i]);
 
-    XBee.write((timeUnix[i] >> 24) & 0xFF);
-    XBee.write((timeUnix[i] >> 16) & 0xFF);
-    XBee.write((timeUnix[i] >> 8) & 0xFF);
-    XBee.write((timeUnix[i] >> 0) & 0xFF); 
-    XBee.write((totalClicks >> 0) & 0xFF);
-    XBee.write((windDir[i] >> 8) & 0xFF); 
-    XBee.write((windDir[i] >> 0) & 0xFF);
-    XBee.write((gasData[i] >> 8) & 0xFF); 
-    XBee.write((gasData[i] >> 0) & 0xFF);
+    if (dt.minute() == 24 && dt.second() == 0) {
+      file.close();
+      noInterrupts();
+      TransmitFile();
+      interrupts();
+      CreateNewFile();
+    }
 
     while ( rtc.now().unixtime() == dt.unixtime() );
-    //lcd.clear();
-    //lcd.setCursor(0,0);
+    //lcd.clear(); //lcd.setCursor(0,0);
   }
   totalClicks = windClicks;
   windClicks  = 0;
   Serial.println(totalClicks);
-  //WriteSample();
+  WriteSample();
 }
 
 //---------------FILE HANDLING---------------//
@@ -105,8 +103,7 @@ void CreateNewFile() {
     Serial.println("Not creating new file: (DETATCH_PIN HIGH)");
     return;
   }
-  char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.sync();
   Serial.println("Created new file: " + String(filename));
@@ -124,22 +121,44 @@ void WriteSample() {
   String line[5];
   for (int j=0; j<5; j++) {
     line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
-    
-    //XBee.write((timeUnix[j] >> 24) & 0xFF);
-    //XBee.write((timeUnix[j] >> 16) & 0xFF);
-    //XBee.write((timeUnix[j] >> 8) & 0xFF);
-    //XBee.write((timeUnix[j] >> 0) & 0xFF);
-    //XBee.write((totalClicks >> 0) & 0xFF);
-    //XBee.write((windDir[j] >> 8) & 0xFF); 
-    //XBee.write((windDir[j] >> 0) & 0xFF);
-    //XBee.write((gasData[j] >> 8) & 0xFF); 
-    //XBee.write((gasData[j] >> 0) & 0xFF);
- 
     file.println(line[j]);
   }
   file.sync();
   digitalWrite(LED_PIN, LOW);
   //Serial.println("Sample Written");
+}
+
+void TransmitFile() {
+  file.open(filename, O_READ);
+  const size_t LINE_DIM = 50;
+  char line[LINE_DIM];
+  size_t n;
+  while ((n = file.fgets(line, sizeof(line))) > 0) {
+    String Line = line;
+    Serial.println(Line);
+    int firstCommaIndex  = Line.indexOf(',');
+    int secondCommaIndex = Line.indexOf(',', firstCommaIndex+1);
+    int thirdCommaIndex  = Line.indexOf(',', secondCommaIndex+1);
+
+    uint32_t timeUnix   = Line.substring(0, firstCommaIndex).toInt();
+    uint8_t  windClicks = Line.substring(firstCommaIndex+1, secondCommaIndex).toInt();
+    uint16_t windDir    = Line.substring(secondCommaIndex+1, thirdCommaIndex).toInt();
+    uint16_t gasData    = Line.substring(thirdCommaIndex+1).toInt();
+
+    XBee.write((timeUnix >> 24) & 0xFF);
+    XBee.write((timeUnix >> 16) & 0xFF);
+    XBee.write((timeUnix >> 8) & 0xFF);
+    XBee.write((timeUnix >> 0) & 0xFF); 
+    XBee.write((windClicks >> 0) & 0xFF);
+    XBee.write((windDir >> 8) & 0xFF); 
+    XBee.write((windDir >> 0) & 0xFF);
+    XBee.write((gasData >> 8) & 0xFF); 
+    XBee.write((gasData >> 0) & 0xFF);
+
+    delay(5);
+  }
+  file.close();
+  delay(1000);
 }
 
 
