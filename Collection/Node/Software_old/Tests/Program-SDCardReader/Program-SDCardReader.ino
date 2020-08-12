@@ -9,7 +9,7 @@ char line[LINE_DIM];
 void setup(void) {
   Serial.begin(9600);
   if (!sd.begin(chipSelect, SPI_HALF_SPEED)) Serial.println("Begin Fail");
-  if (!file.open("Test.csv", O_READ)) Serial.println("Open Fail");
+  if (!file.open("TenLines.csv", O_READ)) Serial.println("Open Fail");
   Serial.println("I'll try spinning that's a good trick.");
   
   size_t n;
