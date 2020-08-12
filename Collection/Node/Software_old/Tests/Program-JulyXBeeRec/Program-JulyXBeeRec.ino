@@ -18,15 +18,15 @@ uint16_t windDir;
 uint16_t gasData;
  
 void setup() {
-  //Serial.begin(9600); 
+  Serial.begin(9600); 
+  Serial.println("Start");
   pinMode(2, INPUT);
   pinMode(3, OUTPUT);
   pinMode(LED_PIN, OUTPUT);
   pinMode(DETACH_PIN, INPUT_PULLUP);
   digitalWrite(LED_PIN,HIGH);
 
-  lcd.init(); lcd.backlight(); lcd.setCursor(0,0); lcd.clear();
-  
+  //lcd.init(); lcd.backlight(); lcd.setCursor(0,0); lcd.clear();
   XBee.begin(9600);
   SDBegin();
   CreateNewFile();
@@ -40,25 +40,29 @@ void loop() {
   while (XBee.available()){
     incoming[j] = XBee.read();
     //Serial.println(incoming[j]);
+    file.println(incoming[j]); 
+    //Serial.print(",");
     j ++;
   }
+  file.sync();
+  //Serial.println(j);
+  //Serial.println("");
+  //timeUnix = ( (incoming[0]*16777216) + ((incoming[1]+1)*65536) + (incoming[2]*256) + (incoming[3]) ); 
+  //totalClicks = incoming[4];
+  //windDir = ( (incoming[5]*256) + incoming[6] );
+  //gasData = ( (incoming[7]*256) + incoming[8] );
   
-  timeUnix = ( (incoming[0]*16777216) + (incoming[1]*65536) + (incoming[2]*256) + (incoming[3]) ); 
-  totalClicks = incoming[4];
-  windDir = ( (incoming[5]*256) + incoming[6] );
-  gasData = ( (incoming[7]*256) + incoming[8] );
-  
-  lcd.print(timeUnix); lcd.setCursor(0,1);
-  lcd.print(totalClicks); lcd.print(',');
-  lcd.print(windDir); lcd.print(',');
-  lcd.print(gasData);
-  WriteSample();
+  //lcd.print(timeUnix); lcd.setCursor(0,1);
+  //lcd.print(totalClicks); lcd.print(',');
+  //lcd.print(windDir); lcd.print(',');
+  //lcd.print(gasData);
+  //WriteSample();
   //Serial.print(timeUnix); Serial.print(","); Serial.print(totalClicks); Serial.print(","); 
   //Serial.print(windDir); Serial.print(","); Serial.println(gasData);
   //Serial.println("");
-  delay(500);
-  lcd.clear();
-  lcd.setCursor(0,0);
+  delay(50);
+  //lcd.clear();
+  //lcd.setCursor(0,0);
 }
 
  
@@ -86,7 +90,7 @@ void CreateNewFile() {
     //Serial.println("Not creating new file: (DETATCH_PIN HIGH)");
     //return;
   //}
-  file.open("FileTest.csv", O_CREAT|O_WRITE|O_APPEND);
+  file.open("IncomingData.csv", O_CREAT|O_WRITE|O_APPEND);
   file.sync();
 }
 
