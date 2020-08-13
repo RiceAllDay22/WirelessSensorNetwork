@@ -23,7 +23,7 @@ void setup(void) {
   XBee.begin(9600);
   
   if (!sd.begin(chipSelect, SPI_HALF_SPEED)) Serial.println("Begin Fail");
-  if (!file.open("HourLines.csv", O_READ)) {Serial.println("Open Fail");while(1);}
+  if (!file.open("ThousandLines.csv", O_READ)) {Serial.println("Open Fail");while(1);}
   Serial.println("I'll try spinning that's a good trick.");
   
   size_t n;
