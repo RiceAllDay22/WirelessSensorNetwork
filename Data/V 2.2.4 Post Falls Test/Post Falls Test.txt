@@ -1,0 +1,28 @@
+2020-07-29--01.csv
+Double instance of 1596022598 (Index 1334)
+Double instance of 1596044593 (Index 23328)
+System reset (Index 23330)
+Double instance of 1596052165 (Index 30753)
+Double instance of 1596052329 (Index 30918)
+
+2020-07-29--23.csv
+Double instance of 1596104115 (Index 39470) Literally the last index
+
+2020-08-04--11.csv
+System reset (Index 26)
+System reset (Index 3261)
+
+2020-08-04--13.csv
+Double instance of 1596570875 (Index 24722)
+5 double instances occured (Index 83544 to 83559) Span of 15 seconds
+Gas Sensor Reports zero values (Index 21536 to 116870)
+
+2020-08-05--21.csv
+System reset (Index 71)
+System reset (Index 116)
+Triple instance of 1596671307 (Index 7993)
+Double instance of 1596695544 (Index 32232)
+3 double instances occcured (Index 47450 to 47458) Span of 8 seconds
+2 double instances occurred (Index 78759 to 78763) Span of 4 seconds
+Double, triple, double simultanously (Index 78793 to 78800) Span of 7 seconds
+Gas Sensor Reports zero values (Index 30018 to 78800)
