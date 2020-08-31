@@ -39,7 +39,7 @@ void loop() {
   byte j = 0;
   while (XBee.available()){
     incoming[j] = XBee.read();
-    //Serial.println(incoming[j]);
+    //erial.println(incoming[j]);
     file.println(incoming[j]); 
     //Serial.print(",");
     j ++;
@@ -60,7 +60,7 @@ void loop() {
   //Serial.print(timeUnix); Serial.print(","); Serial.print(totalClicks); Serial.print(","); 
   //Serial.print(windDir); Serial.print(","); Serial.println(gasData);
   //Serial.println("");
-  delay(50);
+  //delay(50);
   //lcd.clear();
   //lcd.setCursor(0,0);
 }
