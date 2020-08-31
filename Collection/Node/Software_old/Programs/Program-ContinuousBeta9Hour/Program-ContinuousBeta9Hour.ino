@@ -7,9 +7,8 @@
 #include <SdFat.h>
 #include <LiquidCrystal_I2C.h>
 #include <SPI.h>
-#include <SoftwareSerial.h>
 LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
-SoftwareSerial XBee(7, 6); // (rx, tx)
+
 
 //---------------VARIABLES---------------//
 //---------------------------------------//
@@ -29,7 +28,6 @@ volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
 bool wroteNewFile = true;
-char filename[19];
 
 int VaneValue;
 int Direction;
@@ -41,14 +39,11 @@ int CalDirection;
 void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
-  pinMode(7, INPUT);
-  pinMode(6, OUTPUT);
   pinMode(LED_PIN,     OUTPUT);
   pinMode(DETACH_PIN,  INPUT_PULLUP);
   pinMode(WSPEED_PIN,  INPUT); 
   digitalWrite(LED_PIN,HIGH);
-
-  XBee.begin(9600);
+  
   //lcd.init(); lcd.backlight(); lcd.setCursor(0,0); lcd.clear();
   RTCBegin();      delay(2500);
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
@@ -74,21 +69,24 @@ void loop() {
     gasData[i]   = CollectGas();
     Serial.print(timeUnix[i]); Serial.print(',');
     Serial.print(windDir[i]);  Serial.print(',');
-    Serial.print(gasData[i]);  Serial.print(',');
-    Serial.println(windClicks);
+    Serial.print(gasData[i]);  Serial.println(',');
     //lcd.print(timeUnix[i]); lcd.setCursor(0,1);
     //lcd.print(windClicks); lcd.print(','); lcd.print(windDir[i]);  lcd.print(','); lcd.print(gasData[i]);
 
     if (dt.minute() == 0 && dt.second() == 0) {
       file.close();
       noInterrupts();
-      //TransmitFile();
-      interrupts();
+      SDBegin();       delay(2500);
+      dt = rtc.now();
       CreateNewFile();
+      interrupts();
     }
 
+
+    
     while ( rtc.now().unixtime() == dt.unixtime() );
-    //lcd.clear(); //lcd.setCursor(0,0);
+    //lcd.clear();
+    //lcd.setCursor(0,0);
   }
   totalClicks = windClicks;
   windClicks  = 0;
@@ -103,6 +101,7 @@ void CreateNewFile() {
     Serial.println("Not creating new file: (DETATCH_PIN HIGH)");
     return;
   }
+  char filename[19];
   sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.sync();
@@ -126,40 +125,6 @@ void WriteSample() {
   file.sync();
   digitalWrite(LED_PIN, LOW);
   //Serial.println("Sample Written");
-}
-
-void TransmitFile() {
-  file.open(filename, O_READ);
-  const size_t LINE_DIM = 50;
-  char line[LINE_DIM];
-  size_t n;
-  Serial.println("Begin Transmission");
-  while ((n = file.fgets(line, sizeof(line))) > 0) {
-    String Line = line;
-    Serial.println(Line);
-    int firstCommaIndex  = Line.indexOf(',');
-    int secondCommaIndex = Line.indexOf(',', firstCommaIndex+1);
-    int thirdCommaIndex  = Line.indexOf(',', secondCommaIndex+1);
-
-    uint32_t timeUnix   = Line.substring(0, firstCommaIndex).toInt();
-    uint8_t  windClicks = Line.substring(firstCommaIndex+1, secondCommaIndex).toInt();
-    uint16_t windDir    = Line.substring(secondCommaIndex+1, thirdCommaIndex).toInt();
-    uint16_t gasData    = Line.substring(thirdCommaIndex+1).toInt();
-
-    XBee.write((timeUnix >> 24) & 0xFF);
-    XBee.write((timeUnix >> 16) & 0xFF);
-    XBee.write((timeUnix >> 8) & 0xFF);
-    XBee.write((timeUnix >> 0) & 0xFF); 
-    XBee.write((windClicks >> 0) & 0xFF);
-    XBee.write((windDir >> 8) & 0xFF); 
-    XBee.write((windDir >> 0) & 0xFF);
-    XBee.write((gasData >> 8) & 0xFF); 
-    XBee.write((gasData >> 0) & 0xFF);
-
-    delay(5);
-  }
-  file.close();
-  delay(1000);
 }
 
 

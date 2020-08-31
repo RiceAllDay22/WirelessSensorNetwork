@@ -40,6 +40,8 @@ int CalDirection;
 void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
+  pinMode(7, INPUT);
+  pinMode(6, OUTPUT);
   pinMode(LED_PIN,     OUTPUT);
   pinMode(DETACH_PIN,  INPUT_PULLUP);
   pinMode(WSPEED_PIN,  INPUT); 
