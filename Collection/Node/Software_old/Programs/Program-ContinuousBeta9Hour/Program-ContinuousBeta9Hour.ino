@@ -73,13 +73,9 @@ void loop() {
     //lcd.print(timeUnix[i]); lcd.setCursor(0,1);
     //lcd.print(windClicks); lcd.print(','); lcd.print(windDir[i]);  lcd.print(','); lcd.print(gasData[i]);
 
-    if (dt.minute() == 0 && dt.second() == 0) {
+    if (dt.minute() == 0  && dt.second() == 0) {
       file.close();
-      noInterrupts();
-      SDBegin();       delay(2500);
-      dt = rtc.now();
       CreateNewFile();
-      interrupts();
     }
 
 
