@@ -62,8 +62,9 @@ void setup() {
 //---------------LOOP--------------------//
 //---------------------------------------//
 void loop() {
+  DateTime now_dt = rtc.now();
   for (int i=0; i<5; i++) {
-    dt           = rtc.now();
+    dt           = now_dt;
     timeUnix[i]  = dt.unixtime();
     windDir[i]   = WindDirection(); 
     gasData[i]   = CollectGas();
@@ -79,8 +80,9 @@ void loop() {
     }
 
 
-    
-    while ( rtc.now().unixtime() == dt.unixtime() );
+    do {
+      now_dt = rtc.now();
+    } while ( now_dt.unixtime() == dt.unixtime() );
     //lcd.clear();
     //lcd.setCursor(0,0);
   }
