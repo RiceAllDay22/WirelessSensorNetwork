@@ -21,7 +21,7 @@ void setup() {
 
 void loop() {
   //Wind Direction
-  VaneValue = analogRead(A0);
+  VaneValue = analogRead(A3);
   Direction = map(VaneValue, 0, 1023, 0, 360);
   CalDirection = Direction + Offset;
 
@@ -33,7 +33,7 @@ void loop() {
   //Wind Speed
   Rotations = 0;
   sei();
-  delay(3000);
+  delay(1000);
   cli();
 
   WindSpeed = Rotations*0.75;
