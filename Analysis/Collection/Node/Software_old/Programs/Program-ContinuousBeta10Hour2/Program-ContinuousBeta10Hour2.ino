@@ -18,12 +18,12 @@ SdFile file;
 RTC_DS3231 rtc;
 DateTime dt;
 
-byte DETACH_PIN = 5, LCD_PIN = 4, WSPEED_PIN = 2;
+byte DETACH_PIN = 5, LCD_PIN = 4, WSPEED_PIN = 2, LED_PIN = 6;
 byte sdChipSelect = SS;
-uint32_t timeUnix;
+uint32_t timeUnix[5];
 uint8_t  totalClicks;
-uint16_t windDir;
-uint16_t gasData;
+uint16_t windDir[5];
+uint16_t gasData[5];
 volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
@@ -40,11 +40,11 @@ void setup() {
   Wire.begin();
   Serial.begin(9600);
   Serial.println("Begin");
-  //pinMode(LED_PIN,     OUTPUT);
-  pinMode(LCD_PIN, INPUT_PULLUP);
-  pinMode(DETACH_PIN,  INPUT_PULLUP);
-  pinMode(WSPEED_PIN,  INPUT); 
-  //digitalWrite(LED_PIN,HIGH);
+  pinMode(LED_PIN,    OUTPUT);
+  pinMode(LCD_PIN,    INPUT_PULLUP);
+  pinMode(DETACH_PIN, INPUT_PULLUP);
+  pinMode(WSPEED_PIN, INPUT); 
+  digitalWrite(LED_PIN,HIGH);
   
   //lcd.init(); lcd.backlight(); lcd.print("Ready"); delay(1000);
   //lcd.setCursor(0,0); lcd.clear();
@@ -57,11 +57,12 @@ void setup() {
   dt = rtc.now();
   CreateNewFile(); delay(2500);
   
-  //digitalWrite(LED_PIN, LOW);
+  digitalWrite(LED_PIN, LOW);
   attachInterrupt(digitalPinToInterrupt(WSPEED_PIN), isr_rotation, FALLING);
   interrupts();
   //lcd.clear();
   //lcd.setCursor(0,0);
+  Serial.println("Ready");
 }
 
 
@@ -69,43 +70,29 @@ void setup() {
 //---------------------------------------//
 void loop() {
   DateTime now_dt = rtc.now();
-  dt              = now_dt;
-  timeUnix        = dt.unixtime();
-  windDir         = WindDirection(); 
+  for (int i=0; i<5; i++) {
+    dt           = now_dt;
+    timeUnix[i]  = dt.unixtime();
+    windDir[i]   = WindDirection(); 
 
-  //if (airSensor.dataAvailable()) {
-  //  gasData = airSensor.getCO2();
-  //}
-  //else
-  //  gasData = 0 ;
+    if (airSensor.dataAvailable()) {
+      gasData[i] = airSensor.getCO2();
+    }
+    else
+      gasData[i] = 0 ;
 
-  while (!airSensor.dataAvailable()) {
+    do {
+      now_dt = rtc.now();
+    } while ( now_dt.unixtime() < dt.unixtime() + 3 );
+    Serial.println("Data Collected");
   }
-  gasData = airSensor.getCO2();
-
   totalClicks = windClicks;
   windClicks  = 0;
-
-  String line;
-  line = String(timeUnix)+","+String(totalClicks)+","+String(windDir)+","+ String(gasData);
-  Serial.println(line);  
-  //Serial.print(timeUnix); Serial.print(',');
-  //Serial.print(windDir);  Serial.print(',');
-  //Serial.print(gasData);  Serial.print(',');
-  //Serial.println(totalClicks);
+  WriteSample();
   
   //if (digitalRead(LCD_PIN) == HIGH) lcd.backlight();
   //else lcd.noBacklight();
-  //lcd.print(timeUnix);lcd.setCursor(0,1);
-  //lcd.print(windDir);lcd.print(',');
-  //lcd.print(gasData);lcd.print(',');
-  //lcd.print(totalClicks);
-  //WriteSample();
-
-  //do {
-  //  now_dt = rtc.now();
-  //} while ( now_dt.unixtime() < dt.unixtime() + 3 );
-  
+  //lcd.print(timeUnix);lcd.setCursor(0,1);lcd.print(windDir);lcd.print(',');lcd.print(gasData);lcd.print(',');lcd.print(totalClicks);
   //lcd.clear();
   //lcd.setCursor(0,0);
 }
@@ -127,24 +114,24 @@ void CreateNewFile() {
 void WriteSample() {  
   if (digitalRead(DETACH_PIN)) {
     Serial.println("File Closed: (DETATCH_PIN HIGH)");
-    //digitalWrite(LED_PIN, HIGH);
+    digitalWrite(LED_PIN, HIGH);
     file.close();
     return;
   }
 
-//  digitalWrite(LED_PIN, HIGH);
-//  String line[5];
-//  for (int j=0; j<5; j++) {
-//    line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
-//    file.println(line[j]);
-//  }
-  String line;
-  line = String(timeUnix)+","+String(totalClicks)+","+String(windDir)+","+ String(gasData);   
-  file.println(line);
+  digitalWrite(LED_PIN, HIGH);
+  String line[5];
+  for (int j=0; j<5; j++) {
+    line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
+    file.println(line[j]);
+  }
+  //String line;
+  //line = String(timeUnix)+","+String(totalClicks)+","+String(windDir)+","+ String(gasData);   
+  //file.println(line);
   file.sync();
-  Serial.println(line);
-//  digitalWrite(LED_PIN, LOW);
-//  //Serial.println("Sample Written");
+  //Serial.println(line);
+  digitalWrite(LED_PIN, LOW);
+  Serial.println("Sample Written");
 }
 
 
@@ -198,7 +185,7 @@ void RTCBegin() {
       Serial.println("RTC Failed");
       //lcd.print("RTC Failed");
     }
-    delay(1000); lcd.clear();
+    delay(1000); //lcd.clear();
   }
   Serial.println("RTC Operational");
 }
@@ -215,7 +202,7 @@ void SCD30Begin() {
       Serial.println("Sensor Failed");
       //lcd.print("Sensor Failed");
     }
-    delay(1000); lcd.clear();
+    delay(1000); //lcd.clear();
   }
   Serial.println("Sensor Operational");
 }
@@ -232,7 +219,7 @@ void SDBegin() {
       Serial.println("SD Module Failed");
       //lcd.print("SD Failed");
     }
-    delay(1000); lcd.clear();
+    delay(1000); //lcd.clear();
   }
   Serial.println("SD Module Operational");
 }
