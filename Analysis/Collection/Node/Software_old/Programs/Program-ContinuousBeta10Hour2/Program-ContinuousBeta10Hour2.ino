@@ -83,7 +83,7 @@ void loop() {
 
     do {
       now_dt = rtc.now();
-    } while ( now_dt.unixtime() < dt.unixtime() + 3 );
+    } while ( now_dt.unixtime() < dt.unixtime() + 5 );
     Serial.println("Data Collected");
   }
   totalClicks = windClicks;
