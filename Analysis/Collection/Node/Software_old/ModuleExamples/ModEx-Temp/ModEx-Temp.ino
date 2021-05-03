@@ -1,7 +1,7 @@
 #include <OneWire.h> 
 #include <DallasTemperature.h>
 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS 3
 OneWire oneWire(ONE_WIRE_BUS); 
 DallasTemperature sensors(&oneWire);
 
@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
   sensors.requestTemperatures();
-  float value = sensors.getTempFByIndex(0);
+  float value = sensors.getTempCByIndex(0);
   Serial.println(value);
   delay(1000);
 }
