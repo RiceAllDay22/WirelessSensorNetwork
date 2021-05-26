@@ -18,13 +18,11 @@ DateTime dt;
 SCD30 airSensor;
 //LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-
 const byte sdChipSelect = SS;
 const byte WSPEED_PIN = 2;
 const byte DETACH_PIN = 5;
 const byte LED_PIN    = 6;
 //const byte LCD_PIN  = 4;
-
 
 const int arrayLength = 5;
 uint32_t timeUnix[arrayLength];
@@ -33,15 +31,15 @@ uint16_t windDir[arrayLength];
 uint16_t gasData[arrayLength];
 
 bool wroteNewFile = true;
-
 volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
 
+#define Offset 0;  
 int VaneValue;
 int Direction;
 int CalDirection;
-#define Offset 0;
+
 
 //---------------SETUP-------------------//
 //---------------------------------------//
@@ -49,10 +47,10 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Begin Setup");
   Wire.begin();
-  pinMode(LED_PIN,    OUTPUT);
-  pinMode(WSPEED_PIN, INPUT);
-  pinMode(DETACH_PIN, INPUT_PULLUP); 
-  digitalWrite(LED_PIN,HIGH);
+  pinMode(LED_PIN,      OUTPUT);
+  pinMode(WSPEED_PIN,   INPUT);
+  pinMode(DETACH_PIN,   INPUT_PULLUP); 
+  digitalWrite(LED_PIN, HIGH);
   //pinMode(LCD_PIN,    INPUT_PULLUP);
   //lcd.init(); lcd.backlight(); lcd.print("Ready"); delay(1000);
   //lcd.setCursor(0,0); lcd.clear();
@@ -77,7 +75,7 @@ void setup() {
 }
 
 
-//---------------LOOP--------------------//
+//---------------MAIN LOOP--------------------//
 //---------------------------------------//
 void loop() {
   DateTime now_dt = rtc.now();
@@ -127,11 +125,30 @@ void WriteSample() {
   }
 
   digitalWrite(LED_PIN, HIGH);
-  String line[arrayLength];
-  for (int j=0; j<arrayLength; j++) {
-    line[j] = String(timeUnix[j]) + "," + String(windCycle[j]) + "," + String(windDir[j]) + "," + String(gasData[j]);
-    file.println(line[j]);
-    Serial.println(line[j]);
+
+  bool binary = true;
+
+  if (binary == false) {
+    String line[arrayLength];
+    for (int j=0; j<arrayLength; j++) {
+      line[j] = String(timeUnix[j]) + "," + String(windCycle[j]) + "," + String(windDir[j]) + "," + String(gasData[j]);
+      file.println(line[j]);
+      Serial.println(line[j]);
+    }
+  }
+
+  else {
+    for (int j=0; j<arrayLength; j++) {
+      file.write((timeUnix[j] >> 24) & 0xFF);
+      file.write((timeUnix[j] >> 16) & 0xFF);
+      file.write((timeUnix[j] >> 8)  & 0xFF);
+      file.write((timeUnix[j] >> 0)  & 0xFF);
+      file.write((windCycle[j] >> 0) & 0xFF);
+      file.write((windDir[j] >> 8) & 0xFF);
+      file.write((windDir[j] >> 0) & 0xFF);
+      file.write((gasData[j] >> 8) & 0xFF);
+      file.write((gasData[j] >> 0) & 0xFF);
+    }
   }
   file.sync();
   digitalWrite(LED_PIN, LOW);
@@ -141,8 +158,6 @@ void WriteSample() {
 
 //---------------FUNCTIONS---------------//
 //---------------------------------------//
-
-
 //----------Retrieve Gas Data----------//
 uint16_t CollectGas() {
   uint16_t data;
@@ -164,8 +179,8 @@ void isr_rotation() {
 }
 
 uint16_t WindDirection() {
-  VaneValue = analogRead(A3);
-  Direction = map(VaneValue, 0, 1023, 0, 360);
+  VaneValue    = analogRead(A3);
+  Direction    = map(VaneValue, 0, 1023, 0, 360);
   CalDirection = Direction + Offset;
 
   if (CalDirection > 360)
@@ -176,7 +191,6 @@ uint16_t WindDirection() {
 }
 
 //---------------STARTUP MODULES"--------------------//
-
 //----------RTC Begin----------//
 void RTCBegin() {
   bool success = false;
