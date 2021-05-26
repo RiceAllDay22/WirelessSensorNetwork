@@ -1,11 +1,11 @@
 list.files()
 getwd()
-setwd()
-
-summary(mydata)
+setwd('C:/users/Adriann Liceralde/Desktop/Repo/WirelessSensorNetwork/Analysis/OpenAir Analysis')
 
 
 mydata = read.csv('example.csv', header = TRUE)
+summary(mydata)
+
 mydata$date = as.POSIXct(strptime(mydata$date, format = "%d/%m/%Y %H:%M", tz ="GMT"))
 
 summary(mydata)
