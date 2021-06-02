@@ -35,10 +35,10 @@ volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
 
-#define Offset 0;  
 int VaneValue;
 int Direction;
 int CalDirection;
+#define Offset 0;  
 
 
 //---------------SETUP-------------------//
@@ -60,6 +60,9 @@ void setup() {
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   
   SCD30Begin();    delay(2000);
+  //airSensor.setMeasurementInterval(4);     // # seconds between readings
+  airSensor.setAltitudeCompensation(610); // # meter above sea level
+  airSensor.setAmbientPressure(1000);       // # mBar of Pressure (700 to 1200)
   
   SDBegin();       delay(2000);
   dt = rtc.now();
@@ -124,35 +127,38 @@ void WriteSample() {
     return;
   }
 
-  digitalWrite(LED_PIN, HIGH);
-
-  bool binary = true;
-
-  if (binary == false) {
-    String line[arrayLength];
-    for (int j=0; j<arrayLength; j++) {
-      line[j] = String(timeUnix[j]) + "," + String(windCycle[j]) + "," + String(windDir[j]) + "," + String(gasData[j]);
-      file.println(line[j]);
-      Serial.println(line[j]);
-    }
-  }
-
   else {
-    for (int j=0; j<arrayLength; j++) {
-      file.write((timeUnix[j] >> 24) & 0xFF);
-      file.write((timeUnix[j] >> 16) & 0xFF);
-      file.write((timeUnix[j] >> 8)  & 0xFF);
-      file.write((timeUnix[j] >> 0)  & 0xFF);
-      file.write((windCycle[j] >> 0) & 0xFF);
-      file.write((windDir[j] >> 8) & 0xFF);
-      file.write((windDir[j] >> 0) & 0xFF);
-      file.write((gasData[j] >> 8) & 0xFF);
-      file.write((gasData[j] >> 0) & 0xFF);
+    digitalWrite(LED_PIN, HIGH);
+    bool binary = false;
+  
+    if (binary == false) {
+      String line[arrayLength];
+      for (int j=0; j<arrayLength; j++) {
+        line[j] = String(timeUnix[j])+","+String(windCycle[j])+","+String(windDir[j])+","+String(gasData[j]);
+        file.println(line[j]);
+        Serial.println(line[j]);
+        Serial.print(airSensor.getTemperature(), 1);
+        Serial.print(",");
+        Serial.println(airSensor.getHumidity(), 1);
+      }
     }
+    else {
+      for (int j=0; j<arrayLength; j++) {
+        file.write((timeUnix[j] >> 24) & 0xFF);
+        file.write((timeUnix[j] >> 16) & 0xFF);
+        file.write((timeUnix[j] >> 8)  & 0xFF);
+        file.write((timeUnix[j] >> 0)  & 0xFF);
+        file.write((windCycle[j]>> 0)  & 0xFF);
+        file.write((windDir[j]  >> 8)  & 0xFF);
+        file.write((windDir[j]  >> 0)  & 0xFF);
+        file.write((gasData[j]  >> 8)  & 0xFF);
+        file.write((gasData[j]  >> 0)  & 0xFF);
+      }
+    }
+    file.sync();
+    digitalWrite(LED_PIN, LOW);
+    Serial.println("Sample Written");
   }
-  file.sync();
-  digitalWrite(LED_PIN, LOW);
-  Serial.println("Sample Written");
 }
 
 
