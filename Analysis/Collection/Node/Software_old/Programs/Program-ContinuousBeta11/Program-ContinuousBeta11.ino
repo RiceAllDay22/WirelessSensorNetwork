@@ -25,6 +25,7 @@ const byte LED_PIN    = 6;
 //const byte LCD_PIN  = 4;
 
 const int arrayLength = 5;
+const int measureInterval = 2;
 uint32_t timeUnix[arrayLength];
 uint8_t  windCycle[arrayLength];
 uint16_t windDir[arrayLength];
@@ -44,8 +45,8 @@ int CalDirection;
 //---------------SETUP-------------------//
 //---------------------------------------//
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Begin Setup");
+  //Serial.begin(9600);
+  //Serial.println("Begin Setup");
   Wire.begin();
   pinMode(LED_PIN,      OUTPUT);
   pinMode(WSPEED_PIN,   INPUT);
@@ -60,9 +61,8 @@ void setup() {
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
   
   SCD30Begin();    delay(2000);
-  //airSensor.setMeasurementInterval(4);     // # seconds between readings
-  airSensor.setAltitudeCompensation(610); // # meter above sea level
-  airSensor.setAmbientPressure(1000);       // # mBar of Pressure (700 to 1200)
+  airSensor.setMeasurementInterval(measureInterval);  // # seconds between readings
+  airSensor.setAltitudeCompensation(30);              // # meter above sea level
   
   SDBegin();       delay(2000);
   dt = rtc.now();
@@ -74,7 +74,7 @@ void setup() {
   //lcd.setCursor(0,0);
   
   digitalWrite(LED_PIN, LOW);
-  Serial.println("Ready");
+  //Serial.println("Ready");
 }
 
 
@@ -90,11 +90,11 @@ void loop() {
 
     do {
       now_dt = rtc.now();
-    } while ( now_dt.unixtime() < dt.unixtime() + 2 );
+    } while ( now_dt.unixtime() < dt.unixtime() + measureInterval );
     
     windCycle[i] = windClicks;
     windClicks   = 0;
-    Serial.println("Data Collected");
+    //Serial.println("Data Collected");
   }
   WriteSample();
   
@@ -109,19 +109,19 @@ void loop() {
 //---------------------------------------//
 void CreateNewFile() {
   if (digitalRead(DETACH_PIN)) {
-    Serial.println("Not creating new file: (DETATCH_PIN HIGH)");
+    //Serial.println("Not creating new file: (DETATCH_PIN HIGH)");
     return;
   }
   char filename[19];
   sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.sync();
-  Serial.println("Created new file: " + String(filename));
+  //Serial.println("Created new file: " + String(filename));
 }
 
 void WriteSample() {  
   if (digitalRead(DETACH_PIN)) {
-    Serial.println("File Closed: (DETATCH_PIN HIGH)");
+    //Serial.println("File Closed: (DETATCH_PIN HIGH)");
     digitalWrite(LED_PIN, HIGH);
     file.close();
     return;
@@ -136,10 +136,10 @@ void WriteSample() {
       for (int j=0; j<arrayLength; j++) {
         line[j] = String(timeUnix[j])+","+String(windCycle[j])+","+String(windDir[j])+","+String(gasData[j]);
         file.println(line[j]);
-        Serial.println(line[j]);
-        Serial.print(airSensor.getTemperature(), 1);
-        Serial.print(",");
-        Serial.println(airSensor.getHumidity(), 1);
+        //Serial.println(line[j]);
+        //Serial.print(airSensor.getTemperature(), 1);
+        //Serial.print(",");
+        //Serial.println(airSensor.getHumidity(), 1);
       }
     }
     else {
@@ -157,7 +157,7 @@ void WriteSample() {
     }
     file.sync();
     digitalWrite(LED_PIN, LOW);
-    Serial.println("Sample Written");
+    //Serial.println("Sample Written");
   }
 }
 
@@ -206,29 +206,29 @@ void RTCBegin() {
       //lcd.print("RTC OK");
     }
     else {
-      Serial.println("RTC Failed");
+      //Serial.println("RTC Failed");
       //lcd.print("RTC Failed");
     }
     delay(1000); //lcd.clear();
   }
-  Serial.println("RTC Operational");
+  //Serial.println("RTC Operational");
 }
 
 //----------Gas Begin----------//
 void SCD30Begin() {
   bool success = false;
   while (success == false) {
-    if(airSensor.begin()) {
+    if(airSensor.begin(Wire, false)) {
       success = true;
       //lcd.print("Sensor OK");
       }      
     else {
-      Serial.println("Sensor Failed");
+      //Serial.println("Sensor Failed");
       //lcd.print("Sensor Failed");
     }
     delay(1000); //lcd.clear();
   }
-  Serial.println("Sensor Operational");
+  //Serial.println("Sensor Operational");
 }
 
 //----------SD Module Begin ----------//
@@ -240,10 +240,10 @@ void SDBegin() {
       //lcd.print("SD OK"); 
     }
     else {
-      Serial.println("SD Module Failed");
+      //Serial.println("SD Module Failed");
       //lcd.print("SD Failed");
     }
     delay(1000); //lcd.clear();
   }
-  Serial.println("SD Module Operational");
+  //Serial.println("SD Module Operational");
 }

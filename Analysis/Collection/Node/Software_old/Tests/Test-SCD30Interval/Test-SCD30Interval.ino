@@ -1,24 +1,5 @@
-/*
-  Reading CO2, humidity and temperature from the SCD30
-  By: Nathan Seidle
-  SparkFun Electronics
-  Date: May 22nd, 2018
-  License: MIT. See license file for more information but you can
-  basically do whatever you want with this code.
-
-  Feel like supporting open source hardware?
-  Buy a board from SparkFun! https://www.sparkfun.com/products/15112
-
-  This example prints the current CO2 level, relative humidity, and temperature in C.
-
-  Hardware Connections:
-  Attach RedBoard to computer using a USB cable.
-  Connect SCD30 to RedBoard using Qwiic cable.
-  Open Serial Monitor at 115200 baud.
-*/
-
 #include <Wire.h>
-#include <SparkFun_SCD30_Arduino_Library.h> //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
+#include <SparkFun_SCD30_Arduino_Library.h> 
 
 SCD30 airSensor;
 unsigned long nowTime;
@@ -31,10 +12,11 @@ void setup() {
   Wire.begin();
 
   if (airSensor.begin() == false) {
-    Serial.println("Air sensor not detected. Please check wiring. Freezing...");
+    Serial.println("Air sensor not detected");
     while (1);
   }
-  
+
+  airSensor.setMeasurementInterval(2);
   lastTime = 0;
   nowTime  = millis();
 }
@@ -45,19 +27,9 @@ void loop() {
     deltaTime = nowTime - lastTime;
     lastTime  = nowTime;
     
-    //Serial.print(lastTime);
-    //Serial.print(" ");
     Serial.print(deltaTime);
     Serial.print(" ");
-    
-    //Serial.print("co2(ppm):");
     Serial.print(airSensor.getCO2());
-    //Serial.print(" temp(C):");
-    //Serial.print(airSensor.getTemperature(), 1);
-    //Serial.print(" humidity(%):");
-    //Serial.print(airSensor.getHumidity(), 1);
     Serial.println();
   }
-  //else
-    //Serial.println("Waiting for new data");
 }
