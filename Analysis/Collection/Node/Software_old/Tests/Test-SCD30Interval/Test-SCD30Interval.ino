@@ -16,7 +16,7 @@ void setup() {
     while (1);
   }
 
-  airSensor.setMeasurementInterval(2);
+  airSensor.setMeasurementInterval(3); // in seconds
   lastTime = 0;
   nowTime  = millis();
 }
