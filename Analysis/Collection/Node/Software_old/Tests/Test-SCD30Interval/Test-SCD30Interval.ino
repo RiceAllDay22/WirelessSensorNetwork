@@ -16,7 +16,7 @@ void setup() {
     while (1);
   }
 
-  airSensor.setMeasurementInterval(3); // in seconds
+  airSensor.setMeasurementInterval(2); // in seconds
   lastTime = 0;
   nowTime  = millis();
 }
@@ -29,7 +29,7 @@ void loop() {
     
     Serial.print(deltaTime);
     Serial.print(" ");
-    Serial.print(airSensor.getCO2());
+    //Serial.print(airSensor.getCO2());
     Serial.println();
   }
 }
