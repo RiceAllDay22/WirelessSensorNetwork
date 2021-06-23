@@ -15,6 +15,7 @@ const byte LED_PIN    = 6;
 
 uint32_t timeUnix;
 uint16_t gasData;
+uint16_t tempData;
 bool wroteNewFile = true;
 
 void setup() {
@@ -30,13 +31,15 @@ void setup() {
     Serial.println("RTC not detected.");
     while(1);
   }
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-
+  //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  //rtc.adjust(DateTime(2021, 6, 16, 21, 53, 0));
+  
   if (airSensor.begin() == false) {
     Serial.println("SCD not detected.");
     while(1);
   }
-  airSensor.setAltitudeCompensation(30);
+  airSensor.setMeasurementInterval(2);
+  airSensor.setAltitudeCompensation(50);
 
   if (sd.begin(sdChipSelect) == false) {
     Serial.println("SD not detected.");
@@ -53,13 +56,17 @@ void loop() {
   DateTime now_dt = rtc.now();
   dt = now_dt;
   timeUnix = dt.unixtime();
-  gasData  = CollectGas();
-  
+  CollectData();
+
   do {
+    Serial.print(airSensor.dataAvailable());
+    //delay(20);
     now_dt = rtc.now();
   } while ( now_dt.unixtime() < dt.unixtime() + 3 );
-
+  
+  
   WriteSample();
+  Serial.print("    ");
 
 }
 
@@ -86,8 +93,9 @@ void WriteSample() {
   else {
     digitalWrite(LED_PIN, HIGH);  
     String line;
-    line = String(timeUnix)+","+String(gasData);
-    file.println(line);
+    line = String(timeUnix)+","+String(gasData)+","+String(tempData);
+    //file.println(line);
+    Serial.println();
     Serial.println(line);
     
     file.sync();
@@ -95,13 +103,14 @@ void WriteSample() {
   }
 }
 
-
-uint16_t CollectGas() {
-  uint16_t data;
+void CollectData() {
   if (airSensor.dataAvailable()) {
-    data = airSensor.getCO2();
+    gasData  = airSensor.getCO2();
+    tempData = airSensor.getTemperature();
   }
-  else
-    data = 0;
-  return data;
+  else{
+    gasData  = 0;
+    tempData = 0;
+  }
+  return;
 }
