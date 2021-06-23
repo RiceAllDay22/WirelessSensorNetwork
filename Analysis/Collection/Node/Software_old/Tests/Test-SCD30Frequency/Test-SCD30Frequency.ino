@@ -56,15 +56,16 @@ void loop() {
   DateTime now_dt = rtc.now();
   dt = now_dt;
   timeUnix = dt.unixtime();
-  CollectData();
+  
 
   do {
     Serial.print(airSensor.dataAvailable());
-    //delay(20);
+    //delay(10);
     now_dt = rtc.now();
   } while ( now_dt.unixtime() < dt.unixtime() + 3 );
   
-  
+  Serial.println("");
+  CollectData();
   WriteSample();
   Serial.print("    ");
 
@@ -94,7 +95,7 @@ void WriteSample() {
     digitalWrite(LED_PIN, HIGH);  
     String line;
     line = String(timeUnix)+","+String(gasData)+","+String(tempData);
-    //file.println(line);
+    file.println(line);
     Serial.println();
     Serial.println(line);
     
