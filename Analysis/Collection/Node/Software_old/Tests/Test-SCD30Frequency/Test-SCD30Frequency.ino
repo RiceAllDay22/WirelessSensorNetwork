@@ -56,18 +56,18 @@ void loop() {
   DateTime now_dt = rtc.now();
   dt = now_dt;
   timeUnix = dt.unixtime();
-  
+  CollectData();
 
   do {
-    Serial.print(airSensor.dataAvailable());
-    //delay(10);
+    //Serial.print(airSensor.dataAvailable());
+    //delay(30);
     now_dt = rtc.now();
   } while ( now_dt.unixtime() < dt.unixtime() + 3 );
   
-  Serial.println("");
-  CollectData();
+  //Serial.println("");
+  //CollectData();
   WriteSample();
-  Serial.print("    ");
+  //Serial.print("    ");
 
 }
 
@@ -96,7 +96,7 @@ void WriteSample() {
     String line;
     line = String(timeUnix)+","+String(gasData)+","+String(tempData);
     file.println(line);
-    Serial.println();
+    //Serial.println();
     Serial.println(line);
     
     file.sync();
@@ -110,8 +110,15 @@ void CollectData() {
     tempData = airSensor.getTemperature();
   }
   else{
-    gasData  = 0;
-    tempData = 0;
+    delay(5);
+    if (airSensor.dataAvailable()) {
+      gasData  = airSensor.getCO2();
+      tempData = airSensor.getTemperature();
+    }
+    else {
+      gasData  = 0;
+      tempData = 0;
+    }
   }
   return;
 }
