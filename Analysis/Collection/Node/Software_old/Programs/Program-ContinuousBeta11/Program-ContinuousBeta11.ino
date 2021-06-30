@@ -59,6 +59,11 @@ void setup() {
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                // # seconds between readings
   airSensor.setAltitudeCompensation(30);              // # meter above sea level
+  airSensor.setForcedRecalibrationFactor(530);
+  uint16_t settingVal;
+  airSensor.getForcedRecalibration(&settingVal);
+  Serial.print("Forced recalibration factor (ppm) is ");
+  Serial.println(settingVal);
   
   SDBegin();
   dt = rtc.now();
@@ -232,7 +237,7 @@ void RTCBegin() {
 void SCD30Begin() {
   bool success = false;
   while (success == false) {
-    if(airSensor.begin(Wire, false)) {
+    if(airSensor.begin(Wire, false, true)) {
       success = true;
       }      
     else {
