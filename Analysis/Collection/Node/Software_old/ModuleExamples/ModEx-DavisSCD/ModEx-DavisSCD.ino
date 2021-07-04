@@ -1,3 +1,7 @@
+#include <Wire.h>
+#include "SparkFun_SCD30_Arduino_Library.h" 
+SCD30 airSensor;
+
 int VaneValue;
 int Direction;
 int CalDirection;
@@ -10,16 +14,20 @@ volatile unsigned long ContactBounceTime;
 float WindSpeed;
 #define Offset 0;
 
+
 void setup() {
-  LastValue = 1;
+  Wire.begin();
   Serial.begin(9600);
-  Serial.println("Begin");
+  Serial.println("SCD30 Example");
+  airSensor.begin(); //This will cause readings to occur every two seconds
+  LastValue = 1;
   pinMode(WindSensorPin, INPUT);
   attachInterrupt(digitalPinToInterrupt(WindSensorPin), isr_rotation, FALLING);
-   
+
 }
 
 void loop() {
+
   //Wind Direction
   VaneValue = analogRead(A3);
   Direction = map(VaneValue, 0, 1023, 0, 360);
@@ -29,24 +37,24 @@ void loop() {
     CalDirection = CalDirection - 360;
   if (CalDirection < 0)
     CalDirection = CalDirection + 360;
-
+  
   //Wind Speed
+  WindSpeed = Rotations*0.75;
   Rotations = 0;
-  sei();
-  delay(1000);
-  cli();
-
-  //WindSpeed = Rotations*0.75;
-
-  //Results
-  Serial.print(CalDirection);
-  //Serial.print(';');
-  //Serial.print(float(analogRead(A0)));
+  
+  Serial.print(WindSpeed);
   Serial.print(';');
-  //Serial.println(WindSpeed);
-  Serial.println(Rotations);
-
+  Serial.print(Direction);
+  Serial.print(",");
+  
+  if (airSensor.dataAvailable()) {
+    Serial.println(airSensor.getCO2());
+  }
+  else
+    Serial.println("No data");
+  delay(3000);
 }
+
 
 void isr_rotation () {
   if ((millis() - ContactBounceTime) > 15 ) {

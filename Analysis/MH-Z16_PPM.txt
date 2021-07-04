@@ -1,0 +1,17 @@
+func_hi
+	//start timer
+	start = read clock
+
+func_low:
+	stop = read_clock
+	time = start- stop
+	calculate ppm from timer time
+	ppm = calculated
+
+setup:
+	set_interrupt(pin_3, high, func_hi)
+	set_interrupt(pin_3, low, func_low)
+
+loop:
+	delay(1)
+	serial.write(ppm)

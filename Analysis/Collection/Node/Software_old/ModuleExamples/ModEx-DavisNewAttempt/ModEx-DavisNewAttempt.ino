@@ -4,10 +4,9 @@ int CalDirection;
 int LastValue;
 
 int WindSensorPin = 2;
-volatile unsigned long Rotations;
-volatile unsigned long ContactBounceTime;
-
+int WindAnalogPin = A0;
 float WindSpeed;
+float WindAnalog;
 #define Offset 0;
 
 void setup() {
@@ -15,7 +14,6 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
   pinMode(WindSensorPin, INPUT);
-  attachInterrupt(digitalPinToInterrupt(WindSensorPin), isr_rotation, FALLING);
    
 }
 
@@ -31,26 +29,14 @@ void loop() {
     CalDirection = CalDirection + 360;
 
   //Wind Speed
-  Rotations = 0;
-  sei();
-  delay(1000);
-  cli();
-
-  //WindSpeed = Rotations*0.75;
+  WindSpeed = digitalRead(WindSensorPin);
+  WindAnalog = analogRead(WindAnalogPin);
 
   //Results
   Serial.print(CalDirection);
-  //Serial.print(';');
-  //Serial.print(float(analogRead(A0)));
   Serial.print(';');
+  Serial.println(WindAnalog);
   //Serial.println(WindSpeed);
-  Serial.println(Rotations);
 
-}
-
-void isr_rotation () {
-  if ((millis() - ContactBounceTime) > 15 ) {
-    Rotations ++;
-    ContactBounceTime = millis();
-  }
+  delay(1000);
 }

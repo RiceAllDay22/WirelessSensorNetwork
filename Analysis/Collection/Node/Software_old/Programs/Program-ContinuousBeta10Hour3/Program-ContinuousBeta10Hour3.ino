@@ -5,9 +5,9 @@
 #include <RTClib.h>
 #include <SdFat.h>
 #include <LowPower.h>
-#include <LiquidCrystal_I2C.h>
-#include <SPI.h>
-LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
+//#include <LiquidCrystal_I2C.h>
+//#include <SPI.h>
+//LiquidCrystal_I2C lcd(0x27,16,2); // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 
 //---------------VARIABLES---------------//
@@ -18,21 +18,28 @@ SdFile file;
 RTC_DS3231 rtc;
 DateTime dt;
 
-byte DETACH_PIN = 5, LCD_PIN = 4, WSPEED_PIN = 2, LED_PIN = 6;
+byte DETACH_PIN = 5;
+byte LCD_PIN    = 4;
+byte WSPEED_PIN = 2;
+byte LED_PIN    = 6;
 byte sdChipSelect = SS;
-uint32_t timeUnix[5];
-uint8_t  totalClicks;
-uint16_t windDir[5];
-uint16_t gasData[5];
+
+const int arrayLength = 10;
+uint32_t timeUnix[arrayLength];
+uint16_t gasData[arrayLength];
+uint16_t windDir[arrayLength];
+uint8_t  totalClicks[arrayLength];
+
 volatile byte windClicks  = 0;
 volatile unsigned long lastWindIRQ = 0;
 float WindSpeed;
-bool wroteNewFile = true;
 
 int VaneValue;
 int Direction;
 int CalDirection;
 #define Offset 0;
+
+bool wroteNewFile = true;
 
 //---------------SETUP-------------------//
 //---------------------------------------//
@@ -41,7 +48,7 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Begin");
   pinMode(LED_PIN,    OUTPUT);
-  pinMode(LCD_PIN,    INPUT_PULLUP);
+  //pinMode(LCD_PIN,    INPUT_PULLUP);
   pinMode(DETACH_PIN, INPUT_PULLUP);
   pinMode(WSPEED_PIN, INPUT); 
   digitalWrite(LED_PIN,HIGH);
@@ -49,13 +56,13 @@ void setup() {
   //lcd.init(); lcd.backlight(); lcd.print("Ready"); delay(1000);
   //lcd.setCursor(0,0); lcd.clear();
   //Serial.println("Check");
-  RTCBegin();      delay(2500);
+  RTCBegin();      delay(2000);
   rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   //rtc.adjust(DateTime(2020, 6, 3, 23, 7, 0));
-  SCD30Begin();    delay(5000);
-  SDBegin();       delay(2500);
+  SCD30Begin();    delay(2000);
+  SDBegin();       delay(2000);
   dt = rtc.now();
-  CreateNewFile(); delay(2500);
+  CreateNewFile(); delay(2000);
   
   digitalWrite(LED_PIN, LOW);
   attachInterrupt(digitalPinToInterrupt(WSPEED_PIN), isr_rotation, FALLING);
@@ -70,10 +77,9 @@ void setup() {
 //---------------------------------------//
 void loop() {
   DateTime now_dt = rtc.now();
-  for (int i=0; i<5; i++) {
+  for (int i=0; i<arrayLength; i++) {
     dt           = now_dt;
     timeUnix[i]  = dt.unixtime();
-    windDir[i]   = WindDirection(); 
 
     if (airSensor.dataAvailable()) {
       gasData[i] = airSensor.getCO2();
@@ -81,13 +87,15 @@ void loop() {
     else
       gasData[i] = 0 ;
 
+    windDir[i]     = WindDirection(); 
+    totalClicks[i] = windClicks;
+    windClicks     = 0;
+    
     do {
       now_dt = rtc.now();
     } while ( now_dt.unixtime() < dt.unixtime() + 2 );
-    Serial.println("Data Collected");
+    //Serial.println("Data Collected");
   }
-  totalClicks = windClicks;
-  windClicks  = 0;
   WriteSample();
   
   //if (digitalRead(LCD_PIN) == HIGH) lcd.backlight();
@@ -108,7 +116,7 @@ void CreateNewFile() {
   sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   file.sync();
-  //Serial.println("Created new file: " + String(filename));
+  Serial.println("Created new file: " + String(filename));
 }
 
 void WriteSample() {  
@@ -120,9 +128,9 @@ void WriteSample() {
   }
 
   digitalWrite(LED_PIN, HIGH);
-  String line[5];
-  for (int j=0; j<5; j++) {
-    line[j] = String(timeUnix[j]) + "," + String(totalClicks) + "," + String(windDir[j]) + "," + String(gasData[j]);
+  String line[arrayLength];
+  for (int j=0; j<arrayLength; j++) {
+    line[j] = String(timeUnix[j]) + "," + String(totalClicks[j]) + "," + String(windDir[j]) + "," + String(gasData[j]);
     file.println(line[j]);
     Serial.println(line[j]);
   }
@@ -171,7 +179,7 @@ uint16_t WindDirection() {
   return (CalDirection);
 }
 
-//---------------STARTUP MODULES"--------------------//
+//---------------STARTUP MODULES--------------------//
 
 //----------RTC Begin----------//
 void RTCBegin() {

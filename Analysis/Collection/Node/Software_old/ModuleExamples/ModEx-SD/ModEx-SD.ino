@@ -10,7 +10,7 @@ void setup() {
   SDBegin();
   file.open("DATA.csv", O_CREAT|O_WRITE|O_APPEND);
   file.print("UNIXTIME"); file.println("CO2");
-  delay(5000);
+  delay(5000); 
 } 
 
 uint32_t counter = 0;
