@@ -27,7 +27,7 @@ uint16_t  windDir[arrayLength];
 uint16_t  concData[arrayLength];
 uint8_t   tempData[arrayLength];
 uint16_t  scdData1;
-uint16_t  scdData2;
+uint8_t   scdData2;
 
 bool wroteNewFile = true;
 volatile byte windClicks  = 0;
@@ -58,8 +58,8 @@ void setup() {
   
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                // # seconds between readings
-  airSensor.setAltitudeCompensation(30);              // # meter above sea level
-  airSensor.setForcedRecalibrationFactor(530);
+  airSensor.setAltitudeCompensation(1300);              // # meter above sea level
+  airSensor.setForcedRecalibrationFactor(420);
   uint16_t settingVal;
   airSensor.getForcedRecalibration(&settingVal);
   Serial.print("Forced recalibration factor (ppm) is ");
@@ -107,7 +107,7 @@ void loop() {
     file.close();
     CreateNewFile();
   }
-}
+}   
 
 //-------------FILE HANDLING-------------//
 //---------------------------------------//
@@ -155,7 +155,6 @@ void WriteSample() {
         file.write((windDir[j]  >> 0)  & 0xFF);
         file.write((concData[j] >> 8)  & 0xFF);
         file.write((concData[j] >> 0)  & 0xFF);
-        file.write((tempData[j] >> 8)  & 0xFF);
         file.write((tempData[j] >> 0)  & 0xFF);
 
         line[j] = String(unixTime[j])+","+String(windCyc[j])+","+String(windDir[j])+","+String(concData[j])+","+String(tempData[j]);
@@ -172,23 +171,30 @@ void WriteSample() {
 //---------------------------------------//
 
 //------Retrieve Conc and Temp Data------//
+//void CollectGas() {
+//  if (airSensor.dataAvailable()) {
+//    scdData1 = airSensor.getCO2();
+//    scdData2 = airSensor.getTemperature();
+//  }
+//  else {
+//    delay(5);
+//    if (airSensor.dataAvailable()) {
+//      scdData1 = airSensor.getCO2();
+//      scdData2 = airSensor.getTemperature();
+//    }
+//    else {
+//      scdData1 = 0;
+//      scdData2 = 0;
+//    }  
+//  }
+//}
+
 void CollectGas() {
-  if (airSensor.dataAvailable()) {
-    scdData1 = airSensor.getCO2();
-    scdData2 = airSensor.getTemperature();
-  }
-  else {
-    delay(5);
-    if (airSensor.dataAvailable()) {
-      scdData1 = airSensor.getCO2();
-      scdData2 = airSensor.getTemperature();
-    }
-    else {
-      scdData1 = 0;
-      scdData2 = 0;
-    }  
-  }
+  scdData1 = airSensor.getCO2();
+  scdData2 = airSensor.getTemperature();
 }
+
+
 
 
 //----------Retrieve Wind Speed----------//

@@ -39,7 +39,7 @@ void setup() {
     while(1);
   }
   airSensor.setMeasurementInterval(2);
-  airSensor.setAltitudeCompensation(50);
+  airSensor.setAltitudeCompensation(1300);
 
   if (sd.begin(sdChipSelect) == false) {
     Serial.println("SD not detected.");
@@ -59,9 +59,9 @@ void loop() {
 
   do {
     Serial.print(airSensor.dataAvailable());
-    delay(30);
+    delay(0);
     now_dt = rtc.now();
-  } while ( now_dt.unixtime() < dt.unixtime() + 2 );
+  } while ( now_dt.unixtime() < dt.unixtime() + 3 );
   
   Serial.println("");
   CollectData();
