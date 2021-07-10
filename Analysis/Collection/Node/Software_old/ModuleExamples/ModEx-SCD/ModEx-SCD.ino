@@ -1,4 +1,4 @@
-//Click here to get the library: http://librarymanager/All#SparkFun_SCD30
+  //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
 #include <Wire.h>
 #include <SparkFun_SCD30_Arduino_Library.h>
 SCD30 airSensor;
@@ -72,7 +72,7 @@ void loop() {
 
   if ( (millis() > 120000) && (millis() < 123000) ) {
     uint16_t settingVal;
-    airSensor.setForcedRecalibrationFactor(530);
+    airSensor.setForcedRecalibrationFactor(420);
     airSensor.getForcedRecalibration(&settingVal);
     Serial.print("Forced recalibration factor (ppm) is ");
     Serial.println(settingVal);
