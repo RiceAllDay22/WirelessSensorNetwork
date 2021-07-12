@@ -100,7 +100,7 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 60 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);
