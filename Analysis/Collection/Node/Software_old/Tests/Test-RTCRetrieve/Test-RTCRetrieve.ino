@@ -8,7 +8,7 @@ void setup() {
   
   //Uncomment the code below to set the clock to a specific timestamp to synchronize.
   //Comment out the code below then synchronization is complete.
-  //rtc.adjust(1625530250);
+  //rtc.adjust(1626063680);
 }
 
 void loop() {

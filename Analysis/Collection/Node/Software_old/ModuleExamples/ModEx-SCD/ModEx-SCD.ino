@@ -1,8 +1,8 @@
-  //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
+//Click here to get the library: http://librarymanager/All#SparkFun_SCD30
+
 #include <Wire.h>
 #include <SparkFun_SCD30_Arduino_Library.h>
 SCD30 airSensor;
-
 
 uint16_t concData;
 uint16_t tempData;
@@ -72,24 +72,12 @@ void loop() {
 
   if ( (millis() > 120000) && (millis() < 123000) ) {
     uint16_t settingVal;
-    airSensor.setForcedRecalibrationFactor(420);
+    //airSensor.setForcedRecalibrationFactor(1500);
     airSensor.getForcedRecalibration(&settingVal);
     Serial.print("Forced recalibration factor (ppm) is ");
     Serial.println(settingVal);
-  }
-
-//  if ( (millis() > 10000) && (millis() < 20000) ) {
-//    Serial.println("Stopped Measuring");
-//    airSensor.StopMeasurement();
-//  }
-//
-//  if ( (millis() > 20000) && (millis() < 30000) ) {
-//    Serial.println("Restart Measuring");
-//    airSensor.beginMeasuring();
-//  }
-  
+  } 
 }
-
 
 void CollectGas() {
   if (airSensor.dataAvailable()) {
@@ -110,4 +98,10 @@ void CollectGas() {
       scdData3 = 0;
     }  
   }
-}   
+}
+
+void NewCollectGas() {
+  scdData1 = airSensor.getCO2();
+  scdData2 = airSensor.getTemperature();
+  scdData3 = airSensor.getHumidity();
+}

@@ -16,12 +16,12 @@ void setup() {
 uint32_t counter = 0;
 
 void loop() { 
-  file.print(millis()/1000);
+  file.print(millis());
   file.print(',');
   file.println(counter);
   file.sync();
   counter ++;
-  Serial.println("Done");
+  Serial.println("Done.");
   delay(1000);
 }
 
