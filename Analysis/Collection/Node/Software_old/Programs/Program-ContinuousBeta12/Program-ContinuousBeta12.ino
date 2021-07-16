@@ -36,8 +36,9 @@ volatile unsigned long lastWindIRQ = 0;
 uint16_t VaneValue;
 uint16_t Direction;
 uint16_t CalDirection;
-#define  Offset 0;  
+#define  Offset 45;  
 
+uint8_t NodeID = 1;
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
 //---------------SETUP-------------------//
@@ -57,11 +58,7 @@ void setup() {
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                  // # seconds between readings
   airSensor.setAltitudeCompensation(1300);              // # meter above sea level
-  //airSensor.setForcedRecalibrationFactor(420);
-  uint16_t settingVal;
-  airSensor.getForcedRecalibration(&settingVal);
-  Serial.print("Forced recalibration factor (ppm) is ");
-  Serial.println(settingVal);
+  airSensor.setForcedRecalibrationFactor(1000);
   
   SDBegin();
   dt = rtc.now();
@@ -100,7 +97,7 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 60 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);
@@ -115,11 +112,29 @@ void CreateNewFile() {
     Serial.println("DETATCH_PIN HIGH");
     return;
   }
-  char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
-//  char filename[22];
-//  sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
+
+  uint16_t settingVal;
+  airSensor.getForcedRecalibration(&settingVal);
+  Serial.print("Forced recalibration factor (ppm) is ");
+  Serial.println(settingVal);
+
+
+  uint8_t settingCal;
+  settingCal = airSensor.getAutoSelfCalibration();
+  Serial.print("Auto calibration set to ");
+  Serial.println(settingCal);
+  
+  //char filename[19];
+  //sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  char filename[22];
+  sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
+
+
+  file.write((NodeID      >> 0)  & 0xFF);
+  file.write((settingVal  >> 8)  & 0xFF);
+  file.write((settingVal  >> 0)  & 0xFF);
+  file.write((settingCal  >> 0)  & 0xFF);
   delay(1000);
   file.sync();
   Serial.println("Created new file.");
@@ -223,7 +238,7 @@ void RTCBegin() {
 void SCD30Begin() {
   bool success = false;
   while (success == false) {
-    if(airSensor.begin(Wire, false, true)) {
+    if(airSensor.begin(Wire, true, true)) {
       success = true;
       }      
     else {
