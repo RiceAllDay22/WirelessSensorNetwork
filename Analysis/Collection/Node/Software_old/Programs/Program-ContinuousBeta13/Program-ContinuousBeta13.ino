@@ -38,6 +38,7 @@ uint16_t Direction;
 uint16_t CalDirection;
 #define  Offset 45;  
 
+uint32_t NodeID = 0;
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
 //---------------SETUP-------------------//
@@ -57,11 +58,6 @@ void setup() {
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                  // # seconds between readings
   airSensor.setAltitudeCompensation(1300);              // # meter above sea level
-  //airSensor.setForcedRecalibrationFactor(420);
-  uint16_t settingVal;
-  airSensor.getForcedRecalibration(&settingVal);
-  Serial.print("Forced recalibration factor (ppm) is ");
-  Serial.println(settingVal);
   
   SDBegin();
   dt = rtc.now();
@@ -100,7 +96,7 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 300 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);
@@ -115,11 +111,38 @@ void CreateNewFile() {
     Serial.println("DETATCH_PIN HIGH");
     return;
   }
-  char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
-  //char filename[22];
-  //sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
+  //char filename[19];
+  //sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  char filename[22];
+  sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
+
+  Serial.print("Node ID:");
+  Serial.println(NodeID);
+  
+  uint16_t settingVal;
+  airSensor.getForcedRecalibration(&settingVal);
+  Serial.print("Forced recalibration factor (ppm) is ");
+  Serial.println(settingVal);
+
+  uint8_t autoCalib = airSensor.getAutoSelfCalibration(); 
+  Serial.print("Auto calibration set to ");
+  Serial.println(autoCalib);
+
+  uint16_t fillerOne = 0;
+  uint8_t  fillerTwo = 0;
+  
+  file.write((NodeID      >> 24) & 0xFF);
+  file.write((NodeID      >> 16) & 0xFF);
+  file.write((NodeID      >> 8)  & 0xFF);
+  file.write((NodeID      >> 0)  & 0xFF);
+  file.write((autoCalib   >> 0)  & 0xFF);
+  file.write((settingVal  >> 8)  & 0xFF);
+  file.write((settingVal  >> 0)  & 0xFF);
+  file.write((fillerOne   >> 8)  & 0xFF);
+  file.write((fillerOne   >> 0)  & 0xFF);
+  file.write((fillerTwo   >> 0)  & 0xFF);
+  
   delay(1000);
   file.sync();
   Serial.println("Created new file.");

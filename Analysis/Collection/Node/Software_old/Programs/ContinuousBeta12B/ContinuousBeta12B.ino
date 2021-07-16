@@ -104,7 +104,8 @@ void loop() {
     filestart = dt;
     file.close();
     delay(5000);
-    resetFunc();
+    CreateNewFile();
+    //resetFunc();
   }
 }   
 
