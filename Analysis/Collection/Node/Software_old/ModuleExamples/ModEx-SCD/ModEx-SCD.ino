@@ -72,7 +72,7 @@ void loop() {
 
   if ( (millis() > 120000) && (millis() < 123000) ) {
     uint16_t settingVal;
-    airSensor.setForcedRecalibrationFactor(420);
+    airSensor.setForcedRecalibrationFactor(1000);
     airSensor.getForcedRecalibration(&settingVal);
     Serial.print("Forced recalibration factor (ppm) is ");
     Serial.println(settingVal);

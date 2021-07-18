@@ -43,8 +43,8 @@ void(* resetFunc)(void) = 0;                //declare reset function at address 
 //---------------SETUP-------------------//
 //---------------------------------------//
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Setup Begin");
+  //Serial.begin(9600);
+  //Serial.println("Setup Begin");
   
   Wire.begin();
   pinMode(LED_PIN,      OUTPUT);
@@ -60,8 +60,8 @@ void setup() {
   //airSensor.setForcedRecalibrationFactor(420);
   uint16_t settingVal;
   airSensor.getForcedRecalibration(&settingVal);
-  Serial.print("Forced recalibration factor (ppm) is ");
-  Serial.println(settingVal);
+  //Serial.print("Forced recalibration factor (ppm) is ");
+  //Serial.println(settingVal);
   
   SDBegin();
   dt = rtc.now();
@@ -73,7 +73,7 @@ void setup() {
   interrupts();
  
   digitalWrite(LED_PIN, LOW);
-  Serial.println("Setup Complete");
+  //Serial.println("Setup Complete");
 }
 
 
@@ -113,7 +113,7 @@ void loop() {
 //---------------------------------------//
 void CreateNewFile() {
   if (digitalRead(DETACH_PIN)) {
-    Serial.println("DETATCH_PIN HIGH");
+    //Serial.println("DETATCH_PIN HIGH");
     return;
   }
   char filename[19];
@@ -123,12 +123,12 @@ void CreateNewFile() {
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   delay(1000);
   file.sync();
-  Serial.println("Created new file.");
+  //Serial.println("Created new file.");
 }
 
 void WriteSample() {  
   if (digitalRead(DETACH_PIN)) {
-    Serial.println("File Closed: (DETATCH_PIN HIGH)");
+    //Serial.println("File Closed: (DETATCH_PIN HIGH)");
     digitalWrite(LED_PIN, HIGH);
     file.close();
     return;
@@ -212,11 +212,11 @@ void RTCBegin() {
       success = true;
     }
     else {
-      Serial.println("RTC Failed");
+      //Serial.println("RTC Failed");
     }
     delay(2000);
   }
-  Serial.println("RTC Operational");
+  //Serial.println("RTC Operational");
 }
 
 
@@ -228,11 +228,11 @@ void SCD30Begin() {
       success = true;
       }      
     else {
-      Serial.println("Sensor Failed");
+      //Serial.println("Sensor Failed");
     }
     delay(2000); 
   }
-  Serial.println("Sensor Operational");
+  //Serial.println("Sensor Operational");
 }
 
 
@@ -244,9 +244,9 @@ void SDBegin() {
       success = true; 
     }
     else {
-      Serial.println("SD Module Failed");
+      //Serial.println("SD Module Failed");
     }
     delay(2000);
   }
-  Serial.println("SD Module Operational");
+  //Serial.println("SD Module Operational");
 }
