@@ -40,6 +40,15 @@ uint16_t CalDirection;
 
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
+
+#ifdef __arm__
+// should use uinstd.h to define sbrk but Due causes a conflict
+extern "C" char* sbrk(int incr);
+#else  // __ARM__
+extern char *__brkval;
+#endif  // __arm__
+
+
 //---------------SETUP-------------------//
 //---------------------------------------//
 void setup() {
@@ -96,15 +105,17 @@ void loop() {
     
     windCyc[i] = windClicks;
     windClicks = 0;
+    Serial.println(freeMemory());
   }
   
   WriteSample();
   
-  if (filestart.unixtime()+ 20 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
     filestart = dt;
     file.close();
-    delay(5000);
-    resetFunc();
+    CreateNewFile();
+    //delay(5000);
+    //resetFunc();
   }
 }   
 
@@ -248,4 +259,17 @@ void SDBegin() {
     delay(2000);
   }
   Serial.println("SD Module Operational");
+}
+
+
+
+int freeMemory() {
+  char top;
+  #ifdef __arm__
+    return &top - reinterpret_cast<char*>(sbrk(0));
+  #elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+    return &top - __brkval;
+  #else  // __arm__
+    return __brkval ? &top - __brkval : &top - __malloc_heap_start;
+  #endif  // __arm__
 }

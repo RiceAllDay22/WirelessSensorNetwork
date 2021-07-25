@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <RTClib.h>
 #include <SdFat.h>
-#include <Adafruit_ADS1015.h>
+#include <Adafruit_ADS1X15.h>
 
 #define I2C_ADDRESS 0x48
 #define BUTTON_PIN 5
@@ -22,7 +22,7 @@ int lastButtonState = LOW;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 
-DateTime lastMeasurementTime = 0;
+DateTime lastMeasurementTime;
 int32_t measurementCounter = 0;
 
 int32_t cumulative_voltage_0_1;
@@ -84,9 +84,11 @@ void loop() {
     measurementCounter = 0;
   }
 
-  cumulative_voltage_0_1 += ads1115.readADC_Differential_0_1();
+  //cumulative_voltage_0_1 += ads1115.readADC_Differential_0_1();
+  cumulative_voltage_0_1 += ads1115.readADC_Differential_2_3();
   delay(10);
-  cumulative_voltage_2_3 += ads1115.readADC_Differential_2_3();
+  //cumulative_voltage_2_3 += ads1115.readADC_Differential_2_3();
+  cumulative_voltage_2_3 += ads1115.readADC_Differential_0_1();
   delay(10);
   measurementCounter++;
   
