@@ -104,8 +104,8 @@ void loop() {
     filestart = dt;
     file.close();
     delay(5000);
-    CreateNewFile();
-    //resetFunc();
+    //CreateNewFile();
+    resetFunc();
   }
 }   
 
@@ -224,7 +224,7 @@ void RTCBegin() {
 void SCD30Begin() {
   bool success = false;
   while (success == false) {
-    if(airSensor.begin(Wire, false, true)) {
+    if(airSensor.begin(Wire, true , true)) {
       success = true;
       }      
     else {
