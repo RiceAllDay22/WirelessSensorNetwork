@@ -6,7 +6,7 @@ void setup() {
   Serial.begin(9600);
   RTCBegin();
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //rtc.adjust(DateTime(2020, 1, 14, 9, 0, 0));
+  //rtc.adjust(DateTime(2021, 8, 7, 17, 10, 0));
 }
 
 void loop() {

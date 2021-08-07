@@ -36,15 +36,15 @@ volatile unsigned long lastWindIRQ = 0;
 uint16_t VaneValue;
 uint16_t Direction;
 uint16_t CalDirection;
-#define  Offset 45;  
+#define  Offset 0;  
 
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
 //---------------SETUP-------------------//
 //---------------------------------------//
 void setup() {
-  //Serial.begin(9600);
-  //Serial.println("Setup Begin");
+  Serial.begin(9600);
+  Serial.println("Setup Begin");
   
   Wire.begin();
   pinMode(LED_PIN,      OUTPUT);
@@ -100,7 +100,7 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 60 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);
@@ -117,7 +117,7 @@ void CreateNewFile() {
     return;
   }
   char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
   //char filename[22];
   //sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
@@ -244,9 +244,9 @@ void SDBegin() {
       success = true; 
     }
     else {
-      //Serial.println("SD Module Failed");
+      Serial.println("SD Module Failed");
     }
     delay(2000);
   }
-  //Serial.println("SD Module Operational");
+  Serial.println("SD Module Operational");
 }

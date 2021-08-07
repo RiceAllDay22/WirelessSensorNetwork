@@ -1,4 +1,5 @@
 from machine import ADC, Pin
+import time
 
 wd_pin = ADC("D0")
 bit1 = Pin("D2", Pin.IN)
@@ -14,14 +15,17 @@ def BoolArrayToByte(boolArray):
 			result = result | (1 << i)
 	return result
 
+def MR():
+	MR_pin.value(1)
+	time.sleep(0.001)
+	MR_pin.value(0)
+
 def ws():
 	ws_value_binary = [bit1.value(), bit2.value(), bit3.value(), bit4.value()]
 	ws_value_decimal = BoolArrayToByte(ws_value_binary)
+	MR()
 	return ws_value_decimal
 
-def MR():
-	MR_pin.value(1)
-	MR_pin.value(0)
 
 def wd():
 	x = wd_pin.read()
