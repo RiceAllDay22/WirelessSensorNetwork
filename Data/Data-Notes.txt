@@ -1,46 +1,60 @@
-
-CODE: ContinuousBeta11
 7-6-2021
-Primary Node:
-Start: 	1625604925	Tue Jul 06 2021 14:55:25 GMT-0600
-End:	1625757817	Thu Jul 08 2021 09:23:37 GMT-0600
+PRIMARY NODE
+Code: 	ContinuousBeta11
+Start: 	1625604925	Tue Jul 06 2021 14:55:25 GMT-0600	[Setup with Jake]
+End:	1625757817	Thu Jul 08 2021 09:23:37 GMT-0600	[Noon check before Brian Meeting]
 Span:	152892		1.77 Days
 Rows:	50965
-Notes:	On, but inactive upon checkup.
+Notes:	On, but inactive upon checkup
+	Forced calibration to 420 ppm
+	Auto calibration OFF
+	Direction Offset not set
 
 
 7-6-2021
-Secondary Node:
-Start:	1625605514	Tue Jul 06 2021 15:05:14 GMT-0600
+SECONDARY NODE
+Code: 	ContinuousBeta11
+Start:	1625605514	Tue Jul 06 2021 15:05:14 GMT-0600	
 End:	1625851496	Fri Jul 09 2021 11:24:56 GMT-0600
 Span:	245982		2.85 Days
 Rows:	81995		
 Notes:  Operational upon checkup.
+	Forced calibration to 420 ppm
+	Auto calibration OFF
+	Direction Offset not set
 
 
-CODE: ContinuousBeta11
+
 7-9-2021
-Primary Node:
-Start: 	1625851236	Fri Jul 09 2021 11:20:36 GMT-0600 (Mountain Daylight Time)
-End:	1626112488	Mon Jul 12 2021 11:54:48 GMT-0600 (Mountain Daylight Time)
+PRIMARY NODE
+Code: 	ContinuousBeta11
+Start: 	1625851236	Fri Jul 09 2021 11:20:36 GMT-0600	[Noon check before Brian Meeting]
+End:	1626112488	Mon Jul 12 2021 11:54:48 GMT-0600 	[Solo check on Monday]
 Span:	261252		3.02 Days
 Rows:	87085
 Notes:  Operational upon checkup.
+	Forced calibration to 420 ppm
+	Auto calibration OFF
+	Direction Offset not set
+
 
 7-9-2021
-Secondary Node:
+SECONDARY NODE
+Code:	ContinuousBeta11
 Start: 	1625851714	Fri Jul 09 2021 11:28:34 GMT-0600 (Mountain Daylight Time)
 End:	1625905231	Sat Jul 10 2021 02:20:31 GMT-0600 (Mountain Daylight Time)
 Span:	53517		0.62 Days
 Rows:	17840
 Notes:	On, but inactive upon checkup.
+	Forced calibration to 420 ppm
+	Auto calibration OFF
+	Direction Offset not set
 
 
-
-CODE: ContinuousBeta12
 7-12-2021
-Primary Node:
-Start: 	
+PRIMARY NODE
+Code:	ContinuousBeta12		
+Start: 		[Solo check on Monday]
 End:	
 Span:	
 Rows:	
@@ -49,7 +63,8 @@ Notes: On, but inactive upon checkup. Each file, except for last, had 1200 lines
 
 
 7-12-2021
-Secondary Node:
+SECONDARY NODE
+Code:	
 Start: 	
 End:	
 Span:	

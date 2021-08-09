@@ -100,12 +100,12 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 60 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 3600 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);
-    //CreateNewFile();
-    resetFunc();
+    CreateNewFile();
+    //resetFunc();
   }
 }   
 
@@ -117,13 +117,13 @@ void CreateNewFile() {
     return;
   }
   char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.minute());
+  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
   //char filename[22];
   //sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   delay(1000);
   file.sync();
-  //Serial.println("Created new file.");
+  Serial.println("Created new file.");
 }
 
 void WriteSample() {  
