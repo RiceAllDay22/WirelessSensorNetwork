@@ -27,8 +27,14 @@ PER_DAY     = (3)
 PER_WEEKDAY = (4)
 PER_MONTH   = (5)
 
+SECONDS_FROM_1970_TO_2000 = 946684800
+daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
+
+
 class DS3231():
     def __init__(self, i2c):
+        devices = i2c.scan()
+        assert DS3231_I2C_ADDR in devices, "Did not find slave %d in scan: %s" % (DS3231_I2C_ADDR, devices)
         self.i2c = i2c
         self.setReg(DS3231_REG_CTRL, 0x4C)
 
@@ -148,3 +154,34 @@ class DS3231():
             return t1 - t2/256 -256
         else:
             return t1 + t2/256
+
+
+    def time2ulong(self, days, hh, mm, ss):
+        return ((days * 24 + hh) * 60 + mm) * 60 + ss
+
+    def date2days(self, y, m, d):
+        y -= 2000
+        days = d
+        for i in range(m-1):
+            days += daysInMonth[i]
+        if ((m > 2) and (y % 4 == 0) ):
+            days += 1
+        return days + 365 * y + (y + 3) // 4 - 1
+
+    def UnixTime(self, y, m, d, Weekday, hh, mm, ss):
+        ut = 0
+        days = self.date2days(y, m, d)
+        ut = self.time2ulong(days, hh, mm, ss)
+        ut += SECONDS_FROM_1970_TO_2000
+        return ut
+
+    def get_unixtime(self):
+        while 1:
+            try:
+                dt = self.DateTime()
+                if dt[0] == dt[0]:
+                    break
+            except:
+                print("RTC Error Trying again...")
+        ut = self.UnixTime(*dt)
+        return ut

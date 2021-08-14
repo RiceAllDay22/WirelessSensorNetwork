@@ -43,8 +43,8 @@ void(* resetFunc)(void) = 0;                //declare reset function at address 
 //---------------SETUP-------------------//
 //---------------------------------------//
 void setup() {
-  Serial.begin(9600);
-  Serial.println("Setup Begin");
+  //Serial.begin(9600);
+  //Serial.println("Setup Begin");
   
   Wire.begin();
   pinMode(LED_PIN,      OUTPUT);
@@ -104,8 +104,8 @@ void loop() {
     filestart = dt;
     file.close();
     delay(5000);
-    CreateNewFile();
-    //resetFunc();
+    //CreateNewFile();
+    resetFunc();
   }
 }   
 
@@ -123,7 +123,7 @@ void CreateNewFile() {
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   delay(1000);
   file.sync();
-  Serial.println("Created new file.");
+  //Serial.println("Created new file.");
 }
 
 void WriteSample() {  
@@ -244,9 +244,9 @@ void SDBegin() {
       success = true; 
     }
     else {
-      Serial.println("SD Module Failed");
+      //Serial.println("SD Module Failed");
     }
     delay(2000);
   }
-  Serial.println("SD Module Operational");
+  //Serial.println("SD Module Operational");
 }

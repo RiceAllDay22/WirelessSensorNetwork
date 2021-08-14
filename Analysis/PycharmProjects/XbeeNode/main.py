@@ -1,67 +1,68 @@
-from machine import I2C
+# IMPORT LIBRARIES
+from machine import I2C, Pin
+import gc
 import DS3231
 import SCD30
-import time
 from Davis import wd, ws, MR
-
-SECONDS_FROM_1970_TO_2000 = 946684800
-daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
+import time
 
 
-def time2ulong(days, hh, mm, ss):
-    return ((days * 24 + hh) * 60 + mm) * 60 + ss
+# SETUP PINS AND MODULES
+LED_pin = Pin("D10", Pin.OUT)
+LED_pin.value(0)
 
-def date2days(y, m, d):
-    y -= 2000
-    days = d
-    for i in range(m-1):
-        days += daysInMonth[i]
-    if ((m > 2) and (y % 4 == 0) ):
-        days += 1
-    return days + 365 * y + (y + 3) // 4 - 1
-
-def unixtime(y, m, d, hh, mm, ss):
-    t = 0
-    days = date2days(y, m, d)
-    t = time2ulong(days, hh, mm, ss)
-    t += SECONDS_FROM_1970_TO_2000
-    return t
-
-
-i2c = I2C(1)
+i2c = I2C(1, freq = 30000)
 scd = SCD30.SCD30(i2c, 0x61)
+scd.set_measurement_interval(2)
 ds = DS3231.DS3231(i2c)
-ds.DateTime([2021, 8, 7, 1, 16, 30, 0])
-datetime = [2070, 8, 7, 16, 30, 0]
-unix = unixtime(*datetime)
-print(unix)
-print('checkcheck')
+#ds.DateTime([2021, 8, 7, 1, 16, 30, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
 
+
+time.sleep(5)
+# CALL MISCELLANEOUS FUNCTIONS AND SETUP VARIABLES
 MR()
+gc.collect()
+print(gc.mem_free())
 
-
-
-
-
-
+conc = 0
+temp = 0
+length = 1200
 
 
 while 1:
-    windDir = wd()
-    dt = ds.DateTime()
+    for i in range(0, 1200):
+        # WIND
+        windDir = wd()
+        windCyc = ws()
+
+        # GAS AND TEMP
+        conc, temp = scd.get_scd()
+
+        # TIME
+        ut = ds.get_unixtime()
+        print(ut, conc, temp, windDir, windCyc, gc.mem_free())
+
+        # WAIT UNTIL NEXT MEASUREMENT
+        LED_pin.value(0)
+
+        #time.sleep(1)
+        now_ut = ds.get_unixtime()
+        while now_ut < ut + 3:
+            #time.sleep(1)
+            now_ut = ds.get_unixtime()
+
+        LED_pin.value(1)
+        gc.collect()
 
 
-    co2 = None
-
-    while 1:
-        try:
-            co2 = scd.read_measurement()
-            if co2[0] == co2[0]:
-                break
-        except:
-            print("Error Trying again...")
-
-    print(dt, co2, windDir, ws())
-    time.sleep(3)
+# co2 = None
+#
+# while 1:
+#     try:
+#         co2 = scd.read_measurement()
+#         if co2[0] == co2[0]:
+#             break
+#     except:
+#         print("Error Trying again...")
 

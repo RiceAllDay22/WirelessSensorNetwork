@@ -89,7 +89,7 @@ class SCD30:
         temperature = struct.unpack('>f', value[0:2] + value[3:5])[0]
         value = measurement[12:]
         relh = struct.unpack('>f', value[0:2] + value[3:5])[0]
-        return (co2, temperature, relh)
+        return [co2, temperature, relh]
 
     def get_status_ready(self):
         ready = self.__read_bytes(self.GET_STATUS_READY, 3)
@@ -173,4 +173,16 @@ class SCD30:
             crc ^= lsb
             crc = self.CRC_TABLE[crc]
         return crc
+
+    def get_scd(self):
+        while 1:
+            try:
+                scdData = self.read_measurement()
+                if scdData[0] == scdData[0]:
+                    break
+            except:
+                print("SCD Error Trying again...")
+            conc = int(scdData[0])
+            temp = int(scdData[1])
+        return (conc, temp)
 

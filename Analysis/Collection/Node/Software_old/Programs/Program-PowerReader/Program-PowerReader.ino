@@ -1,7 +1,7 @@
 #include <Wire.h>
 #include <RTClib.h>
 #include <SdFat.h>
-#include <Adafruit_ADS1015.h>
+#include <Adafruit_ADS1X15.h>
 
 #define I2C_ADDRESS 0x48
 #define BUTTON_PIN 5
@@ -22,7 +22,7 @@ int lastButtonState = LOW;
 unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 
-DateTime lastMeasurementTime = 0;
+DateTime lastMeasurementTime;
 int32_t measurementCounter = 0;
 
 int32_t cumulative_voltage_0_1;
@@ -30,19 +30,23 @@ int32_t cumulative_voltage_2_3;
 
 void setup() {
   Serial.begin (9600);
+  Serial.println("Begin");
   
   pinMode(BUTTON_PIN, INPUT);
   pinMode(LED_PIN, OUTPUT);
 
   digitalWrite(LED_PIN, ledState);
-
+  Serial.println("Stuck1");
   Wire.begin();
-
-  if(!rtc.begin()) Serial.println("RTC setup failed!");
+  Serial.println("Stuck1.5");
+  RTCBegin();
+  Serial.println("Stuck2");
   ads1115.begin();
+  Serial.println("Stuck3");
   if(!sd.begin(sdChipSelect)) Serial.println("SD Card setup failed!");
 
   dt = rtc.now();
+  Serial.println("Ready");
 }
 
 
@@ -90,4 +94,19 @@ void loop() {
   delay(10);
   measurementCounter++;
   
+}
+
+
+void RTCBegin() {
+  bool success = false;
+  while (success == false) {
+    if(rtc.begin()) {
+      success = true;
+    }
+    else {
+      //Serial.println("RTC Failed");
+    }
+    delay(2000);
+  }
+  //Serial.println("RTC Operational");
 }
