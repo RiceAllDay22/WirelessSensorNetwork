@@ -11,13 +11,12 @@
 SdFat       sd;
 SdFile      file;
 RTC_DS3231  rtc;
-DateTime    dt;
 DateTime    now_dt;
-DateTime    old_dt;
+DateTime    dt;
 DateTime    filestart_dt;
 SCD30       airSensor;
 
-uint32_t old_ut;
+uint32_t ut;
 uint32_t now_ut;
 uint32_t filestart_ut;
 
@@ -42,7 +41,7 @@ volatile unsigned long lastWindIRQ = 0;
 uint16_t VaneValue;
 uint16_t Direction;
 uint16_t CalDirection;
-#define  Offset 0;  
+#define  Offset 45;  
 
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
@@ -51,7 +50,7 @@ void(* resetFunc)(void) = 0;                //declare reset function at address 
 void setup() {
   Serial.begin(9600);
   Serial.println("Setup Begin");
- 
+  
   Wire.begin();
   pinMode(LED_PIN,      OUTPUT);
   pinMode(WSPEED_PIN,   INPUT);
@@ -66,15 +65,13 @@ void setup() {
   //airSensor.setForcedRecalibrationFactor(420);
   uint16_t settingVal;
   airSensor.getForcedRecalibration(&settingVal);
-  //Serial.print("Forced recalibration factor (ppm) is ");
-  //Serial.println(settingVal);
+  Serial.print("Forced recalibration factor (ppm) is ");
+  Serial.println(settingVal);
   
   SDBegin();
-  old_dt = rtc.now();
-  old_ut = old_dt.unixtime();
-  filestart_dt = old_dt;
-  filestart_ut = old_ut;
-  dt = old_dt;
+  dt = rtc.now();
+  filestart_dt = dt;
+  filestart_ut = filestart_dt.unixtime();
   CreateNewFile();
   delay(2000);
   
@@ -82,7 +79,7 @@ void setup() {
   interrupts();
  
   digitalWrite(LED_PIN, LOW);
-  //Serial.println("Setup Complete");
+  Serial.println("Setup Complete");
 }
 
 
@@ -92,21 +89,19 @@ void loop() {
   now_dt = rtc.now();
   
   for (int i=0; i<arrayLength; i++) {
-    now_ut           = now_dt.unixtime();
-    Serial.println();
-    Serial.print(now_ut);
-    Serial.print(" ");
-
-  
-    unixTime[i]  = now_ut;
+    dt           = now_dt;
+    ut           = dt.unixtime();
+    unixTime[i]  = ut;
     windDir[i]   = WindDirection(); 
     CollectGas();
     concData[i]  = scdData1;
     tempData[i]  = scdData2;
 
-    Serial.print(now_ut);
+
+    Serial.println();
+    Serial.print(ut);
     Serial.print(" ");
-    Serial.println("Wait");
+
     do {
       now_dt = rtc.now();
       now_ut = now_dt.unixtime();
@@ -114,29 +109,23 @@ void loop() {
       Serial.print(" ");
       delay(100);
 
-      if (now_ut > old_ut + 604800) {
+      if (now_ut > ut + 604800) {
         Serial.println("Time Jump Occurred");
         delay(100);
         now_dt = rtc.now();
-        now_ut = now_dt.unixtime();
+        now_ut = now_dt.unixtime();;
       }
-
-      
-    } while ( now_ut < unixTime[i] + 3 );
+    } while ( now_ut < ut + 3 );
     
-    old_ut = now_ut;
     windCyc[i] = windClicks;
     windClicks = 0;
   }
-
   
-  Serial.println("Write ");
   WriteSample();
   
-  if (filestart_ut + 120 <= now_ut) {
-    dt = now_dt;
-    filestart_dt = now_dt;
-    filestart_ut = now_ut;
+  if (filestart_ut + 1800 <= ut) {
+    filestart_dt = dt;
+    filestart_ut = filestart_dt.unixtime();
     file.close();
     delay(5000);
     CreateNewFile();
@@ -148,7 +137,7 @@ void loop() {
 //---------------------------------------//
 void CreateNewFile() {
   if (digitalRead(DETACH_PIN)) {
-    //Serial.println("DETATCH_PIN HIGH");
+    Serial.println("DETATCH_PIN HIGH");
     return;
   }
   //char filename[19];
@@ -163,7 +152,7 @@ void CreateNewFile() {
 
 void WriteSample() {  
   if (digitalRead(DETACH_PIN)) {
-    //Serial.println("File Closed: (DETATCH_PIN HIGH)");
+    Serial.println("File Closed: (DETATCH_PIN HIGH)");
     digitalWrite(LED_PIN, HIGH);
     file.close();
     return;
@@ -247,7 +236,7 @@ void RTCBegin() {
       success = true;
     }
     else {
-       Serial.println("RTC Failed");
+      Serial.println("RTC Failed");
     }
     delay(2000);
   }
@@ -259,7 +248,7 @@ void RTCBegin() {
 void SCD30Begin() {
   bool success = false;
   while (success == false) {
-    if(airSensor.begin(Wire, true , true)) {
+    if(airSensor.begin(Wire, true, true)) {
       success = true;
       }      
     else {

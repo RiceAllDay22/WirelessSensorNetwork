@@ -15,6 +15,8 @@ DateTime    dt;
 DateTime    filestart;
 SCD30       airSensor;
 
+uint32_t now_ut;
+
 const byte sdChipSelect = SS;
 const byte WSPEED_PIN   = 2;
 const byte DETACH_PIN   = 5;
@@ -92,7 +94,15 @@ void loop() {
 
     do {
       now_dt = rtc.now();
-    } while ( now_dt.unixtime() < dt.unixtime() + 3 );
+      now_ut = now_dt.unixtime();
+
+      if (now_ut > unixTime[i] + 604800) {
+        delay(100);
+        now_dt = rtc.now();
+        now_ut = now_dt.unixtime();;
+      }
+      delay(100);
+    } while ( now_ut < dt.unixtime() + 3 );
     
     windCyc[i] = windClicks;
     windClicks = 0;
@@ -104,7 +114,8 @@ void loop() {
     filestart = dt;
     file.close();
     delay(5000);
-    resetFunc();
+    CreateNewFile();
+    //resetFunc();
   }
 }   
 
@@ -115,10 +126,10 @@ void CreateNewFile() {
     Serial.println("DETATCH_PIN HIGH");
     return;
   }
-  char filename[19];
-  sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
-  //char filename[22];
-  //sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
+  //char filename[19];
+  //sprintf(filename, "%04d-%02d-%02d--%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour());
+  char filename[22];
+  sprintf(filename, "%04d-%02d-%02d--%02d-%02d.csv", dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute());
   file.open(filename, O_CREAT|O_WRITE|O_APPEND);
   delay(1000);
   file.sync();
