@@ -37,7 +37,7 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
     <configuration name="NodeTest" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
@@ -75,6 +75,10 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
+    <state x="739" y="263" key="FileChooserDialogImpl" timestamp="1629411206056">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="739" y="263" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1629411206056" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1629248016595">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -95,13 +99,14 @@
     </state>
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1629248016595" />
     <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629049560788" />
-    <state x="2381" y="163" key="SettingsEditor" timestamp="1629044245679">
-      <screen x="1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="2381" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629044245679" />
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1629247882410">
+    <state x="461" y="163" key="SettingsEditor" timestamp="1629410770578">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1629247882410" />
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1629410770578" />
+    <state x="2381" y="163" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1629044245679" />
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1629410787574">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1629410787574" />
   </component>
 </project>
