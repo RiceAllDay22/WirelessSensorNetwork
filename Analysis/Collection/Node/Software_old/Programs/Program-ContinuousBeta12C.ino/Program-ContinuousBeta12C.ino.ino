@@ -129,13 +129,18 @@ void loop() {
 
       Serial.print("Stuck4?");
     } while ( now_ut < ut + 3 );
-    
+
+    Serial.print("Stuck4.5?");
     windCyc[i] = windClicks;
     windClicks = 0;
+    Serial.print("Stuck4.7?");
+    
   }
-  
+
+  Serial.print("Stuck5?");
   WriteSample();
-  
+
+  Serial.print("Stuck6?");
   if (filestart_ut + 1800 <= ut) {
     filestart_dt = dt;
     filestart_ut = filestart_dt.unixtime();
