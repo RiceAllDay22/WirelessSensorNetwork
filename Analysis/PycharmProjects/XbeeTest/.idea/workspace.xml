@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e48c43da-5e21-4c91-9ec0-8a7c0ee06c07" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/DS3231.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/Programs/Program-ContinuousBeta12B/Program-ContinuousBeta12B.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/Programs/Program-ContinuousBeta12B/Program-ContinuousBeta12B.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
