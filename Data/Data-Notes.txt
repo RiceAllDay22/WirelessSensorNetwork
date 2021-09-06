@@ -128,6 +128,9 @@ Files:
 Notes:
 
 
+8-19-2021
+[]
+[Check during class. Car break-in]
 SECONDARY NODE
 Code:	ContinuousBeta12 (Hourly Reset)
 Start:

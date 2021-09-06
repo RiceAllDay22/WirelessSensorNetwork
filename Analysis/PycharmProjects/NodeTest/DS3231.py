@@ -1,4 +1,4 @@
-#Source: https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
+# Source: https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
 
 DS3231_I2C_ADDR   = (0x68)
 DS3231_REG_SEC    = (0x00)
@@ -169,7 +169,6 @@ class DS3231():
         return days + 365 * y + (y + 3) // 4 - 1
 
     def UnixTime(self, y, m, d, Weekday, hh, mm, ss):
-        ut = 0
         days = self.date2days(y, m, d)
         ut = self.time2ulong(days, hh, mm, ss)
         ut += SECONDS_FROM_1970_TO_2000

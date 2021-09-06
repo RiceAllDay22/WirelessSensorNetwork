@@ -1,4 +1,4 @@
-#Source: https://github.com/agners/micropython-scd30
+# Source: https://github.com/agners/micropython-scd30
 import utime
 import struct
 
@@ -90,6 +90,7 @@ class SCD30:
         value = measurement[12:]
         relh = struct.unpack('>f', value[0:2] + value[3:5])[0]
         return [co2, temperature, relh]
+        #return [int(co2), int(temperature), int(relh)]
 
     def get_status_ready(self):
         ready = self.__read_bytes(self.GET_STATUS_READY, 3)

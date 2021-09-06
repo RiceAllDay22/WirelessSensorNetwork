@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="7ba1246f-3048-45e3-9abe-20337047fbb6" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/DS3231.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/DS3231.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/Davis.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/Davis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/SCD30.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/SCD30.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../spike/CombineCSV-BinaryNew.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../spike/CombineCSV-BinaryNew.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../spike/DataProcessing.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../spike/DataProcessing.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../spike/OpenAirAnalysisNew.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../spike/OpenAirAnalysisNew.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/Data-Notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Data/Data-Notes.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1xf2X2jDyLMOFfYVMhuuDDxa2WM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.digi.micropython.xbee_platform" value="" />
+    <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
+    <property name="com.digi.pycharm.compile_sources" value="true" />
+    <property name="com.digi.pycharm.digi_platform" value="Digi XBee3 DigiMesh 2.4" />
+    <property name="com.digi.pycharm.do_not_show_mp_mode_question" value="false" />
+    <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
+    <property name="com.digi.pycharm.skip_equal_files" value="true" />
+    <property name="com.digi.pycharm.transfer_sources" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="relay_frames" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7ba1246f-3048-45e3-9abe-20337047fbb6" name="Default Changelist" comment="" />
+      <created>1630731857201</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1630731857201</updated>
+    </task>
+    <servers />
+  </component>
+</project>

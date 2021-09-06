@@ -5,17 +5,12 @@ DateTime dt;
 void setup() {
   Serial.begin(9600);
   RTCBegin();
-  
-  //Uncomment the code below to set the clock to a specific timestamp to synchronize.
-  //Comment out the code below then synchronization is complete.
-  //rtc.adjust(1626063680);
 }
 
 void loop() {
   dt = rtc.now(); 
   Serial.println(dt.unixtime());
-  while (rtc.now().unixtime() == dt.unixtime());
-  
+  while (rtc.now().unixtime() == dt.unixtime());  
 }
 
 void RTCBegin() {
