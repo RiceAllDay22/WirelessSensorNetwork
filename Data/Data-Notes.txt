@@ -123,7 +123,7 @@ Code:	ContinuousBeta12 (Hourly Reset)
 Start:
 End:
 Span:
-Rows:
+Rows: 38330
 Files:
 Notes:
 
@@ -136,6 +136,6 @@ Code:	ContinuousBeta12 (Hourly Reset)
 Start:
 End:
 Span:
-Rows:
+Rows: 37415
 Files:
 Notes:
