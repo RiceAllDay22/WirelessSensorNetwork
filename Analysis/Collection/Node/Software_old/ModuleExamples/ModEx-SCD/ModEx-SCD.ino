@@ -18,7 +18,7 @@ void setup() {
   Wire.begin();
 
   //bool begin(TwoWire &wirePort = Wire, bool autoCalibrate = false, bool measBegin = true);
-  if (airSensor.begin(Wire, false, true) == false) {
+  if (airSensor.begin(Wire, true, true) == false) {
     Serial.println("SCD30 Sensor Failed");
     while (1);
   }

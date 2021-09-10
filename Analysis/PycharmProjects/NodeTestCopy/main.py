@@ -1,4 +1,4 @@
-# 9/10/2021 MAIN
+# 9/3/2021 MAIN
 
 # IMPORT LIBRARIES
 import machine
@@ -16,10 +16,10 @@ scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 ds = DS3231.DS3231(i2c)
-#ds.DateTime([2021, 9, 10, 7, 5, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
+#ds.DateTime([2021, 9, 10, 7, 14, 45, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
 # MISCELLANEOUS SETUPS
-BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
+#BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 Davis.MR()  # Reset Counter Chip
 gc.collect()
@@ -47,7 +47,8 @@ while 1:
     ut = ds.UnixTime(*ds.DateTime())
     windDir = Davis.wd(dir_offset)
     windCyc = Davis.ws()
-    button = BUTTON_Pin.value()
+    #button = BUTTON_Pin.value()
+    button = 0
 
     # Check If Unixtime is synchronized
     if ut == true_ut:
@@ -80,3 +81,16 @@ while 1:
     # Reset
     gc.collect()
 
+    # TIME
+    # ut = ds.get_unixtime()
+
+    # conc, temp = scd.get_scd()
+
+    # unix = ds.get_unixtime()
+    # print(dt, unix)
+    # time.sleep(0.5)
+
+    # now_ut = ds.UnixTime(ds.DateTime())
+    # while now_ut
+
+    # WAIT UNTIL NEXT MEASUREMENT

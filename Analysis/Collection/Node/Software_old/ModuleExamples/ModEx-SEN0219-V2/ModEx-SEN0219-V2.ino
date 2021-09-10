@@ -1,4 +1,4 @@
-int sensorIn = A7;
+int sensorIn = A0;
 
 void setup(){
   Serial.begin(9600);
