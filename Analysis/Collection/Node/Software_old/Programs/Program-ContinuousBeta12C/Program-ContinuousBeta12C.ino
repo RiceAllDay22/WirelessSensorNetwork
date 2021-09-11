@@ -52,12 +52,19 @@ void setup() {
   Serial.println("Setup Begin");
   
   Wire.begin();
+  //Wire.setClock(32000);
   pinMode(LED_PIN,      OUTPUT);
   pinMode(WSPEED_PIN,   INPUT);
   pinMode(DETACH_PIN,   INPUT_PULLUP); 
   digitalWrite(LED_PIN, HIGH);
 
   RTCBegin();
+
+  Serial.print(rtc.lostPower());
+  rtc.flip();
+  Serial.print(rtc.lostPower());
+  
+
   
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                  // # seconds between readings
@@ -89,6 +96,9 @@ void loop() {
   now_dt = rtc.now();
   
   for (int i=0; i<arrayLength; i++) {
+    Serial.print(rtc.lostPower());
+    Serial.print("Stuck0?");
+    
     dt           = now_dt;
     ut           = dt.unixtime();
     unixTime[i]  = ut;
@@ -97,15 +107,12 @@ void loop() {
     concData[i]  = scdData1;
     tempData[i]  = scdData2;
 
-
     Serial.println();
     Serial.print(ut);
     Serial.print(" ");
 
     do {
-
-
-
+      Serial.print(rtc.lostPower());
       Serial.print("Stuck1?");
       now_dt = rtc.now();
       now_ut = now_dt.unixtime();
@@ -114,13 +121,13 @@ void loop() {
       delay(100);
 
 
-      
       Serial.print("Stuck2?");
       if (now_ut > ut + 604800) {
         Serial.println("Time Jump Occurred");
         delay(100);
 
 
+        Serial.print(rtc.lostPower());
         Serial.print("Stuck3?");
         now_dt = rtc.now();
         now_ut = now_dt.unixtime();;
