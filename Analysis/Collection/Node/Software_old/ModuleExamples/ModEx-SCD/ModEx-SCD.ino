@@ -26,7 +26,7 @@ void setup() {
   airSensor.setMeasurementInterval(2);
   airSensor.setAltitudeCompensation(1300);
   airSensor.setTemperatureOffset(0);
-  //airSensor.setForcedRecalibrationFactor()
+  airSensor.setForcedRecalibrationFactor(1000);
   //airSensor.setAutoSelfCalibration()
   
   

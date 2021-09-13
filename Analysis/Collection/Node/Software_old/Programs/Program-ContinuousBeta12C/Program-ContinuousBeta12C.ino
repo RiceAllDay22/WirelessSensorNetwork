@@ -59,7 +59,6 @@ void setup() {
   digitalWrite(LED_PIN, HIGH);
 
   RTCBegin();
-
   Serial.print(rtc.lostPower());
   rtc.flip();
   Serial.print(rtc.lostPower());

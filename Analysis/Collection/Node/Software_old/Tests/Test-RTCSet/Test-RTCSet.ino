@@ -4,13 +4,13 @@ DateTime dt;
 const byte DETACH_PIN   = 5;
 
 //ADJUST THE UNIXTIME BELOW
-uint32_t TIME_VALUE = 1631250950; 
-
+uint32_t TIME_VALUE = 1631479650;
 
 void setup() {
   Serial.begin(9600);
   pinMode(DETACH_PIN,   INPUT_PULLUP); 
   RTCBegin();
+  //rtc.adjust(TIME_VALUE);
 }
 
 

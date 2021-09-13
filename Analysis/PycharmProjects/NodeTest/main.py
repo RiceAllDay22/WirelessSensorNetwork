@@ -15,6 +15,7 @@ scd = SCD30.SCD30(i2c, 0x61)
 scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
+scd.set_forced_recalibration(1000)
 ds = DS3231.DS3231(i2c)
 #ds.DateTime([2021, 9, 10, 7, 5, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
