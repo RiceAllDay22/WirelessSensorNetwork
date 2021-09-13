@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f95e7999-2513-4d72-8807-f7787209bc10" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-Davis/ModEx-Davis.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-Davis/ModEx-Davis.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-RTCDavisSCD/ModEx-RTCDavisSCD.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-RTCDavisSCD/ModEx-RTCDavisSCD.ino" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1wHFmC33GqQscrp938LL2GSyWCl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f95e7999-2513-4d72-8807-f7787209bc10" name="Changes" comment="" />
+      <created>1628107765495</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1628107765495</updated>
+    </task>
+    <servers />
+  </component>
+</project>
