@@ -52,7 +52,7 @@ class SCD30:
         4, 53, 102, 87, 192, 241, 162, 147, 189, 140, 223, 238, 121, 72, 27, 42,
         193, 240, 163, 146, 5, 52, 103, 86, 120, 73, 26, 43, 188, 141, 222, 239,
         130, 179, 224, 209, 70, 119, 36, 21, 59, 10, 89, 104, 255, 206, 157, 172
-        ]
+    ]
 
     def __init__(self, i2c, addr, pause=1000):
         self.i2c = i2c
@@ -90,7 +90,7 @@ class SCD30:
         value = measurement[12:]
         relh = struct.unpack('>f', value[0:2] + value[3:5])[0]
         return [co2, temperature, relh]
-        #return [int(co2), int(temperature), int(relh)]
+        #return (co2, temperature, relh)
 
     def get_status_ready(self):
         ready = self.__read_bytes(self.GET_STATUS_READY, 3)
@@ -117,7 +117,7 @@ class SCD30:
         bint = struct.pack('>H', 1 if enable else 0)
         crc = self.__crc(bint[0], bint[1])
         data = bint + bytes([crc])
-        self.i2c.writeto_mem(self.addr, self.SET_FRC, data, addrsize=16)
+        self.i2c.writeto_mem(self.addr, self.SET_ASC, data, addrsize=16)
 
     def get_forced_recalibration(self):
         bint = self.__read_bytes(self.SET_FRC, 3)

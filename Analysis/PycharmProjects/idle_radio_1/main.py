@@ -20,6 +20,8 @@
 import time
 import xbee
 
+xbee.idle_radio(False)
+
 
 def read_sensor():
     """This example uses ATTP to read the internal temperature sensor."""
@@ -36,7 +38,7 @@ def main():
 
     # Idle the radio. While the radio is idled, the radio cannot receive
     # transmissions and current draw is reduced.
-    xbee.idle_radio(False)
+    xbee.idle_radio(True)
 
     # register handle_rx_packet to be called whenever a packet is received.
     xbee.receive_callback(handle_rx_packet)

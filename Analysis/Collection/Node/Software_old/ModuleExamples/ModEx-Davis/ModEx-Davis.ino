@@ -22,8 +22,8 @@ void setup() {
 void loop() {
   //Wind Direction
   VaneValue = analogRead(A3);
-  Direction = map(VaneValue, 0, 813, 1, 360);
-  //Direction = map(VaneValue, 0, 1023, 1, 360);
+  //Direction = map(VaneValue, 0, 813, 1, 360);
+  Direction = map(VaneValue, 0, 1023, 1, 360);
   CalDirection = Direction + Offset;
 
 //  if (CalDirection > 360)

@@ -36,8 +36,8 @@ print('')
 
 # SETUP XBEE
 TARGET_NODE_ID = 'S2C'
-#device = XBee.find_device(TARGET_NODE_ID)
-#addr64 = device['sender_eui64']
+device = XBee.find_device(TARGET_NODE_ID)
+addr64 = device['sender_eui64']
 
 # FINAL PREP
 time.sleep(5)
@@ -68,15 +68,15 @@ while 1:
     if button == 1:
         XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
         XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
-        #XBee.transmit(addr64, str(ut))
-        #XBee.transmit(addr64, str(windDir))
-        #XBee.transmit(addr64, str(windCyc))
+        XBee.transmit(addr64, str(ut))
+        XBee.transmit(addr64, str(windDir))
+        XBee.transmit(addr64, str(windCyc))
 
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())
-    while now_ut < ut + 3:
+    while now_ut < ut + 1:
         now_ut = ds.UnixTime(*ds.DateTime())
-        time.sleep(0.1)
+        time.sleep(0.01)
 
     # Reset
     gc.collect()
