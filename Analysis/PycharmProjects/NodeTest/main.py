@@ -35,9 +35,9 @@ print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
 
 # SETUP XBEE
-TARGET_NODE_ID = 'S2C'
-device = XBee.find_device(TARGET_NODE_ID)
-addr64 = device['sender_eui64']
+#TARGET_NODE_ID = 'S2C'
+#device = XBee.find_device(TARGET_NODE_ID)
+#addr64 = device['sender_eui64']
 
 # FINAL PREP
 time.sleep(5)
@@ -65,16 +65,16 @@ while 1:
         print(ut, windDir, windCyc, 0, 0, gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
-    if button == 1:
-        XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
-        XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
-        XBee.transmit(addr64, str(ut))
-        XBee.transmit(addr64, str(windDir))
-        XBee.transmit(addr64, str(windCyc))
+    #if button == 1:
+        #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
+        #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
+        #XBee.transmit(addr64, str(ut))
+        #XBee.transmit(addr64, str(windDir))
+        #XBee.transmit(addr64, str(windCyc))
 
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())
-    while now_ut < ut + 1:
+    while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
         time.sleep(0.01)
 
