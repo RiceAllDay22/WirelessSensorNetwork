@@ -24,7 +24,8 @@ import time
 
 
 # TODO: replace with the node identifier of your target device.
-TARGET_NODE_ID = "RedGrove"
+TARGET_NODE_ID = 'S2C'
+#TARGET_NODE_ID = "GreenGrove"
 MESSAGE = "Hello XBee!"
 
 

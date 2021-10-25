@@ -1,4 +1,4 @@
-# 9/10/2021 MAIN
+# 10/24/2021 MAIN
 
 # IMPORT LIBRARIES
 import machine
@@ -17,10 +17,10 @@ scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 scd.set_forced_recalibration(1000)
 ds = DS3231.DS3231(i2c)
-#ds.DateTime([2021, 9, 10, 7, 5, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
+#ds.DateTime([2021, 10, 24, 2, 4, 7, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
 # MISCELLANEOUS SETUPS
-BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
+#BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 Davis.MR()  # Reset Counter Chip
 gc.collect()
@@ -35,9 +35,10 @@ print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
 
 # SETUP XBEE
-#TARGET_NODE_ID = 'S2C'
-#device = XBee.find_device(TARGET_NODE_ID)
-#addr64 = device['sender_eui64']
+#TARGET_NODE_ID = 'GreenGrove'
+TARGET_NODE_ID = 'TH'
+device = XBee.find_device(TARGET_NODE_ID)
+addr64 = device['sender_eui64']
 
 # FINAL PREP
 time.sleep(5)
@@ -48,7 +49,8 @@ while 1:
     ut = ds.UnixTime(*ds.DateTime())
     windDir = Davis.wd(dir_offset)
     windCyc = Davis.ws()
-    button = BUTTON_Pin.value()
+    button = 1
+    #button = BUTTON_Pin.value()
 
     # Check If Unixtime is synchronized
     if ut == true_ut:
@@ -65,12 +67,24 @@ while 1:
         print(ut, windDir, windCyc, 0, 0, gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
-    #if button == 1:
+    if button == 1:
+        conc = 400
+        temp = 30
         #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
         #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
-        #XBee.transmit(addr64, str(ut))
-        #XBee.transmit(addr64, str(windDir))
-        #XBee.transmit(addr64, str(windCyc))
+        XBee.transmit(addr64, '001')
+        XBee.transmit(addr64, ',')
+        XBee.transmit(addr64, str(ut))
+        XBee.transmit(addr64, ',')
+        XBee.transmit(addr64, str(windDir))
+        XBee.transmit(addr64, ',')
+        XBee.transmit(addr64, str(windCyc))
+        XBee.transmit(addr64, ',')
+        XBee.transmit(addr64, str(conc))
+        XBee.transmit(addr64, ',')
+        XBee.transmit(addr64, str(temp))
+        XBee.transmit(addr64, '>')
+
 
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())
