@@ -1,17 +1,9 @@
-bool started = false;
-bool ended = false;
 //10-24-2021
-
 char incomingByte;
-byte msg[3];
-byte index;
-//byte response[10];
 
 void setup() {
   Serial1.begin(9600);
   Serial.begin(9600);
-  Serial.println("Begin");
-
 }
 
 void loop() {

@@ -1,4 +1,4 @@
-# 10/24/2021 MAIN
+# 10/25/2021 MAIN
 
 # IMPORT LIBRARIES
 import machine
@@ -9,15 +9,15 @@ import SCD30
 import gc
 import XBee
 
-# SETUP PINS AND MODULES
+
+# SETUP I2C, CO2, CLOCK
 i2c = machine.I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
 scd = SCD30.SCD30(i2c, 0x61)
 scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
-scd.set_forced_recalibration(1000)
 ds = DS3231.DS3231(i2c)
-#ds.DateTime([2021, 10, 24, 2, 4, 7, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
+ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
 # MISCELLANEOUS SETUPS
 #BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
@@ -36,9 +36,14 @@ print('')
 
 # SETUP XBEE
 #TARGET_NODE_ID = 'GreenGrove'
-TARGET_NODE_ID = 'TH'
-device = XBee.find_device(TARGET_NODE_ID)
-addr64 = device['sender_eui64']
+
+try:
+    TARGET_NODE_ID = 'TH'
+    device = XBee.find_device(TARGET_NODE_ID)
+    addr64 = device['sender_eui64']
+    button = 1
+except:
+    button = 0
 
 # FINAL PREP
 time.sleep(5)
@@ -49,7 +54,6 @@ while 1:
     ut = ds.UnixTime(*ds.DateTime())
     windDir = Davis.wd(dir_offset)
     windCyc = Davis.ws()
-    button = 1
     #button = BUTTON_Pin.value()
 
     # Check If Unixtime is synchronized
@@ -62,14 +66,16 @@ while 1:
     # Collect SCD30 Data and Print All Results
     if scd.get_status_ready() == 1:
         conc, temp, humid = scd.read_measurement()
-        print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
+        conc = int(conc)
+        temp = int(temp)
     else:
-        print(ut, windDir, windCyc, 0, 0, gc.mem_free(), button, sync)
+        conc = 0
+        temp = 0
+        humid = 0
+    print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
     if button == 1:
-        conc = 400
-        temp = 30
         #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
         #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
         XBee.transmit(addr64, '001')
@@ -84,7 +90,6 @@ while 1:
         XBee.transmit(addr64, ',')
         XBee.transmit(addr64, str(temp))
         XBee.transmit(addr64, '>')
-
 
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())

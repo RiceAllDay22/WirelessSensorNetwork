@@ -64,6 +64,8 @@ while 1:
         conc, temp, humid = scd.read_measurement()
         print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
     else:
+        conc = 0
+        temp = 0
         print(ut, windDir, windCyc, 0, 0, gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
@@ -80,9 +82,9 @@ while 1:
         XBee.transmit(addr64, ',')
         XBee.transmit(addr64, str(windCyc))
         XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(conc))
+        XBee.transmit(addr64, str(int(conc)))
         XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(temp))
+        XBee.transmit(addr64, str(int(temp)))
         XBee.transmit(addr64, '>')
 
 
