@@ -191,7 +191,7 @@ void ClockChanged() {
   if (lastCLK != clkValue){
     lastCLK = clkValue;
     count += (clkValue != dtValue ? 2 : -2);
-    Serial.print("count:");
-    Serial.println(count);
+    //Serial.print("count:");
+    //Serial.println(count);
   }
 }
