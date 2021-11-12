@@ -36,7 +36,7 @@ volatile unsigned long lastWindIRQ = 0;
 uint16_t VaneValue;
 uint16_t Direction;
 uint16_t CalDirection;
-#define  Offset 45;  
+#define  Offset 0;  
 
 uint32_t NodeID = 0;
 void(* resetFunc)(void) = 0;                //declare reset function at address 0

@@ -42,7 +42,7 @@ volatile unsigned long lastWindIRQ = 0;
 uint16_t VaneValue;
 uint16_t Direction;
 uint16_t CalDirection;
-#define  Offset 45;  
+#define  Offset 0;  
 
 void(* resetFunc)(void) = 0;                //declare reset function at address 0
 
@@ -66,7 +66,6 @@ void setup() {
   Serial.print(rtc.lostPower());
   
 
-  
   SCD30Begin();
   airSensor.setMeasurementInterval(2);                  // # seconds between readings
   airSensor.setAltitudeCompensation(1300);              // # meter above sea level
