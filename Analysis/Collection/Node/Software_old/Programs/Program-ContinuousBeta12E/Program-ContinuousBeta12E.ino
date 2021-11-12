@@ -105,10 +105,7 @@ void loop() {
     CollectGas();
     concData[i]  = scdData1;
     tempData[i]  = scdData2;
-    
-    Serial.print(ut);
-    Serial.print(",");
-    Serial.println(scdData1);
+  
     
     do {
       now_dt = rtc.now();
@@ -126,6 +123,17 @@ void loop() {
 
     windCyc[i] = windClicks;
     windClicks = 0;   
+
+    Serial.print(ut);
+    Serial.print(",");
+    Serial.print(windCyc[i]);
+    Serial.print(",");
+    Serial.print(windDir[i]);
+    Serial.print(",");
+    Serial.print(scdData1);
+    Serial.print(",");
+    Serial.println(scdData2);
+    
     wdt_reset();
   }
 

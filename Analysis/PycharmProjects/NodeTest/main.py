@@ -72,7 +72,8 @@ while 1:
         conc = 0
         temp = 0
         humid = 0
-    print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
+    print(ut, windDir, windCyc, int(conc), int(temp))
+    #print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
     if button == 1:
