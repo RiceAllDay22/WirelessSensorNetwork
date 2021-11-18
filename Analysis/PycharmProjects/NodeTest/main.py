@@ -1,4 +1,4 @@
-# 10/25/2021 MAIN
+# 11/12/2021 MAIN
 
 # IMPORT LIBRARIES
 import machine
@@ -17,7 +17,7 @@ scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 ds = DS3231.DS3231(i2c)
-ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
+#ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
 
 # MISCELLANEOUS SETUPS
 #BUTTON_Pin = machine.Pin("D3", machine.Pin.IN)
