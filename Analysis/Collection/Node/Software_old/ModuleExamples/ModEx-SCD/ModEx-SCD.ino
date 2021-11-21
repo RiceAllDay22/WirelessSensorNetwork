@@ -1,4 +1,4 @@
-//Click here to get the library: http://librarymanager/All#SparkFun_SCD30
+   //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
 
 #include <Wire.h>
 #include <SparkFun_SCD30_Arduino_Library.h>
@@ -18,7 +18,7 @@ void setup() {
   Wire.begin();
 
   //bool begin(TwoWire &wirePort = Wire, bool autoCalibrate = false, bool measBegin = true);
-  if (airSensor.begin(Wire, true, true) == false) {
+  if (airSensor.begin(Wire, false, true) == false) {
     Serial.println("SCD30 Sensor Failed");
     while (1);
   }
@@ -26,7 +26,7 @@ void setup() {
   airSensor.setMeasurementInterval(2);
   airSensor.setAltitudeCompensation(1300);
   airSensor.setTemperatureOffset(0);
-  airSensor.setForcedRecalibrationFactor(1000);
+  //airSensor.setForcedRecalibrationFactor(1000);
   //airSensor.setAutoSelfCalibration()
   
   
