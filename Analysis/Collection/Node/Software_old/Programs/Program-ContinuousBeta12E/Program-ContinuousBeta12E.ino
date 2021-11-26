@@ -62,7 +62,7 @@ void setup() {
 
   RTCBegin();
   Serial.print(rtc.lostPower());
-  rtc.flip();
+  //rtc.flip();
   Serial.print(rtc.lostPower());
   
 
