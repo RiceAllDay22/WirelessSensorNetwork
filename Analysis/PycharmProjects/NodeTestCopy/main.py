@@ -1,4 +1,4 @@
-# 11/12/2021 MAIN
+# 11/26/2021 MAIN
 
 # IMPORT LIBRARIES
 import machine
@@ -8,6 +8,7 @@ import Davis
 import SCD30
 import gc
 import XBee
+import Bytes
 
 
 # SETUP I2C, CO2, CLOCK
@@ -48,6 +49,7 @@ except:
 # FINAL PREP
 time.sleep(5)
 true_ut = ds.UnixTime(*ds.DateTime())
+print(true_ut)
 
 while 1:
     # Collect Time and Wind Data
@@ -72,32 +74,34 @@ while 1:
         conc = 0
         temp = 0
         humid = 0
-    print(ut, windDir, windCyc, int(conc), int(temp))
+
+    row = ((ut, windCyc, windDir, conc, temp))
+    print(row)
+    #print(ut, windDir, windCyc, int(conc), int(temp))
     #print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit Data via XBee
-    if button == 1:
-        #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(ut))
-        #XBee.transmit(XBee.xbee.ADDR_BROADCAST, str(windDir))
-        XBee.transmit(addr64, '001')
-        XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(ut))
-        XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(windDir))
-        XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(windCyc))
-        XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(conc))
-        XBee.transmit(addr64, ',')
-        XBee.transmit(addr64, str(temp))
-        XBee.transmit(addr64, '>')
+    active = 1
+    if button == 1 and active == 1:
+        start = time.ticks_ms()
+        bn = 1
+        bs = 10
+        #bu1, bu2, bu3, bu4 = Bytes.ut_to_byte(ut)
+        bw1, bw2 = Bytes.wind_to_byte(windCyc, windDir)
+        bc1, bc2 = Bytes.ppm_to_byte(conc)
+        bt = Bytes.temp_to_byte(temp)
+
+        #XBee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
+        XBee.transmit(addr64, bytes([bn, bs, bw1, bw2, bc1, bc2, bt]))
+        end = time.ticks_ms()
+        print(end-start)
 
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
-        time.sleep(0.01)
-
+        #print("     ", now_ut)
+        time.sleep(0.1)
     # Reset
     gc.collect()
 
