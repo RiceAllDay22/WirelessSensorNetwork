@@ -12,7 +12,7 @@ import gc
 import XBee
 import Bytes
 import xbee
-
+#import Fram
 
 # ----- RF NODE ID
 NODE_ID = xbee.atcmd("NI")
@@ -32,6 +32,7 @@ scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 ds = DS3231.DS3231(i2c)
 # ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]
+#fram = Fram.FRAM(i2c)
 
 
 # ----- CONNECT TO HUB
@@ -58,6 +59,7 @@ print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
 
 
+
 # ----- FINALIZATION
 gc.collect()
 time.sleep(5)
@@ -74,7 +76,9 @@ print(true_ut)
 def transmit_unix(bn, unixtime):
     bu1, bu2, bu3, bu4 = Bytes.ut_to_byte(unixtime)
     XBee.transmit(addr64, bytes([bn, 0, 255, bu1, bu2, bu3, bu4, 255]))
-transmit_unix(bn, true_ut)
+
+if rec_online == 1 and transmit == 1:
+    transmit_unix(bn, true_ut)
 
 while 1:
     # Collect Time and Wind Data
@@ -114,7 +118,11 @@ while 1:
         bc1, bc2 = Bytes.ppm_to_byte(conc)
         bt = Bytes.temp_to_byte(temp)
 
-        XBee.transmit(addr64, bytes([bn, bs, bw1, bw2, bc1, bc2, bt, 255]))
+        try:
+            XBee.transmit(addr64, bytes([bn, bs, bw1, bw2, bc1, bc2, bt, 255]))
+        except Exception as e:
+            print("Transmit failure: %s" % str(e))
+
         end = time.ticks_ms()
         print(end - start)
 

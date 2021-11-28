@@ -5,12 +5,14 @@
 
 import uos
 import time
-from machine import I2C, Pin
+import machine
 from fram_i2c import FRAM
 
+
+i2c = machine.I2C(1, freq=32000)
 # Return an FRAM array. Adapt for platforms other than Pyboard.
 def get_fram():
-    fram = FRAM(I2C(1))
+    fram = FRAM(i2c)
     print('Instantiated FRAM')
     return fram
 
@@ -81,36 +83,7 @@ def test():
     else:
         print('Test chip boundary skipped: only one chip!')
 
-# ***** TEST OF FILESYSTEM MOUNT *****
-def fstest(format=False):
-    fram = get_fram()
-    if format:
-        uos.VfsFat.mkfs(fram)
-    vfs=uos.VfsFat(fram)
-    try:
-        uos.mount(vfs,'/fram')
-    except OSError:  # Already mounted
-        pass
-    print('Contents of "/": {}'.format(uos.listdir('/')))
-    print('Contents of "/fram": {}'.format(uos.listdir('/fram')))
-    print(uos.statvfs('/fram'))
 
-def cptest():
-    fram = get_fram()
-    if 'fram' in uos.listdir('/'):
-        print('Device already mounted.')
-    else:
-        vfs=uos.VfsFat(fram)
-        try:
-            uos.mount(vfs,'/fram')
-        except OSError:
-            print('Fail mounting device. Have you formatted it?')
-            return
-        print('Mounted device.')
-    cp('fram_test.py', '/fram/')
-    cp('fram_i2c.py', '/fram/')
-    print('Contents of "/fram": {}'.format(uos.listdir('/fram')))
-    print(uos.statvfs('/fram'))
 
 # ***** TEST OF HARDWARE *****
 def full_test():

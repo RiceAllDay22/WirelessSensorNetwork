@@ -20,9 +20,10 @@ class FRAM(BlockDevice):
         self._buf1 = bytearray(1)
         self._addrbuf = bytearray(2)  # Memory offset into current chip
         self._buf3 = bytearray(3)
-        self._nchips = self.scan(verbose, _SIZE)
+        #self._nchips = self.scan(verbose, _SIZE)
+        self._nchips = 1
         super().__init__(block_size, self._nchips, _SIZE)
-        self._i2c_addr = None  # i2c address of current chip
+        self._i2c_addr = 0x50  #None # i2c address of current chip
 
     def scan(self, verbose, chip_size):
         devices = self._i2c.scan()
