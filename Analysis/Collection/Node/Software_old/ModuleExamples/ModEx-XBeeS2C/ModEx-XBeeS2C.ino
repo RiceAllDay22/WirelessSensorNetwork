@@ -3,13 +3,13 @@ byte buf_Read[8];
 
 void setup() {
   Serial1.begin(9600);
-  Serial.begin(9600);
-  Serial.println("Begin");
+  Serial.begin(19200);
+  Serial.println("Begin:19200");
 }
 
 
 //THIS PART WORKS//
-void loop() {
+void loop() { 
   if (Serial1.available()) {
     Serial1.readBytes(buf_Read, 8);
     Serial.print(buf_Read[0]); Serial.print(",");

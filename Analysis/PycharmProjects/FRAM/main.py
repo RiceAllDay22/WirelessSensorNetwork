@@ -1,7 +1,5 @@
 import fram_test
 
-print('Hello There')
-
 fram = fram_test.get_fram()
 print(fram)
 
@@ -10,12 +8,22 @@ def index_to_byte(index):
     b2 = index - b1*256
     return b1, b2
 
-index = 0
-bi1, bi2 = index_to_byte(index)
+fram_counter = 0
+print(fram_counter)
 
-fram[0], fram[1] = bi1, bi2
-print(fram[0], fram[1])
+def fram_upload(row):
+    global fram_counter
+    for i in range(0, 6):
+        fram[fram_counter] = row[i]
+        fram_counter += 1
+    return None
 
-print('')
-print()
-#fram_main.test()
+unix  = [0, 255, 10, 10, 10, 10]
+data1 = [3, 21, 21, 31, 31, 41]
+fram_upload(unix)
+print(fram_counter)
+fram_upload(data1)
+print(fram_counter)
+
+for i in range(0, fram_counter):
+    print(fram[i])
