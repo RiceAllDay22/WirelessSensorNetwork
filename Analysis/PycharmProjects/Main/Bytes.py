@@ -34,7 +34,7 @@ def ut_to_byte(ut):
 
 #Function: 4 bytes to 32 bit
 def byte_to_ut(b1, b2, b3, b4):
-    ut = b1*256**3 + b2*256**2 + b3*256**1 + b4
+    ut = b1*256**3 + b2*256**2 + b3*256 + b4
     return ut
 
 

@@ -16,6 +16,5 @@ except:
 bn = 3
 while 1:
     if rec_online == 1 and transmit == 1:
-        bs, bw1, bw2, bc1, bc2, bt = 200, 10, 20, 30, 40, 50
-        XBee.transmit(addr64, bytes([bn, bs, bw1, bw2, bc1, bc2, bt, 255]))
+        XBee.transmit(addr64, bytes([3, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
     time.sleep(3)
