@@ -1,10 +1,13 @@
 //10-24-2021
 byte buf_Read[10];
+const int buttonPin = 2;
+int buttonState = 0;
 
 void setup() {
   Serial1.begin(9600);
   Serial.begin(9600);
   Serial.println("Begin:9600");
+  pinMode(buttonPin, INPUT);
 }
 
 
@@ -24,6 +27,13 @@ void loop() {
     Serial.println(buf_Read[9]);
   }
   else {
+    
+  }
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == 1) {
+    Serial.println("Pressed");
+    Serial1.println("Synchronization");
+    //delay(1000);
   }
 }
 

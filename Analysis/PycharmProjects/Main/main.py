@@ -109,6 +109,14 @@ while 1:
         end = time.ticks_ms()
         print(end - start)
 
+    received_msg = xbee.receive()
+    if received_msg:
+        sender = received_msg['sender_eui64']
+        payload = received_msg['payload']
+        print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
+                                               payload.decode()))
+
+
     # Wait for 3 Seconds According to Unix time
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
