@@ -1,7 +1,7 @@
 import xbee
 import machine
 import time
-import datetime
+#import datetime
 MESSAGE = 1638513297
 dio = machine.Pin("P2", machine.Pin.IN)
 

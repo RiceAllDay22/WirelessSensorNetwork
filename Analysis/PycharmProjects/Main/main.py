@@ -36,7 +36,7 @@ ds = DS3231.DS3231(i2c)# ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Mont
 
 # ----- CONNECT TO HUB
 try:
-    TARGET_NODE_ID = 'TH'
+    TARGET_NODE_ID = 'RedGrove'
     device = XBee.find_device(TARGET_NODE_ID)
     addr64 = device['sender_eui64']
     rec_online = 1
