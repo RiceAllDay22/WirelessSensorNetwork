@@ -1,18 +1,19 @@
-#include "RTClib.h"
+#include <RTClib.h>
 RTC_DS3231 rtc;
 DateTime dt;
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Begin");
   RTCBegin();
+  //rtc.adjust(1629385450);
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  //rtc.adjust(DateTime(2020, 1, 14, 9, 0, 0));
+  //rtc.adjust(DateTime(2021, 8, 19, 15, 0, 0));
 }
 
 void loop() {
-  dt = rtc.now();
+  dt = rtc.now(); 
   Serial.println(dt.unixtime());
-  delay(1000);
   while (rtc.now().unixtime() == dt.unixtime());
   
 }
