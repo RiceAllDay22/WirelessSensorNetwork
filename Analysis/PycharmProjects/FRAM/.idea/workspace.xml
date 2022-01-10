@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="99fd68f7-cd8b-4ad0-93fa-feb3a9c14830" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-XBeeS2C/ModEx-XBeeS2C.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-XBeeS2C/ModEx-XBeeS2C.ino" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="MicroPython Empty File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="20qorgdjg4mdcDyBgUnI7CNhgQX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.digi.micropython.xbee_platform" value="" />
+    <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
+    <property name="com.digi.pycharm.compile_sources" value="true" />
+    <property name="com.digi.pycharm.digi_platform" value="Digi XBee3 DigiMesh 2.4" />
+    <property name="com.digi.pycharm.do_not_show_mp_mode_question" value="false" />
+    <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
+    <property name="com.digi.pycharm.skip_equal_files" value="true" />
+    <property name="com.digi.pycharm.transfer_sources" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RunManager" selected="XBee MicroPython.FRAM">
+    <configuration name="fram_i2c" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FRAM" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/build" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/build/fram_i2c.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="FRAM" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.fram_i2c" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="99fd68f7-cd8b-4ad0-93fa-feb3a9c14830" name="Default Changelist" comment="" />
+      <created>1636781679086</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1636781679086</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1170" y="271" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1636783266489">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1170" y="271" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1636783266489" />
+    <state width="936" height="278" key="GridCell.Tab.0.bottom" timestamp="1638170607004">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="278" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.-196.1920.1040@0.0.1920.1040" timestamp="1638170607004" />
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1636787275337" />
+    <state width="936" height="278" key="GridCell.Tab.0.center" timestamp="1638170607003">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="278" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.-196.1920.1040@0.0.1920.1040" timestamp="1638170607003" />
+    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1636787275337" />
+    <state width="936" height="278" key="GridCell.Tab.0.left" timestamp="1638170607002">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="278" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.-196.1920.1040@0.0.1920.1040" timestamp="1638170607002" />
+    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1636787275337" />
+    <state width="936" height="278" key="GridCell.Tab.0.right" timestamp="1638170607003">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="936" height="278" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.-196.1920.1040@0.0.1920.1040" timestamp="1638170607003" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1636787275337" />
+    <state x="461" y="163" key="SettingsEditor" timestamp="1636784329127">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1636784329127" />
+    <state x="-1264" y="149" key="com.intellij.ide.util.TipDialog" timestamp="1638168947461">
+      <screen x="-1920" y="-196" width="1920" height="1040" />
+    </state>
+    <state x="-1264" y="149" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.-196.1920.1040@0.0.1920.1040" timestamp="1638168947461" />
+    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1636865490229" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fram_test.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/bdevice.py</url>
+          <line>11</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fram_test.py</url>
+          <line>88</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

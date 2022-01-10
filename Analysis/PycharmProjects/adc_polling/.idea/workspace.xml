@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="27ba8644-51bb-4c8f-967c-f0d226e8e927" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-SCD/ModEx-SCD.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-SCD/ModEx-SCD.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/Programs/Program-ContinuousBeta12C/Program-ContinuousBeta12C.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/Programs/Program-ContinuousBeta12C/Program-ContinuousBeta12C.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/Tests/Test-RTCSet/Test-RTCSet.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/Tests/Test-RTCSet/Test-RTCSet.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../NodeTestCopy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTestCopy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/adc_polling.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/adc_polling.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1xySaL9LS6Zuwqg2BlVEKmMYmvd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.digi.micropython.xbee_platform" value="" />
+    <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
+    <property name="com.digi.pycharm.compile_sources" value="true" />
+    <property name="com.digi.pycharm.digi_platform" value="Digi XBee3 DigiMesh 2.4" />
+    <property name="com.digi.pycharm.do_not_show_mp_mode_question" value="false" />
+    <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
+    <property name="com.digi.pycharm.skip_equal_files" value="true" />
+    <property name="com.digi.pycharm.transfer_sources" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="adc_polling" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="27ba8644-51bb-4c8f-967c-f0d226e8e927" name="Default Changelist" comment="" />
+      <created>1631325896942</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1631325896942</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1631487940033">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1631487940033" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1631487940033">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1631487940033" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1631487940033">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1631487940033" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1631487940033">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1631487940033" />
+  </component>
+</project>

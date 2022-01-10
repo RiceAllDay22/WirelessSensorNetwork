@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ec7be768-f214-43c0-83c5-82143f339ece" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/script/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../PycharmProjects/FRAM_Pico/.idea/FRAM_Pico.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-XBeeS2C/ModEx-XBeeS2C.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../Collection/Node/Software_old/ModuleExamples/ModEx-XBeeS2C/ModEx-XBeeS2C.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/NodeTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/dictionaries/adria.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/libraries/XBee_MicroPython.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/DS3231.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/Davis.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/SCD30.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/XBee.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PycharmProjects/NodeTestCopy/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../spike/CombineCSV-BinaryNew.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../spike/CombineCSV-BinaryNew.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--06-25.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--06-26.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-07.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-10.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-12.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-15.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--19-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--20-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--21-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--22-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-14--23-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--00-20.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--00-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--01-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--02-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--02-36.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--03-36.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--04-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--05-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--06-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--07-37.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--07-46.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--07-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--08-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--09-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--10-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--10-25.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--10-32.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--11-32.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--11-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--12-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--13-11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--14-11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--15-06.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--16-06.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--17-06.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--17-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--18-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--19-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--20-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--21-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--21-29.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--22-29.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-15--23-29.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--00-29.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--01-21.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--02-21.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--03-21.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--03-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--04-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--05-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--06-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--07-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--08-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--09-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--10-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--11-27.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--12-27.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--13-27.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--14-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--15-17.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--16-17.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--16-40.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--16-47.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--16-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--17-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--17-58.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--18-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--19-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--20-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--21-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--22-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-16--23-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--00-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--01-19.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--01-59.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--02-59.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--03-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--04-32.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--04-47.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--04-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--05-38.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--05-44.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--06-35.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--06-38.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--06-43.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--06-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--06-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--07-19.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--07-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--07-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-10.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-26.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-40.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--08-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--09-28.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--09-36.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--09-44.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--09-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-21.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-23.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-34.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-39.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--10-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-00.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-02.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-25.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-26.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-34.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-36.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-42.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--11-57.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-04.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-13.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-18.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-30.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-45.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--12-57.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-11.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-16.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-19.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-30.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-31.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-39.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-40.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-43.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-44.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--13-59.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-04.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-05.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-07.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-12.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-17.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-21.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-26.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-31.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-38.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-17--14-42.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-19--20-06.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--01-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--02-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--03-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--04-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--05-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--06-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--07-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--08-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--09-49.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--10-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--11-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--12-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--13-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--14-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--15-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--16-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--17-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--18-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--19-50.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--20-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--21-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--22-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-22--23-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--00-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--01-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--02-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--03-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--04-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--05-51.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--06-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--07-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--08-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--09-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--10-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--11-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--12-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--13-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--14-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--15-52.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--16-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--17-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--18-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--19-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--20-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--21-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--22-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-23--23-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--00-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--01-53.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--02-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--03-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--04-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--05-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--06-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--07-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--08-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--09-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--10-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--11-54.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--12-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--13-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--14-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--15-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--16-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--17-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--18-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--19-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--20-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--21-55.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--22-56.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/2021-11-24--23-56.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Data/V Test/Test.csv" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="21WCJkISISpxN7V2XmElLzLkDjZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ec7be768-f214-43c0-83c5-82143f339ece" name="Default Changelist" comment="" />
+      <created>1638047386401</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638047386401</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1241" y="-49" key="#__init__" timestamp="1638047899216">
+      <screen x="-1920" y="-196" width="1920" height="1040" />
+    </state>
+    <state x="-1241" y="-49" key="#__init__/0.0.1920.1040/-1920.-196.1920.1040@-1920.-196.1920.1040" timestamp="1638047899216" />
+  </component>
+</project>

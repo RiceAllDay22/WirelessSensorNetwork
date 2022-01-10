@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35b42668-4bb8-406e-b417-0d2369d0d7f1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="0e3e4d72-61ba-47de-8047-3b817444a992" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,7 +10,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
-  <component name="ProjectId" id="21xyQW4IpSmy3jFQ7Hz2UZ17A27" />
+  <component name="ProjectId" id="1xyRq96zYDn9YT4umfKINzo3mgK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -21,8 +19,19 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="com.digi.micropython.xbee_platform" value="" />
+    <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
+    <property name="com.digi.pycharm.compile_sources" value="true" />
+    <property name="com.digi.pycharm.digi_platform" value="Digi XBee3 DigiMesh 2.4" />
+    <property name="com.digi.pycharm.do_not_show_mp_mode_question" value="false" />
+    <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
+    <property name="com.digi.pycharm.skip_equal_files" value="true" />
+    <property name="com.digi.pycharm.transfer_sources" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="network_discovery" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
+      <method v="2" />
+    </configuration>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -41,23 +50,12 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="35b42668-4bb8-406e-b417-0d2369d0d7f1" name="Default Changelist" comment="" />
-      <created>1638897016668</created>
+      <changelist id="0e3e4d72-61ba-47de-8047-3b817444a992" name="Default Changelist" comment="" />
+      <created>1631325529838</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1638897016668</updated>
+      <updated>1631325529838</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="261" y="95" key="SettingsEditor" timestamp="1641834696309">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="186" y="80" key="SettingsEditor/0.0.1368.872@0.0.1368.872" timestamp="1638897454119" />
-    <state x="261" y="95" key="SettingsEditor/0.0.1920.1040/1920.89.1920.1040@0.0.1920.1040" timestamp="1641834696309" />
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1641834666279">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="656" y="345" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.89.1920.1040@0.0.1920.1040" timestamp="1641834666279" />
   </component>
 </project>

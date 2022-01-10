@@ -17,7 +17,7 @@ import xbee #import Fram
 
 # ----- RF NODE ID
 NODE_ID = xbee.atcmd("NI")
-if NODE_ID == 'PCB-XBee':
+if NODE_ID == 'PCBBoard':
     bn = 1
 elif NODE_ID == 'RyanBoard':
     bn = 2
@@ -26,13 +26,16 @@ else:
 
 
 # ----- SETUP MODULES
-i2c = machine.I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
+i2c = machine.I2C(1, freq=32000)   # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
 scd = SCD30.SCD30(i2c, 0x61)
-scd.set_measurement_interval(2)
-scd.set_altitude_comp(1300)
+scd.set_measurement_interval(2)    # Set interval to every 2 seconds, but actually extract every 3 seconds
+scd.set_altitude_comp(1300)        # Salt Lake City, Utah elevation is 1300 meters
 scd.start_continous_measurement()
-ds = DS3231.DS3231(i2c)# ds.DateTime([2021, 10, 25, 3, 22, 25, 0]) # [Year, Month, Day, Weekday, Hour, Minute, Second]#fram = Fram.FRAM(i2c)
-
+ds = DS3231.DS3231(i2c)
+# ds.DateTime([2022, 1, 10, 3, 11, 0, 0])
+    # [Year, Month, Day, Weekday, Hour, Minute, Second]#fram = Fram.FRAM(i2c)
+        # Saturday = 1
+        # Friday = 7
 
 # ----- CONNECT TO HUB
 try:
