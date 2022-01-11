@@ -7,14 +7,14 @@
   basically do whatever you want with this code.
 
   Feel like supporting open source hardware?
-  Buy a board from SparkFun! https://www.sparkfun.com/products/14751
+  Buy a board from SparkFun! https://www.sparkfun.com/products/15112
 
-  This example demonstrates the various settings available on the SCD30.
+  This example prints the current CO2 level, relative humidity, and temperature in C.
 
   Hardware Connections:
-  Attach the Qwiic Shield to your Arduino/Photon/ESP32 or other
-  Plug the sensor onto the shield
-  Serial.print it out at 9600 baud to serial monitor.
+  Attach RedBoard to computer using a USB cable.
+  Connect SCD30 to RedBoard using Qwiic cable.
+  Open Serial Monitor at 115200 baud.
 
   Note: All settings (interval, altitude, etc) are saved to non-volatile memory and are
   loaded by the SCD30 at power on. There's no damage in sending that at each power on.
@@ -24,27 +24,50 @@
 
 #include <Wire.h>
 
-//Click here to get the library: http://librarymanager/All#SparkFun_SCD30
-#include "SparkFun_SCD30_Arduino_Library.h"
-
+#include "SparkFun_SCD30_Arduino_Library.h" //Click here to get the library: http://librarymanager/All#SparkFun_SCD30
 SCD30 airSensor;
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial.println("SCD30 Example");
   Wire.begin();
 
-  Serial.begin(9600);
-  Serial.println("SCD30 Example");
+  if (airSensor.begin() == false)
+  {
+    Serial.println("Air sensor not detected. Please check wiring. Freezing...");
+    while (1)
+      ;
+  }
 
-  airSensor.begin(); //This will cause readings to occur every two seconds
+  airSensor.setMeasurementInterval(16); //Change number of seconds between measurements: 2 to 1800 (30 minutes), stored in non-volatile memory of SCD30
 
-  airSensor.setMeasurementInterval(4); //Change number of seconds between measurements: 2 to 1800 (30 minutes)
+  //While the setting is recorded, it is not immediately available to be read.
+  delay(200);
+
+  int interval = airSensor.getMeasurementInterval();
+  Serial.print("Measurement Interval: ");
+  Serial.println(interval);
 
   //My desk is ~1600m above sealevel
-  airSensor.setAltitudeCompensation(1600); //Set altitude of the sensor in m
+  airSensor.setAltitudeCompensation(1600); //Set altitude of the sensor in m, stored in non-volatile memory of SCD30
+
+  //Read altitude compensation value
+  unsigned int altitude = airSensor.getAltitudeCompensation();
+  Serial.print("Current altitude: ");
+  Serial.print(altitude);
+  Serial.println("m");
 
   //Pressure in Boulder, CO is 24.65inHg or 834.74mBar
-  airSensor.setAmbientPressure(835); //Current ambient pressure in mBar: 700 to 1200
+  airSensor.setAmbientPressure(835); //Current ambient pressure in mBar: 700 to 1200, will overwrite altitude compensation
+
+  airSensor.setTemperatureOffset(5); //Optionally we can set temperature offset to 5°C, stored in non-volatile memory of SCD30
+
+  //Read temperature offset
+  float offset = airSensor.getTemperatureOffset();
+  Serial.print("Current temp offset: ");
+  Serial.print(offset, 2);
+  Serial.println("C");
 }
 
 void loop()
@@ -67,4 +90,3 @@ void loop()
 
   delay(1000);
 }
-

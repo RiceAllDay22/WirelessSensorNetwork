@@ -20,7 +20,7 @@ const byte WSPEED_PIN   = 2;
 const byte DETACH_PIN   = 5;
 const byte LED_PIN      = 6;
 
-const int arrayLength = 5;
+const int arrayLength = 5;  
 uint32_t  unixTime[arrayLength];
 uint8_t   windCyc[arrayLength];
 uint16_t  windDir[arrayLength];
@@ -96,7 +96,7 @@ void loop() {
   
   WriteSample();
   
-  if (filestart.unixtime()+ 300 <= dt.unixtime()) {
+  if (filestart.unixtime()+ 1200 <= dt.unixtime()) {
     filestart = dt;
     file.close();
     delay(5000);

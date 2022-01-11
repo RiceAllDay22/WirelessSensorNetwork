@@ -139,7 +139,7 @@ void loop() {
 
   WriteSample();
 
-  if (filestart_ut + 3600 <= ut) { //1800
+  if (filestart_ut + 3600 <= ut) {
     wdt_disable();
     filestart_dt = dt;
     filestart_ut = filestart_dt.unixtime();
