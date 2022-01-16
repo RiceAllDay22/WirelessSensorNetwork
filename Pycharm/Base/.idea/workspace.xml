@@ -2,19 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d58ead0e-9cc8-4996-80d6-a5b95829868e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Davis/.idea/Davis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/.idea/Davis.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Davis/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Davis/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Davis/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../idle_radio/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../idle_radio_1/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio_1/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../idle_radio_2/.idea/idle_radio_2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio_2/.idea/idle_radio_2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../idle_radio_2/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio_2/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../idle_radio_2/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio_2/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Python/spike/BitsAndBytes.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/spike/BitsAndBytes.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Python/spike/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/spike/Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest1/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest1/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest2/.idea/BaseTest2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest2/.idea/BaseTest2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest2/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest2/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest2/.idea/workspace.xml" afterDir="false" />
     </list>
-
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +36,7 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../idle_radio_2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunManager">
