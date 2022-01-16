@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d666d0a9-3c6e-4cc0-9019-b6fee1c2bdaa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/Davis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Davis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../NodeTest/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../idle_radio/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../idle_radio/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/spike/BitsAndBytes.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/spike/BitsAndBytes.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Python/spike/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Python/spike/Test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,16 +23,22 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="1zjLRFoC5ENujXHGfBS8epYwwul" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="com.digi.micropython.xbee_platform" value="" />
     <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
@@ -37,6 +48,8 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
   </component>
   <component name="RunManager">
     <configuration name="Davis" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
@@ -55,6 +68,7 @@
       </list>
     </option>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -67,23 +81,5 @@
       <updated>1634656540911</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state width="779" height="279" key="GridCell.Tab.0.bottom" timestamp="1634657283418">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="779" height="279" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1634657283418" />
-    <state width="779" height="279" key="GridCell.Tab.0.center" timestamp="1634657283418">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="779" height="279" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1634657283418" />
-    <state width="779" height="279" key="GridCell.Tab.0.left" timestamp="1634657283418">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="779" height="279" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1634657283418" />
-    <state width="779" height="279" key="GridCell.Tab.0.right" timestamp="1634657283418">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="779" height="279" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1634657283418" />
   </component>
 </project>
