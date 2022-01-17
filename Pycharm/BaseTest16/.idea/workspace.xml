@@ -33,6 +33,7 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../BaseTest17" />
   </component>
   <component name="RunManager">
     <configuration name="BaseTest16" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
