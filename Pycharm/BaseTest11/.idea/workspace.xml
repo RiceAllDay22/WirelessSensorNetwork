@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a9439282-e990-4841-bc4b-3b3f1867a31e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../BaseTest9/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest9/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +16,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="23nyBlavqHS1m4lbrhXAWGJWdds" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -32,7 +37,8 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../BaseTest12" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="BaseTest11" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
