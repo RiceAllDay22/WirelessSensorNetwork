@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="330b15c5-076f-4ddb-ba86-f229549bc493" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../BaseTest17/.idea/BaseTest17.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest17/.idea/BaseTest17.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest17/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest17/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest17/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest17/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest17/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest17/build/main.mpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest17/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest17/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest18/.idea/BaseTest18.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest18/.idea/BaseTest18.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest18/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest18/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest18/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest18/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest18/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest18/build/main.mpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../BaseTest18/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest18/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest19/.idea/BaseTest19.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest19/.idea/BaseTest19.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest19/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest19/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest19/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest19/.idea/workspace.xml" afterDir="false" />
@@ -22,6 +13,16 @@
       <change beforePath="$PROJECT_DIR$/../BaseTest20/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest20/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest20/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest20/build/main.mpy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../BaseTest20/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest20/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest21/.idea/BaseTest21.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest21/.idea/BaseTest21.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest21/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest21/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest21/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest21/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest21/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest21/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest21/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest21/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BaseTest22.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BaseTest22.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +52,8 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="BaseTest22" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
