@@ -32,7 +32,7 @@ def MR():
 def ws():
     ws_binary = [bit1.value(), bit2.value(), bit3.value(), bit4.value(), bit5.value(), bit6.value(), bit7.value(), bit8.value()]
     ws_integer = BoolToByte(ws_binary)
-    MR()
+    #MR()
     return ws_integer
 
 

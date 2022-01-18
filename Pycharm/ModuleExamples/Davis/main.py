@@ -17,4 +17,4 @@ while 1:
     windCyc = Davis.ws()
 
     print(windDir, windCyc)
-    time.sleep(3)
+    time.sleep(0.2)
