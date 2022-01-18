@@ -1,29 +1,20 @@
+# Laptop - 12/18/21
+# https://github.com/peterhinch/micropython_eeprom
 import fram_test
+import time
 
 fram = fram_test.get_fram()
-print(fram)
 
-def index_to_byte(index):
-    b1 = index // 256
-    b2 = index - b1*256
-    return b1, b2
+def full_clear():
+    for i in range(1, 33):
+        fram[1024*(i-1) : 1024*i] = b'\x00'*1024
 
-fram_counter = 0
-print(fram_counter)
+full_clear()
 
-def fram_upload(row):
-    global fram_counter
-    for i in range(0, 6):
-        fram[fram_counter] = row[i]
-        fram_counter += 1
-    return None
+fram[0] = 20
+fram[1] = 10
+loc_byt = fram[0:2]
+loc_int = int.from_bytes(loc_byt, "big")
 
-unix  = [0, 255, 10, 10, 10, 10]
-data1 = [3, 21, 21, 31, 31, 41]
-fram_upload(unix)
-print(fram_counter)
-fram_upload(data1)
-print(fram_counter)
-
-for i in range(0, fram_counter):
-    print(fram[i])
+# u1 u2 u3 u4
+# bs w1 w2 c1 c2 t1

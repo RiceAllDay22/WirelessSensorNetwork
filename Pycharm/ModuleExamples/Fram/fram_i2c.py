@@ -1,3 +1,4 @@
+# https://github.com/peterhinch/micropython_eeprom
 # fram_i2c.py Driver for Adafruit 32K Ferroelectric RAM module (Fujitsu MB85RC256V)
 
 # Released under the MIT License (MIT). See LICENSE.

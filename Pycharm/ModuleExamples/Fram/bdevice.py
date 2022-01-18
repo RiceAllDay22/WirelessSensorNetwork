@@ -1,3 +1,4 @@
+# https://github.com/peterhinch/micropython_eeprom
 # bdevice.py Hardware-agnostic base classes.
 # BlockDevice Base class for general block devices e.g. EEPROM, FRAM.
 # FlashDevice Base class for generic Flash memory (subclass of BlockDevice).
@@ -34,13 +35,9 @@ class BlockDevice:
 
     # Handle special cases of a slice. Always return a pair of positive indices.
     def _do_slice(self, addr):
-        #if not (addr.step is None or addr.step == 1):
-        #    raise NotImplementedError('only slices with step=1 (aka None) are supported')
-        start = addr.start if addr.start is not None else 0
-        stop = addr.stop if addr.stop is not None else self._a_bytes
-        start = start if start >= 0 else self._a_bytes + start
-        stop = stop if stop >= 0 else self._a_bytes + stop
-        return start, stop
+        addr = str(addr)[6:-7]
+        start, stop = addr.split(", ")
+        return int(start), int(stop)
 
     def _wslice(self, addr, value):
         start, stop = self._do_slice(addr)
