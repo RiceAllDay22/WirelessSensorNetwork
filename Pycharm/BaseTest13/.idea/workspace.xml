@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="52289a5e-72b0-4e64-af60-e2cbb49d8eb7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../BaseTest11/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest11/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest11/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest11/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest11/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest11/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../BaseTest12/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../BaseTest12/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="23o25IMVhdiyBDMSi2Q4qWN73UP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="com.digi.micropython.xbee_platform" value="" />
+    <property name="com.digi.pycharm.always_remove_project_dir" value="false" />
+    <property name="com.digi.pycharm.compile_sources" value="true" />
+    <property name="com.digi.pycharm.digi_platform" value="Digi XBee3 DigiMesh 2.4" />
+    <property name="com.digi.pycharm.do_not_show_mp_mode_question" value="false" />
+    <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
+    <property name="com.digi.pycharm.skip_equal_files" value="true" />
+    <property name="com.digi.pycharm.transfer_sources" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="BaseTest13" type="XBeeMicroPythonConfigurationType" factoryName="XBee MicroPython" path="$PROJECT_DIR$" autoStart="true">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="52289a5e-72b0-4e64-af60-e2cbb49d8eb7" name="Changes" comment="" />
+      <created>1642385933604</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642385933604</updated>
+    </task>
+    <servers />
+  </component>
+</project>
