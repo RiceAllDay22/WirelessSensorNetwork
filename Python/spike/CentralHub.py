@@ -50,10 +50,10 @@ try:
         time.sleep(1)
         counter+=1
 
-        if counter == 5:
+        #if counter == 5:
             # TRANSMIT SYNC TIME
-            sync_dt = get_datetime()
-            ser.write(bytes(sync_dt))
+            #sync_dt = get_datetime()
+            #ser.write(bytes(sync_dt))
 
 finally:
     print('Close the File')
