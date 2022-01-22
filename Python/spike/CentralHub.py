@@ -34,7 +34,8 @@ target = open(filename, 'a')
 # WARMUP
 for i in range(2):
     data = ser.readline().decode('utf-8').strip('\n').strip('\r')
-    print(data)
+    if data:
+        print(data)
     time.sleep(1)
 
 
