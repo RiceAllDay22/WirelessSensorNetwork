@@ -11,80 +11,66 @@ import machine
 import fram
 import xbee
 import network
+import rtc
 
-i2c = machine.I2C(1, freq=32000)
 
 # ----- NODE SPECIFIC SETTINGS
-transmit_active = 0
+transmit_active = 1
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 bn = network.get_node_id()
 
 # ----- SETUP MODULES
 i2c = machine.I2C(1, freq=32000)
 storage = fram.get_fram(i2c)
+locator_byt = fram.get_locator(storage)
+ds = rtc.DS3231(i2c)
 
 # ----- CONNECT TO HUB
 addr64, rec_online = network.connect()
 
+previous_ut = ds.UnixTime(*ds.DateTime())
+time.sleep(1)
 
-# while 1:
-#     if rec_online == 1 and transmit_active == 1:
-#
-#         try:
-#             xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
-#             #xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
-#         except Exception as e:
-#             rec_online = 0
-#             print("Transmit failure: %s" % str(e))
-#
-#     elif rec_online == 0 and transmit_active == 1:
-#         addr64, rec_online = network.connect()
-#
-#     elif transmit_active == 0:
-#         print("Turned off")
+try:
+    while 1:
+        # Get Data
+        ut = ds.UnixTime(*ds.DateTime())
+        bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
+        bw1, bw2 = 111, 222
+        bc1, bc2 = 100, 200
+        bt = 50
+        print('ut:', ut)
 
-def locator_reset():
-    storage[0:2] = b'\x00\x02'
-    return storage[0:2]
+        data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
+        print(data)
+        previous_ut = ut
 
-def get_locator():
-    return storage[0:2]
+        # Send to Hub
+        if rec_online == 1 and transmit_active == 1:
+            print("Send to Hub")
+            try:
+                xbee.transmit(addr64, data)
 
-locator_byt = locator_reset()
-storage[0:20] = b'\x00'*20
+            except Exception as e:
+                rec_online = 0
+                print("Transmit failure: %s" % str(e))
 
+        # Save to Fram
+        if rec_online == 0 and transmit_active == 1:
+            print("Save to Fram")
+            locator_byt = fram.get_locator(storage)
+            locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut)
+            addr64, rec_online = network.connect()
+            print(addr64, rec_online)
 
-previous_ut = 1642662590
-now_ut = 1642662593
+        if transmit_active == 0:
+            print("Turned off")
 
+        time.sleep(2)
 
-def emergency_storage(locator_byt, previous_ut, now_ut):
-    # Get Data
-    bs = now_ut - previous_ut
-    bw1 = 111
-    bw2 = 222
-    bc1 = 100
-    bc2 = 200
-    bt = 50
-    data = bytes([bs, bw1, bw2, bc1, bc2, bt])
-
-    # Get FRAM Locator
-    locator_int = int.from_bytes(locator_byt, "big")
-
-    # Save Data to FRAM
-    print(storage[locator_int:locator_int + 6])
-    storage[locator_int:locator_int + 6] = data
-    print(storage[locator_int:locator_int + 6])
-    # print(locator_byt, locator_int, locator_byt[0] * 256 + locator_byt[1])
-
-    # Update FRAM Locator
-    locator_int = locator_int + 6
-    locator_byt = locator_int.to_bytes(2, "big")
-    storage[0:2] = locator_byt
-    # print(locator_byt_new, locator_int_new, locator_byt_new[0]*256 + locator_byt_new[1])
-
+finally:
+    print('End Code')
     print(data)
-    return locator_byt
 
 
-# emergency_storage(locator_byt, previous_ut, now_ut)
+

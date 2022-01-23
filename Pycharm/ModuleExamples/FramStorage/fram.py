@@ -9,6 +9,7 @@
 
 from micropython import const
 import uos
+import time
 
 
 class BlockDevice:
@@ -196,3 +197,73 @@ def full_test():
             print('Page {} readback failed.'.format(page))
         page += 1
     print('Complete')
+
+
+
+
+def locator_reset(storage):
+    storage[0:2] = b'\x00\x02'
+    return None
+
+def get_locator(storage):
+    return storage[0:2]
+
+def check(storage):
+    for i in range(20):
+        print(storage[i], end=" ")
+    print("")
+    return None
+
+def retrieve_storage(locator_byt):
+    locator_int = int.from_bytes(locator_byt, "big")
+    print(locator_byt, locator_int)
+    return None
+
+def reset(storage):
+    storage[0:20] = b'\x00' * 20
+    time.sleep(1)
+    locator_reset(storage)
+    return None
+
+
+def emergency_storage(storage, locator_byt, data, previous_ut, unix_included = False):
+    
+    # Get Data
+    now_ut = int.from_bytes(data[1:5], "big")
+    sensor_data = data[5:10]
+    bs = now_ut - previous_ut
+    data_to_store = sensor_data + bytes([bs])
+
+    # Get FRAM Locator
+    locator_int = int.from_bytes(locator_byt, "big")
+
+    # Save Data to FRAM with Unix included
+    if unix_included == True:
+        storage[locator_int:locator_int + 10] = data[1:5] + data_to_store[0:6]
+        time.sleep(1)
+        locator_int = locator_int + 10
+
+    # Save Data to FRAM without Unix included
+    elif unix_included == False:
+        print('Before:', storage[locator_int:locator_int + 6])
+        storage[locator_int:locator_int + 6] = data_to_store
+        time.sleep(1)
+        print('After:', storage[locator_int:locator_int + 6])
+        locator_int = locator_int + 6
+
+    # Update FRAM Locator
+    locator_byt = locator_int.to_bytes(2, "big")
+    storage[0:2] = locator_byt
+    print('Loc:', locator_byt[0] * 256 + locator_byt[1])
+
+    previous_ut = now_ut
+
+    return [locator_byt, previous_ut]
+
+
+def unix_storage(storage, locator_byt, data):
+    # Get FRAM Locator
+    
+    locator_int = int.from_bytes(locator_byt, "big")
+
+
