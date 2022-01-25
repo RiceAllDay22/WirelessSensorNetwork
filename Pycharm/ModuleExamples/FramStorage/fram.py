@@ -220,31 +220,30 @@ def retrieve_storage(locator_byt):
     return None
 
 def reset(storage):
-    storage[0:20] = b'\x00' * 20
+    storage[0:500] = b'\x00' * 500
     time.sleep(1)
     locator_reset(storage)
     return None
 
 
-def emergency_storage(storage, locator_byt, data, previous_ut, unix_included = False):
-    
+def emergency_storage(storage, locator_byt, data, previous_ut, include_unix):
     # Get Data
     now_ut = int.from_bytes(data[1:5], "big")
     sensor_data = data[5:10]
     bs = now_ut - previous_ut
-    data_to_store = sensor_data + bytes([bs])
+    data_to_store = bytes([bs])+sensor_data
 
     # Get FRAM Locator
     locator_int = int.from_bytes(locator_byt, "big")
 
-    # Save Data to FRAM with Unix included
-    if unix_included == True:
-        storage[locator_int:locator_int + 10] = data[1:5] + data_to_store[0:6]
+    # # Save Data to FRAM with Unix included
+    if include_unix == True:
+        storage[locator_int:locator_int + 12] = bytes([255]) + data[1:5] + bytes([255]) + data_to_store[0:6]
         time.sleep(1)
-        locator_int = locator_int + 10
+        locator_int = locator_int + 12
 
     # Save Data to FRAM without Unix included
-    elif unix_included == False:
+    elif include_unix == False:
         print('Before:', storage[locator_int:locator_int + 6])
         storage[locator_int:locator_int + 6] = data_to_store
         time.sleep(1)
@@ -256,14 +255,8 @@ def emergency_storage(storage, locator_byt, data, previous_ut, unix_included = F
     storage[0:2] = locator_byt
     print('Loc:', locator_byt[0] * 256 + locator_byt[1])
 
-    previous_ut = now_ut
-
-    return [locator_byt, previous_ut]
+    return locator_byt
 
 
-def unix_storage(storage, locator_byt, data):
-    # Get FRAM Locator
-    
-    locator_int = int.from_bytes(locator_byt, "big")
 
 

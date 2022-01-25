@@ -6,13 +6,19 @@
 
 # ----- IMPORT LIBRARIES
 import gc
+print('After gc:', gc.mem_free())
 import time
+print('After time:', gc.mem_free())
 import machine
-import fram
+print('After machine:', gc.mem_free())
 import xbee
+print('After xbee:', gc.mem_free())
+import fram
+print('After fram:', gc.mem_free())
 import network
+print('After network:', gc.mem_free())
 import rtc
-
+print('After rtc:', gc.mem_free())
 
 # ----- NODE SPECIFIC SETTINGS
 transmit_active = 1
@@ -28,6 +34,7 @@ ds = rtc.DS3231(i2c)
 # ----- CONNECT TO HUB
 addr64, rec_online = network.connect()
 
+ds.DateTime([2020, 9, 13, 12, 26, 40])
 previous_ut = ds.UnixTime(*ds.DateTime())
 time.sleep(1)
 
@@ -43,7 +50,6 @@ try:
 
         data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
         print(data)
-        previous_ut = ut
 
         # Send to Hub
         if rec_online == 1 and transmit_active == 1:
@@ -52,20 +58,23 @@ try:
                 xbee.transmit(addr64, data)
 
             except Exception as e:
-                rec_online = 0
                 print("Transmit failure: %s" % str(e))
+                rec_online = 0
+                locator_byt = fram.get_locator(storage)
+                locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=True)
 
         # Save to Fram
-        if rec_online == 0 and transmit_active == 1:
+        elif rec_online == 0 and transmit_active == 1:
             print("Save to Fram")
             locator_byt = fram.get_locator(storage)
-            locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut)
+            locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=False)
             addr64, rec_online = network.connect()
             print(addr64, rec_online)
 
-        if transmit_active == 0:
+        elif transmit_active == 0:
             print("Turned off")
 
+        previous_ut = ut
         time.sleep(2)
 
 finally:

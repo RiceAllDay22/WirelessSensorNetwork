@@ -1,9 +1,12 @@
+LAB DATA
+
 C:
 	1st line at 4 seconds
 	Started normal collection at 4 seconds
 	1044 lines
 	1587 seconds span
 	1 to 2 seconds frequency
+	adjust seconds by subtracting by 4
 
 HNS:
 	1st line at 4 seconds
@@ -11,6 +14,8 @@ HNS:
 	1194 lines
 	1809 seconds span
 	1 to 2 seconds frequency
+	adjust seconds by subtracting by 4
+	Removed warmup data -> Starts at 25 seconds now
 
 SLN:
 	1st line at 4 seconds
@@ -18,6 +23,7 @@ SLN:
 	1330 lines
 	2023 seconds span
 	1 to 2 seconds frequency
+	adjust seconds by subtracting by 4
 
 SLNS:
 	1st line at 4 seconds -> removed
@@ -25,6 +31,8 @@ SLNS:
 	1318 lines
 	2005 seconds span
 	1 to 2 seconds frequency
+	adjust seconds by subtracting by 5
+
 
 
 
