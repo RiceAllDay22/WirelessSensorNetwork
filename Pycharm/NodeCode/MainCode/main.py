@@ -20,7 +20,6 @@ transmit_active = 0
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 bn = network.get_node_id()
 
-
 # ----- SETUP MODULES
 i2c = machine.I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
 scd = sensirion.SCD30(i2c, 0x61)
@@ -29,7 +28,7 @@ scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
 ds = rtc.DS3231(i2c)
-ds.DateTime([2022, 1, 19, 22, 0, 0]) # [Year, Month, Day, Hour, Minute, Second]
+ds.DateTime([2022, 1, 19, 22, 0, 0])  # [Year, Month, Day, Hour, Minute, Second]
 # 1642629612
 
 # ----- CONNECT TO HUB
@@ -76,7 +75,7 @@ while 1:
         conc = int(conc)
         temp = int(temp)
     else:
-        time.sleep(0.005)
+        time.sleep(0.1)
         if scd.get_status_ready() == 1:
             conc, temp, humid = scd.read_measurement()
             conc = int(conc)
@@ -90,9 +89,15 @@ while 1:
             print('---------------------------------------')
             print('-------------SCD Zeros Occurred-------------')
             print('---------------------------------------')
-    print(rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free())
-    # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
+    data = [rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free()]
+    for i in range(0, len(data)):
+        if i == len(data) - 1:
+            print(data[i])
+        else:
+            print(data[i], end=",")
+    #print(data)
+    # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit to Hub
     if rec_online == 1 and transmit_active == 1:
@@ -102,7 +107,7 @@ while 1:
         bt = network.temp_to_byte(temp)
 
         try:
-            #xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
+            # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
             xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
         except Exception as e:
             rec_online = 0
@@ -111,14 +116,13 @@ while 1:
     elif rec_online == 0 and transmit_active == 1:
         addr64, rec_online = network.connect()
 
-    #Check if there is an incoming broadcast
+    # Check if there is an incoming broadcast
     received_msg = xbee.receive()
     if received_msg:
         sender = received_msg['sender_eui64']
         payload = received_msg['payload']
         print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
                                                payload.decode()))
-
 
     # Wait for 3 Seconds According to Unix time
     # time.sleep(3)
@@ -127,6 +131,6 @@ while 1:
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
         time.sleep(0.1)
-       #time.sleep(0.5)
-    #time.sleep(3)
+    # time.sleep(0.5)
+    # time.sleep(3)
     gc.collect()

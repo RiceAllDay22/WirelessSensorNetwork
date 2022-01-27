@@ -4,7 +4,7 @@ import serial
 import datetime
 import pytz
 
-ser = serial.Serial('COM5', 9600, timeout=1)
+ser = serial.Serial('COM4', 9600, timeout=1)
 ser.flushInput()
 
 # RETRIEVE SYNC TIME - DATETIME
@@ -32,7 +32,7 @@ file_dt = get_datetime()
 Y, M, D, h, m, s  = map(int, (file_dt))
 filename = str(Y+2000)+'-'+str(M)+'-'+str(D)+'--'+str(h)+'-'+str(m)+'.csv'
 print(filename)
-#target = open(filename, 'a')
+target = open(filename, 'a')
 
 
 
@@ -53,11 +53,13 @@ try:
             data = ser.readline().decode('utf-8').strip('\n').strip('\r')
             if data:
                 print(data)
-            #target.write(data)
-            #target.write("\n") 
+                target.write(data)
+                target.write("\n") 
         #counter+=1
         else:
             time.sleep(0.1)
+
+
         file_dt = get_datetime()
         Y, M, D, h, m, s  = map(int, (file_dt))
         print(s)
