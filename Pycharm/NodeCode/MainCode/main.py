@@ -16,7 +16,7 @@ import xbee
 import network
 
 # ----- NODE SPECIFIC SETTINGS
-transmit_active = 1
+transmit_active = 0
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 bn = network.get_node_id()
 
@@ -29,8 +29,8 @@ scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
 ds = rtc.DS3231(i2c)
-# ds.DateTime([2022, 1, 19, 22, 0, 0]) # [Year, Month, Day, Hour, Minute, Second]
-
+ds.DateTime([2022, 1, 19, 22, 0, 0]) # [Year, Month, Day, Hour, Minute, Second]
+# 1642629612
 
 # ----- CONNECT TO HUB
 addr64, rec_online = network.connect()
@@ -76,7 +76,20 @@ while 1:
         conc = int(conc)
         temp = int(temp)
     else:
-        conc, temp, humid = 0, 0, 0
+        time.sleep(0.005)
+        if scd.get_status_ready() == 1:
+            conc, temp, humid = scd.read_measurement()
+            conc = int(conc)
+            temp = int(temp)
+            print('---------------------------------------')
+            print('-------------SCD SECONDARY Occurred-------------')
+            print('---------------------------------------')
+
+        else:
+            conc, temp, humid = 0, 0, 0
+            print('---------------------------------------')
+            print('-------------SCD Zeros Occurred-------------')
+            print('---------------------------------------')
     print(rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free())
     # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
@@ -113,6 +126,7 @@ while 1:
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
-        time.sleep(0.5)
-
+        time.sleep(0.1)
+       #time.sleep(0.5)
+    #time.sleep(3)
     gc.collect()

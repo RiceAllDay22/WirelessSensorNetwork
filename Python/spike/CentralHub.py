@@ -9,9 +9,10 @@ ser.flushInput()
 
 # RETRIEVE SYNC TIME - DATETIME
 def get_datetime():
+    #a = time.time()
     dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
     ut = int(dt.timestamp())
-    print(dt, ut)
+    ##print(dt, ut)
 
     y = dt.year - 2000
     m = dt.month
@@ -20,6 +21,9 @@ def get_datetime():
     mm = dt.minute
     ss = dt.second
     dt_array = ([y, m, d, hh, mm, ss])
+    #time.sleep(0.1)
+    #b = time.time()
+    #print(b-a)
     return dt_array
 
 
@@ -28,7 +32,8 @@ file_dt = get_datetime()
 Y, M, D, h, m, s  = map(int, (file_dt))
 filename = str(Y+2000)+'-'+str(M)+'-'+str(D)+'--'+str(h)+'-'+str(m)+'.csv'
 print(filename)
-target = open(filename, 'a')
+#target = open(filename, 'a')
+
 
 
 # WARMUP
@@ -43,13 +48,29 @@ for i in range(2):
 counter = 0
 try:
     while 1:
-        data = ser.readline().decode('utf-8').strip('\n').strip('\r')
-        if data:
-            print(data)
-            target.write(data)
-            target.write("\n") 
-        time.sleep(1)
-        counter+=1
+        wait = ser.inWaiting()
+        if wait > 0:
+            data = ser.readline().decode('utf-8').strip('\n').strip('\r')
+            if data:
+                print(data)
+            #target.write(data)
+            #target.write("\n") 
+        #counter+=1
+        else:
+            time.sleep(0.1)
+        file_dt = get_datetime()
+        Y, M, D, h, m, s  = map(int, (file_dt))
+        print(s)
+
+
+        # CHECK IF TIME TO MAKE NEW FILE
+        #file_dt = get_datetime()
+        #Y, M, D, h, m, s  = map(int, (file_dt))
+        #print(s)
+        #if s == 0:
+            # CREATE NEW FILE
+        #    print("Minute has Passed")
+
 
         #if counter == 5:
             # TRANSMIT SYNC TIME

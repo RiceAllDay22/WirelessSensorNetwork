@@ -6,9 +6,10 @@
     Author: shaoziyang
     Date:   2018.3
 
-    http://www.micropython.org.cn
+    https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
 '''
 from machine import I2C, Pin
+import time
 
 DS3231_I2C_ADDR = (0x68)
 DS3231_REG_SEC = (0x00)
@@ -58,9 +59,33 @@ class DS3231():
     def setReg(self, reg, dat):
         self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg, dat]))
 
+    # def getReg(self, reg):
+    #     self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
+    #     return self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+
+    # def getReg(self, reg):
+    #     try:
+    #         self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
+    #     except:
+    #         print("error here")
+    #     try:
+    #         a = self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+    #     except:
+    #         print("Error there")
+    #     return a
+
     def getReg(self, reg):
-        self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
-        return self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+        while 1:
+            try:
+                self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
+                read = self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+                if read != None:
+                    break
+            except:
+                print('---------------------------------------')
+                print("________________getReg Error_________________")
+                print('---------------------------------------')
+        return read
 
     def Second(self, second=None):
         if second == None:
@@ -177,19 +202,27 @@ class DS3231():
         else:
             return t1 + t2 / 256
 
+    # def time2ulong(self, days, hh, mm, ss):
+    #     return ((days * 24 + hh) * 60 + mm) * 60 + ss
+
     def time2ulong(self, days, hh, mm, ss):
-        return ((days * 24 + hh) * 60 + mm) * 60 + ss
+        try:
+            a = ((days * 24 + hh) * 60 + mm) * 60 + ss
+        except:
+            print(type(days), type(hh), type(mm), type(ss))
+        return a
+
 
     def date2days(self, y, m, d):
         y -= 2000
         days = d
-        for i in range(m-1):
+        for i in range(m - 1):
             days += daysInMonth[i]
-        if ((m > 2) and (y % 4 == 0) ):
+        if ((m > 2) and (y % 4 == 0)):
             days += 1
         return days + 365 * y + (y + 3) // 4 - 1
 
-    #def UnixTime(self, y, m, d, Weekday, hh, mm, ss):
+    # def UnixTime(self, y, m, d, Weekday, hh, mm, ss):
     def UnixTime(self, y, m, d, hh, mm, ss):
         days = self.date2days(y, m, d)
         ut = self.time2ulong(days, hh, mm, ss)

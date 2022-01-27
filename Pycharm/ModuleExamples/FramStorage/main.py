@@ -46,36 +46,37 @@ try:
         bw1, bw2 = 111, 222
         bc1, bc2 = 100, 200
         bt = 50
-        print('ut:', ut)
 
         data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
-        print(data)
+        print(ut, bw1, bw2, bc1, bc2, bt)
 
         # Send to Hub
         if rec_online == 1 and transmit_active == 1:
-            print("Send to Hub")
             try:
                 xbee.transmit(addr64, data)
+                print("^ Sent to Hub")
 
             except Exception as e:
-                print("Transmit failure: %s" % str(e))
+                print("^ Transmit failure: %s" % str(e))
                 rec_online = 0
+                previous_ut = ut
                 locator_byt = fram.get_locator(storage)
                 locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=True)
+                print("^ Save to Fram")
 
         # Save to Fram
         elif rec_online == 0 and transmit_active == 1:
-            print("Save to Fram")
+            print("^ Saved to Fram")
             locator_byt = fram.get_locator(storage)
             locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=False)
             addr64, rec_online = network.connect()
-            print(addr64, rec_online)
+            #print(addr64, rec_online)
 
         elif transmit_active == 0:
             print("Turned off")
 
         previous_ut = ut
-        time.sleep(2)
+        time.sleep(3)
 
 finally:
     print('End Code')

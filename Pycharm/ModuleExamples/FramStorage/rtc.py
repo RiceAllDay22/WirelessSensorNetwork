@@ -6,7 +6,7 @@
     Author: shaoziyang
     Date:   2018.3
 
-    http://www.micropython.org.cn
+    https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
 '''
 from machine import I2C, Pin
 
@@ -58,10 +58,22 @@ class DS3231():
     def setReg(self, reg, dat):
         self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg, dat]))
 
-    def getReg(self, reg):
-        self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
-        return self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+    # def getReg(self, reg):
+    #     self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
+    #     return self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
 
+    def getReg(self, reg):
+        try:
+            self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
+        except:
+            print("error here")
+        try:
+            a = self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
+        except:
+            print("Error there")
+        return a
+    
+    
     def Second(self, second=None):
         if second == None:
             return self.HexToDec(self.getReg(DS3231_REG_SEC))
