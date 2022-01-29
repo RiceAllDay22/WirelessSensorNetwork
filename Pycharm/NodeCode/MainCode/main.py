@@ -55,12 +55,13 @@ davis.MR()
 # time.sleep(5)
 # true_ut = ds.UnixTime(*ds.DateTime())
 
-
+counter = 0
 while 1:
     # Collect Time and Wind Data
     ut = ds.UnixTime(*ds.DateTime())
     wind_dir = davis.wd(dir_offset)
-    wind_cyc = davis.ws()
+    wind_cyc = counter
+    #wind_cyc = davis.ws()
 
     # Check if Unix Time is synchronized
     # if ut == true_ut:
@@ -75,20 +76,20 @@ while 1:
         conc = int(conc)
         temp = int(temp)
     else:
-        time.sleep(0.1)
+        time.sleep(1)
         if scd.get_status_ready() == 1:
             conc, temp, humid = scd.read_measurement()
             conc = int(conc)
             temp = int(temp)
-            print('---------------------------------------')
-            print('-------------SCD SECONDARY Occurred-------------')
-            print('---------------------------------------')
+            print('------------------------------------------------------------------------------')
+            print('-------------SCD SECONDARY Occurred----------------------------------------------------')
+            print('------------------------------------------------------------------------------')
 
         else:
             conc, temp, humid = 0, 0, 0
-            print('---------------------------------------')
-            print('-------------SCD Zeros Occurred-------------')
-            print('---------------------------------------')
+            print('------------------------------------------------------------------------------')
+            print('-------------SCD Zeros Occurred----------------------------------------------------')
+            print('------------------------------------------------------------------------------')
 
     data = [rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free()]
     for i in range(0, len(data)):
@@ -100,37 +101,41 @@ while 1:
     # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit to Hub
-    if rec_online == 1 and transmit_active == 1:
-        bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
-        bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
-        bc1, bc2 = network.ppm_to_byte(conc)
-        bt = network.temp_to_byte(temp)
-
-        try:
-            # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
-            xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
-        except Exception as e:
-            rec_online = 0
-            print("Transmit failure: %s" % str(e))
-
-    elif rec_online == 0 and transmit_active == 1:
-        addr64, rec_online = network.connect()
-
-    # Check if there is an incoming broadcast
-    received_msg = xbee.receive()
-    if received_msg:
-        sender = received_msg['sender_eui64']
-        payload = received_msg['payload']
-        print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
-                                               payload.decode()))
-
-    # Wait for 3 Seconds According to Unix time
-    # time.sleep(3)
+    # if rec_online == 1 and transmit_active == 1:
+    #     bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
+    #     bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
+    #     bc1, bc2 = network.ppm_to_byte(conc)
+    #     bt = network.temp_to_byte(temp)
+    #
+    #     try:
+    #         # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
+    #         xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
+    #     except Exception as e:
+    #         rec_online = 0
+    #         print("Transmit failure: %s" % str(e))
+    #
+    # elif rec_online == 0 and transmit_active == 1:
+    #     addr64, rec_online = network.connect()
+    #
+    # # Check if there is an incoming broadcast
+    # received_msg = xbee.receive()
+    # if received_msg:
+    #     sender = received_msg['sender_eui64']
+    #     payload = received_msg['payload']
+    #     print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
+    #                                            payload.decode()))
+    #
+    # # Wait for 3 Seconds According to Unix time
+    # # time.sleep(3)
 
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
+        print(now_ut)
         time.sleep(0.1)
     # time.sleep(0.5)
     # time.sleep(3)
     gc.collect()
+    counter += 1
+    if counter == 255:
+        counter = 0

@@ -42,7 +42,7 @@ try:
             print(data)
             target.write(data)
             target.write("\n") 
-        time.sleep(1)
+        time.sleep(0.02)
 
 finally:
     print('Close the File')
