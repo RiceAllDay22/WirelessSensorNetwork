@@ -48,7 +48,7 @@ print('SCD Altitude:', scd.get_altitude_comp())
 print('SCD Factor:  ', scd.get_forced_recalibration())
 print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
-
+print('------------------------------------------------------------------------------')
 # ----- FINALIZATION
 davis.MR()
 # gc.collect()
@@ -131,7 +131,7 @@ while 1:
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
-        print(now_ut)
+        #print(now_ut)
         time.sleep(0.1)
     # time.sleep(0.5)
     # time.sleep(3)
