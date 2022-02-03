@@ -1,4 +1,7 @@
 #include <SdFat.h>
+#include <SPI.h>
+
+
 
 const uint8_t sdChipSelect = SS;
 

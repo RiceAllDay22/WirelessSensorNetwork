@@ -44,9 +44,14 @@ daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30]
 
 class DS3231():
     def __init__(self, i2c):
-        devices = i2c.scan()  # Line not in original
-        assert DS3231_I2C_ADDR in devices, "Did not find slave %d in scan: %s" % (
-            DS3231_I2C_ADDR, devices)  # Line not in original
+        success = 0
+        while success == 0:
+            devices = i2c.scan()  # Line not in original
+            if DS3231_I2C_ADDR in devices:
+                success = 1
+            else:
+                print("Did not find slave %d in scan: %s" % (DS3231_I2C_ADDR, devices))
+                time.sleep(1)
         self.i2c = i2c
         self.setReg(DS3231_REG_CTRL, 0x4C)
 

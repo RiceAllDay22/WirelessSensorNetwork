@@ -1,5 +1,6 @@
 from machine import I2C
 import utime
+import time
 import struct
 
 
@@ -55,11 +56,18 @@ class SCD30:
     ]
 
     def __init__(self, i2c, addr, pause=1000):
-        self.i2c = i2c
-        self.pause = pause
-        self.addr = addr
-        if not addr in i2c.scan():
-            raise self.NotFoundException
+        print("SCD Initializing")
+        success = 0
+        while success == 0:
+            self.i2c = i2c
+            self.pause = pause
+            self.addr = addr
+            if not addr in i2c.scan():
+                print("SCD not found")
+                time.sleep(1)
+            else:
+                success = 1
+                #raise self.NotFoundException
 
     def start_continous_measurement(self, ambient_pressure=0):
         bint = struct.pack('>H', ambient_pressure)
