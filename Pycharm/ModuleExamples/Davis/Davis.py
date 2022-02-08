@@ -30,10 +30,12 @@ def MR():
 
 #Function to read integer value given by the counter-chip
 def ws():
-    ws_binary = [bit1.value(), bit2.value(), bit3.value(), bit4.value(), bit5.value(), bit6.value(), bit7.value(), bit8.value()]
+    ws_binary = [bit1.value(), bit2.value(), bit3.value(), bit4.value(),
+                 bit5.value(), bit6.value(), bit7.value(), bit8.value()]
     ws_integer = BoolToByte(ws_binary)
     #MR()
-    return ws_integer
+    print(ws_binary, ws_integer)
+    #return ws_integer
 
 
 #Function to read the analog reading of the anemometer
