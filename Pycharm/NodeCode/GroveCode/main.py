@@ -2,9 +2,15 @@
 
 import time
 import xbee
+import rtc
+from machine import Pin, ADC, I2C
 
 transmit_active = 1
 bn = 3
+
+
+i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
+ds = rtc.DS3231(i2c)
 
 
 def find_device(node_id):
@@ -37,6 +43,8 @@ print("Rec_online:", rec_online)
 print("Tramsmit:", transmit_active)
 
 while 1:
+    ut = ds.UnixTime(*ds.DateTime())
+    print(ut)
     # If connection to CentralHub is active and if TransmitMode is on, then
     if rec_online == 1 and transmit_active == 1:
         # Send Fake Data
@@ -45,6 +53,7 @@ while 1:
         # Check for incoming data
         received_msg = xbee.receive()
         if received_msg:
+            print("Msg")
             sender = received_msg['sender_eui64']
             payload = received_msg['payload']
             b = payload
@@ -54,6 +63,8 @@ while 1:
                 print(payload)
                 print("%s-%s-%s %s:%s:%s" % (
                     payload[0] + 2000, payload[1], payload[2], payload[3], payload[4], payload[5]))
+                ds.DateTime([payload[0]+2000, payload[1], payload[2], payload[3], payload[4], payload[5]])
+
     else:
         print("Did not send")
 

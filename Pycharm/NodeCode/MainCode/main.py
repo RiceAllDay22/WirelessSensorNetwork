@@ -1,5 +1,5 @@
 '''
-    Last updated: 1-19-2022
+    Last updated: 2-9-2022
     Adriann Liceralde
     Wireless Sensor Network Project
 '''
@@ -7,7 +7,7 @@
 # ----- IMPORT LIBRARIES
 import gc
 import time
-import machine
+from machine import Pin, ADC, I2C
 import rtc
 import davis
 import sensirion
@@ -21,14 +21,14 @@ dir_offset = 0  # Specify the angular offset of the actual wind vane from true N
 bn = network.get_node_id()
 
 # ----- SETUP MODULES
-i2c = machine.I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
+i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
 scd = sensirion.SCD30(i2c, 0x61)
 scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
 ds = rtc.DS3231(i2c)
-ds.DateTime([2022, 1, 19, 22, 0, 0])  # [Year, Month, Day, Hour, Minute, Second]
+# ds.DateTime([2022, 2, 9, 17, 10, 0])  # [Year, Month, Day, Hour, Minute, Second]
 # 1642629612
 
 # ----- CONNECT TO HUB
@@ -55,13 +55,41 @@ davis.MR()
 # time.sleep(5)
 # true_ut = ds.UnixTime(*ds.DateTime())
 
+battery_pin = ADC("D0")
+#D1 is reserved for SCL
+wd_pin = ADC("D2")  # ANEM_DIR in schematic
+led_pin = Pin("D3", mode=Pin.OUT, value=1)
+#bit1 = Pin("D4", mode=Pin.IN)  # COUNT_0 in schematic
+#bit2 = Pin("D5", mode=Pin.IN)  # COUNT_1 in schematic
+#D6 is reserved for RTS
+#bit3 = Pin("D7", mode=Pin.IN)  # COUNT_2 in schematic
+#D8 is reserved for DTR
+#bit4 = Pin("D9", mode=Pin.IN)  # COUNT_3 in schematic
+button_pin = Pin("D10", mode=Pin.IN, pull = Pin.PULL_DOWN)
+#D11 is reserved for SDA
+#bit5 = Pin("D12", mode=Pin.IN)  # COUNT_4 in schematic
+#D13 is reserved for DOUT
+#D14 is reserved for DIN
+#MR_pin = Pin("D15", mode=Pin.OUT)  # COUNT_RST in schematic
+#bit8 = Pin("D16", mode=Pin.ALT)  # COUNT_7 in schematic
+#bit6 = Pin("D17", mode=Pin.ALT)  # COUNT_5 in schematic
+#bit7 = Pin("D18", mode=Pin.ALT)  # COUNT_6 in schematic
+fram_wp = Pin("D19", mode=Pin.OUT)
+
 counter = 0
 while 1:
-    # Collect Time and Wind Data
+    led_pin.value(1)
+    # Collect Time, Wind, and SCD30
     ut = ds.UnixTime(*ds.DateTime())
+    conc, temp, humid = scd.getData()
     wind_dir = davis.wd(dir_offset)
     wind_cyc = counter
-    #wind_cyc = davis.ws()
+    # wind_cyc = davis.ws()
+
+    #Collect Battery Level and Button State
+    vcc = battery_pin.read()/4095*3.3*5
+    vcc = round(vcc, 2)
+    button_state = button_pin.value()
 
     # Check if Unix Time is synchronized
     # if ut == true_ut:
@@ -70,34 +98,13 @@ while 1:
     # else:
     #     sync = False
 
-    # Collect SCD30 Data
-    if scd.get_status_ready() == 1:
-        conc, temp, humid = scd.read_measurement()
-        conc = int(conc)
-        temp = int(temp)
-    else:
-        time.sleep(1)
-        if scd.get_status_ready() == 1:
-            conc, temp, humid = scd.read_measurement()
-            conc = int(conc)
-            temp = int(temp)
-            print('------------------------------------------------------------------------------')
-            print('-------------SCD SECONDARY Occurred----------------------------------------------------')
-            print('------------------------------------------------------------------------------')
-
-        else:
-            conc, temp, humid = 0, 0, 0
-            print('------------------------------------------------------------------------------')
-            print('-------------SCD Zeros Occurred----------------------------------------------------')
-            print('------------------------------------------------------------------------------')
-
-    data = [rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free()]
+    data = [transmit_active, rec_online, ut, conc, temp, humid, wind_dir, wind_cyc, gc.mem_free(), button_state, vcc]
     for i in range(0, len(data)):
         if i == len(data) - 1:
             print(data[i])
         else:
             print(data[i], end=",")
-    #print(data)
+    # print(data)
     # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
     # Transmit to Hub
@@ -128,13 +135,12 @@ while 1:
     # # Wait for 3 Seconds According to Unix time
     # # time.sleep(3)
 
+    led_pin.value(0)
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
-        #print(now_ut)
+        # print(now_ut)
         time.sleep(0.1)
-    # time.sleep(0.5)
-    # time.sleep(3)
     gc.collect()
     counter += 1
     if counter == 255:

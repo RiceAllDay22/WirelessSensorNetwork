@@ -173,6 +173,8 @@ class SCD30:
     def __check_crc(self, arr):
         assert (len(arr) == 3)
         if self.__crc(arr[0], arr[1]) != arr[2]:
+            print('---------------------')
+            print(arr[0], arr[1], arr[2])
             raise self.CRCException
 
     def __crc(self, msb, lsb):
@@ -183,3 +185,16 @@ class SCD30:
             crc ^= lsb
             crc = self.CRC_TABLE[crc]
         return crc
+
+    def getData(self):
+        if self.get_status_ready() == 1:
+            conc, temp, humid = self.read_measurement()
+            conc = int(conc)
+            temp = int(temp)
+            humid = int(humid)
+        else:
+            conc, temp, humid = 0, 0, 0
+            print('-')
+            print('--------------------------------SCD Zeros Occurred--------------------------------')
+            print('-')
+        return [conc, temp, humid]

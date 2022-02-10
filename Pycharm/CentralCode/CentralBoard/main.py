@@ -1,11 +1,12 @@
-#Last Updated on 1-18-2022
+#Last Updated on 2-9-2022
 import sys
 import time
 import xbee
-import machine
+from machine import Pin
 import micropython
 
-userButton = machine.Pin("D4", machine.Pin.IN)
+userButton = Pin("D4", mode=Pin.IN)
+testButton = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
 micropython.kbd_intr(-1)
 
 while 1:
@@ -43,5 +44,8 @@ while 1:
         print('STOP CODE')
         sys.exit()
 
+    #Check for Test Button press
+    if testButton.value() == 1:
+        print(testButton.value())
     #Wait
     time.sleep(1)
