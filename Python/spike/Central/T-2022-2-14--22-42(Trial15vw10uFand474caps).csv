@@ -1,0 +1,26 @@
+Memory:       8512
+RF identifier 2
+Firmware ver: 0x300d
+Hardware ver: 0x4150
+Hub Address:  None
+Hub Connect:  0
+Transmit On:  1
+SCD Interval: 2
+SCD Altitude: 1300
+SCD Factor:   400
+SCD Auto?     False
+------------------------------------------------------------------------------
+1,0,946685595,427,25,18,209,0,2496,0,4.880001
+1,0,946685598,427,25,18,221,0,5056,0,5.02
+1,0,946685601,427,25,18,159,0,5056,0,5.0
+1,0,946685604,424,25,18,223,0,5056,0,5.1
+1,0,946685607,423,25,18,229,0,5056,0,4.940001
+Traceback (most recent call last):
+  File "/flash/main.py", line 95, in <module>
+  File "/flash/sensirion.py", line 201, in getData
+  File "/flash/sensirion.py", line 90, in read_measurement
+  File "/flash/sensirion.py", line 171, in __read_bytes
+OSError: [Errno 7110] ETIMEDOUT
+MicroPython v1.12-1556-gcc82fa9 on 2021-06-22; XBee3 DigiMesh 2.4 with EFR32MG
+Type "help()" for more information.
+>>> 

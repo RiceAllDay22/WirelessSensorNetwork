@@ -1,5 +1,5 @@
 '''
-    Last updated: 2-9-2022
+    Last updated: 2-12-2022
     Adriann Liceralde
     Wireless Sensor Network Project
 '''
@@ -16,7 +16,7 @@ import xbee
 import network
 
 # ----- NODE SPECIFIC SETTINGS
-transmit_active = 0
+transmit_active = 1
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 bn = network.get_node_id()
 
@@ -27,8 +27,11 @@ scd.set_measurement_interval(2)
 scd.set_altitude_comp(1300)
 scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
+locator_byt = fram.get_locator(storage)
 ds = rtc.DS3231(i2c)
-# ds.DateTime([2022, 2, 9, 17, 10, 0])  # [Year, Month, Day, Hour, Minute, Second]
+#ds.DateTime([2022, 2, 15, 17, 1, 30])  # [Year, Month, Day, Hour, Minute, Second]
+previous_ut = ds.UnixTime(*ds.DateTime())
+time.sleep(1)
 # 1642629612
 
 # ----- CONNECT TO HUB
@@ -65,7 +68,7 @@ led_pin = Pin("D3", mode=Pin.OUT, value=1)
 #bit3 = Pin("D7", mode=Pin.IN)  # COUNT_2 in schematic
 #D8 is reserved for DTR
 #bit4 = Pin("D9", mode=Pin.IN)  # COUNT_3 in schematic
-button_pin = Pin("D10", mode=Pin.IN, pull = Pin.PULL_DOWN)
+button_pin = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
 #D11 is reserved for SDA
 #bit5 = Pin("D12", mode=Pin.IN)  # COUNT_4 in schematic
 #D13 is reserved for DOUT
@@ -80,11 +83,19 @@ counter = 0
 while 1:
     led_pin.value(1)
     # Collect Time, Wind, and SCD30
-    ut = ds.UnixTime(*ds.DateTime())
+    while 1:
+        ut = ds.UnixTime(*ds.DateTime())
+        if ut > previous_ut and ut < previous_ut+100:
+            break
+        else:
+            print("----------------------------------------------------------------RTC SETBACK------------------------------------")
+            time.sleep(0.1)
+
+
     conc, temp, humid = scd.getData()
     wind_dir = davis.wd(dir_offset)
-    wind_cyc = counter
-    # wind_cyc = davis.ws()
+    #wind_cyc = counter
+    wind_cyc = davis.ws()
 
     #Collect Battery Level and Button State
     vcc = battery_pin.read()/4095*3.3*5
@@ -106,6 +117,22 @@ while 1:
             print(data[i], end=",")
     # print(data)
     # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
+
+    bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
+    bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
+    bc1, bc2 = network.ppm_to_byte(conc)
+    bt = network.temp_to_byte(temp)
+
+    #vvc = int(vcc*1000)
+    #bb1 = vvc // 256
+    #bb2 = vvc - bb1 * 256
+
+    data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
+    locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=True)
+    #data = bytes([bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt, bb1, bb2])
+    #locator_byt = fram.battery_storage(storage, locator_byt, data, previous_ut, include_unix=True)
+    previous_ut = ut
+
 
     # Transmit to Hub
     # if rec_online == 1 and transmit_active == 1:

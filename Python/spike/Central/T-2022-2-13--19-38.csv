@@ -1,0 +1,50 @@
+1,0,1644774648,996,25,30,359,0,5296,0,5.05
+1,0,1644774651,997,25,30,358,0,5296,0,5.06
+Traceback (most recent call last):
+  File "/flash/main.py", line 95, in <module>
+  File "/flash/sensirion.py", line 190, in getData
+  File "/flash/sensirion.py", line 104, in get_status_ready
+  File "/flash/sensirion.py", line 169, in __read_bytes
+  File "/flash/sensirion.py", line 166, in __write_command
+OSError: [Errno 7110] ETIMEDOUT
+MicroPython v1.12-1556-gcc82fa9 on 2021-06-22; XBee3 DigiMesh 2.4 with EFR32MG
+Type "help()" for more information.
+>>> 
+Loading /flash/main.mpy...
+Running bytecode...
+SCD Initializing
+Instantiated FRAM
+Memory:       8032
+RF identifier 2
+Firmware ver: 0x300d
+Hardware ver: 0x4150
+Hub Address:  None
+Hub Connect:  0
+Transmit On:  1
+SCD Interval: 2
+SCD Altitude: 1300
+SCD Factor:   400
+SCD Auto?     False
+------------------------------------------------------------------------------
+1,0,1644774615,1319,25,30,358,0,1952,0,5.04
+1,0,1644774618,1287,25,30,358,0,5296,0,5.03
+1,0,1644774621,1224,25,30,358,0,5296,0,5.09
+1,0,1644774624,1154,25,29,358,0,5296,0,4.93
+1,0,1644774627,1138,25,29,358,0,5296,0,5.0
+1,0,1644774630,1115,25,29,358,0,5296,0,5.0
+1,0,1644774633,1096,25,29,358,0,5296,0,4.97
+1,0,1644774636,1078,25,29,359,0,5296,0,4.98
+1,0,1644774639,1054,25,29,358,0,5296,0,4.98
+1,0,1644774642,1050,25,29,358,0,5296,0,4.93
+1,0,1644774645,1039,25,29,357,0,5296,0,4.86
+---------------------
+66 64 96
+Traceback (most recent call last):
+  File "/flash/main.py", line 95, in <module>
+  File "/flash/sensirion.py", line 191, in getData
+  File "/flash/sensirion.py", line 92, in read_measurement
+  File "/flash/sensirion.py", line 178, in __check_crc
+CRCException: 
+MicroPython v1.12-1556-gcc82fa9 on 2021-06-22; XBee3 DigiMesh 2.4 with EFR32MG
+Type "help()" for more information.
+>>> 

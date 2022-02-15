@@ -170,12 +170,22 @@ class SCD30:
         utime.sleep_us(self.pause)
         return self.i2c.readfrom(self.addr, count)
 
+    # def __check_crc(self, arr):
+    #     assert (len(arr) == 3)
+    #     if self.__crc(arr[0], arr[1]) != arr[2]:
+    #         print('---------------------')
+    #         print(arr[0], arr[1], arr[2])
+    #         raise self.CRCException
+
     def __check_crc(self, arr):
         assert (len(arr) == 3)
         if self.__crc(arr[0], arr[1]) != arr[2]:
             print('---------------------')
             print(arr[0], arr[1], arr[2])
-            raise self.CRCException
+            return 0
+        else:
+            return 1
+            #raise self.CRCException
 
     def __crc(self, msb, lsb):
         crc = 0xff

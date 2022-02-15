@@ -9,6 +9,11 @@
 
 from micropython import const
 import uos
+import xbee
+import time
+
+import fram
+import network
 
 
 class BlockDevice:
@@ -164,35 +169,252 @@ def get_fram(i2c):
     return fram
 
 
-def test():
-    fram = get_fram()
-    sa = 1000
-    for v in range(256):
-        fram[sa + v] = v
-    for v in range(256):
-        if fram[sa + v] != v:
-            print('Fail at address {} data {} should be {}'.format(sa + v, fram[sa + v], v))
-            break
-    else:
-        print('Test of byte addressing passed')
-    data = uos.urandom(30)
-    sa = 2000
-    fram[sa:sa + 30] = data
-    if fram[sa:sa + 30] == data:
-        print('Test of slice readback passed')
+# def test():
+#     fram = get_fram()
+#     sa = 1000
+#     for v in range(256):
+#         fram[sa + v] = v
+#     for v in range(256):
+#         if fram[sa + v] != v:
+#             print('Fail at address {} data {} should be {}'.format(sa + v, fram[sa + v], v))
+#             break
+#     else:
+#         print('Test of byte addressing passed')
+#     data = uos.urandom(30)
+#     sa = 2000
+#     fram[sa:sa + 30] = data
+#     if fram[sa:sa + 30] == data:
+#         print('Test of slice readback passed')
 
 
 # ***** TEST OF HARDWARE *****
-def full_test():
-    fram = get_fram()
-    page = 0
-    for sa in range(0, len(fram), 256):
-        data = uos.urandom(256)
-        fram[sa:sa + 256] = data
-        if fram[sa:sa + 256] == data:
-            pass
-            #print('Page {} passed'.format(page))
-        else:
-            print('Page {} readback failed.'.format(page))
-        page += 1
-    print('Complete')
+# def full_test():
+#     fram = get_fram()
+#     page = 0
+#     for sa in range(0, len(fram), 256):
+#         data = uos.urandom(256)
+#         fram[sa:sa + 256] = data
+#         if fram[sa:sa + 256] == data:
+#             pass
+#             #print('Page {} passed'.format(page))
+#         else:
+#             print('Page {} readback failed.'.format(page))
+#         page += 1
+#     print('Complete')
+
+
+# Function: 4 bytes to 32 bit
+def byte_to_ut(b1, b2, b3, b4):
+    ut = b1 * 256 ** 3 + b2 * 256 ** 2 + b3 * 256 + b4
+    return ut
+
+def ut_to_byte(ut):
+    b1 = ut // 256 ** 3
+    b2 = ut // 256 ** 2 - b1 * 256
+    b3 = ut // 256 ** 1 - b1 * 256 ** 2 - b2 * 256
+    b4 = ut - b1 * 256 ** 3 - b2 * 256 ** 2 - b3 * 256
+    return b1, b2, b3, b4
+
+
+
+def locator_reset(storage):
+    storage[0:2] = b'\x00\x02'
+    return None
+
+def get_locator(storage):
+    return storage[0:2]
+
+def check(storage):
+    for i in range(20):
+        print(storage[i], end=" ")
+    print("")
+    return None
+
+def retrieve_storage(locator_byt):
+    locator_int = int.from_bytes(locator_byt, "big")
+    print(locator_byt, locator_int)
+    return None
+
+def reset(storage):
+    storage[0:500] = b'\x00' * 500
+    time.sleep(1)
+    locator_reset(storage)
+    return None
+
+# def large_reset(storage, amount): #Max is 32
+#     for i in range(0, amount*2):
+#         storage[i*1024/2:(i+1)*1024/2] = b'\x00' * 1024/2
+#         print(i*1024/2, (i+1)*1024/2)
+#         locator_reset(storage)
+#     return None
+def battery_storage(storage, locator_byt, data, previous_ut, include_unix):
+    now_ut = int.from_bytes(data[0:4], "big")
+    bs = now_ut - previous_ut
+    data_to_store = data + bytes([bs])
+
+    locator_int = int.from_bytes(locator_byt, "big")
+    if locator_int < 32700:
+        storage[locator_int:locator_int + 12] = data_to_store
+        locator_int = locator_int + 12
+    else:
+        print("-------------------------------------------------FRAM is FULL-------------------------------------------------")
+        print("1" + 3)
+
+    # Update FRAM Locator
+    locator_byt = locator_int.to_bytes(2, "big")
+    storage[0:2] = locator_byt
+    #print('Loc:', locator_byt[0] * 256 + locator_byt[1])
+
+    return locator_byt
+
+
+
+def battery_retrieve(storage, indexer):
+    locator_byt = storage[0:2]
+    locator_int = int.from_bytes(locator_byt, "big")
+    #indexer = 2
+
+    while indexer < locator_int:
+        chunk = storage[indexer:indexer + 12]
+        ut = byte_to_ut(chunk[0], chunk[1], chunk[2], chunk[3])
+        sec = chunk[11]
+        ws, wd = byte_to_wind(chunk[4], chunk[5])
+        ppm = byte_to_ppm(chunk[6], chunk[7])
+        temp = chunk[8] - 40
+
+        vcc = (chunk[9]*256 + chunk[10])/1000
+
+        data = [ut, sec, ws, wd, ppm, temp, vcc]
+        for i in range(0, len(data)):
+            if i == len(data) - 1:
+                print(data[i])
+            else:
+                print(data[i], end=",")
+                time.sleep(0.01)
+        indexer += 12
+
+        if indexer > 32750:
+            break
+
+    return None
+
+
+def emergency_storage(storage, locator_byt, data, previous_ut, include_unix):
+    # Get Data
+    now_ut = int.from_bytes(data[1:5], "big")
+    sensor_data = data[5:10]
+    bs = now_ut - previous_ut
+    bs = 3
+    data_to_store = bytes([bs])+sensor_data
+
+    # Get FRAM Locator
+    locator_int = int.from_bytes(locator_byt, "big")
+
+
+    if locator_int < 32700:
+        # # Save Data to FRAM with Unix included
+        if include_unix == True:
+            storage[locator_int:locator_int + 12] = bytes([255]) + data[1:5] + bytes([255]) + data_to_store[0:6]
+            time.sleep(1)
+            locator_int = locator_int + 12
+
+        # Save Data to FRAM without Unix included
+        elif include_unix == False:
+            #print('Before:', storage[locator_int:locator_int + 6])
+            storage[locator_int:locator_int + 6] = data_to_store
+            time.sleep(1)
+            #print('After:', storage[locator_int:locator_int + 6])
+            locator_int = locator_int + 6
+    else:
+        print("-------------------------------------------------FRAM is FULL-------------------------------------------------")
+        print("1" + 3)
+
+    # Update FRAM Locator
+    locator_byt = locator_int.to_bytes(2, "big")
+    storage[0:2] = locator_byt
+    #print('Loc:', locator_byt[0] * 256 + locator_byt[1])
+
+    return locator_byt
+
+
+# def emergency_retrieval(storage, addr64, bn):
+#     locator_byt = storage[0:2]
+#     locator_int = int.from_bytes(locator_byt, "big")
+#     indexer = 2
+#
+#     while indexer < locator_int:
+#         chunk = storage[indexer:indexer + 6]
+#         if (chunk[0] == 255) and (chunk[5] == 255):
+#             current_ut = byte_to_ut(chunk[1], chunk[2], chunk[3], chunk[4])
+#         else:
+#             current_ut += chunk[0]
+#             b1, b2, b3, b4 = ut_to_byte(current_ut)
+#             data = bytes([bn, b1,b2,b3,b4]) + chunk[1:6]
+#             xbee.transmit(addr64, data)
+#             time.sleep(0.2)
+#         indexer += 6
+#     return None
+
+
+
+def byte_to_wind(b1, b2):
+    if b2 > 127:
+        wd = b1 * 2 + 1
+        ws = b2 - 128
+    else:
+        wd = b1 * 2
+        ws = b2
+    return ws, wd
+
+def byte_to_ppm(b1, b2):
+    ppm = b1 * 256 + b2
+    return ppm
+
+
+def emergency_retrieve(storage, indexer):
+    locator_byt = storage[0:2]
+    locator_int = int.from_bytes(locator_byt, "big")
+    #indexer = 2
+
+    while indexer < locator_int:
+        chunk = storage[indexer:indexer + 12]
+        ut = byte_to_ut(chunk[1], chunk[2], chunk[3], chunk[4])
+        sec = chunk[6]
+        ws, wd = byte_to_wind(chunk[7], chunk[8])
+        ppm = byte_to_ppm(chunk[9], chunk[10])
+        temp = chunk[11] - 40
+
+        data = [ut, sec, ws, wd, ppm, temp]
+        for i in range(0, len(data)):
+            if i == len(data) - 1:
+                print(data[i])
+            else:
+                print(data[i], end=",")
+                time.sleep(0.01)
+        indexer += 12
+
+        if indexer > 32750:
+            break
+
+    return None
+
+
+def retrieve(storage,indexer):
+    print("Retrieve")
+    time.sleep(5)
+    a = time.ticks_ms()
+    fram.emergency_retrieve(storage, indexer)
+    b = time.ticks_ms()
+    print((b-a)/1000)
+    return None
+
+def reset_all(storage, end):
+    print("Reset")
+    a = time.ticks_ms()
+    for i in range(end):
+        storage[i] = 0
+    b = time.ticks_ms()
+    print((b-a)/1000)
+    storage[1] = 2
+    return None
+

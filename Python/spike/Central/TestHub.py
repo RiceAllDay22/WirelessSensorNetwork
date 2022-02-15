@@ -73,12 +73,12 @@ try:
         # Create New File
         # Takes 0.015 seconds to run the checker
         dt = get_datetime()
-        if dt[4] == 0 and dt[5] == 0:
-            print("New File")
-            if record == 1:
-                target.close()
-                filename = create_file()
-                target = open(filename, 'a')
+        #if dt[4] == 0 and dt[5] == 0:
+            #print(dt, "New File-------------------------------------------")
+            #if record == 1:
+            #    target.close()
+            #    filename = create_file()
+            #    target = open(filename, 'a')
 
         # Unixtime Synchronization
         if dt[3] == 0:
