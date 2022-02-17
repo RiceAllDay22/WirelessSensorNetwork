@@ -1,5 +1,6 @@
 from machine import ADC, Pin
 import time
+import xbee
 
 wd_pin = ADC("D2")  # ANEM_DIR in schematic
 bit1 = Pin("D4", Pin.IN)  # COUNT_0 in schematic

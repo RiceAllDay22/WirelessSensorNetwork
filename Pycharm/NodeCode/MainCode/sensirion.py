@@ -2,7 +2,7 @@ from machine import I2C
 import utime
 import time
 import struct
-
+import xbee
 
 class SCD30:
     class NotFoundException(Exception):

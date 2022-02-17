@@ -38,6 +38,8 @@ time.sleep(1)
 addr64, rec_online = network.connect()
 
 # ----- PRINT SETTINGS
+xbee.transmit(addr64,  bytes([111, 111, 111, 111, 111, 111, 111, 111]))
+
 print('')
 print('Memory:      ', gc.mem_free())
 print('RF identifier', bn)
@@ -94,6 +96,9 @@ while 1:
 
     conc, temp, humid = scd.getData()
     wind_dir = davis.wd(dir_offset)
+
+    if conc == 0 and temp == 0 and humid == 0:
+        xbee.transmit(addr64, bytes([0, 0, 0, 0, 0, 0, 0]))
     #wind_cyc = counter
     wind_cyc = davis.ws()
 
@@ -127,37 +132,37 @@ while 1:
     #bb1 = vvc // 256
     #bb2 = vvc - bb1 * 256
 
-    data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
-    locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=True)
+    #data = bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt])
+    #locator_byt = fram.emergency_storage(storage, locator_byt, data, previous_ut, include_unix=True)
     #data = bytes([bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt, bb1, bb2])
     #locator_byt = fram.battery_storage(storage, locator_byt, data, previous_ut, include_unix=True)
     previous_ut = ut
 
 
     # Transmit to Hub
-    # if rec_online == 1 and transmit_active == 1:
-    #     bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
-    #     bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
-    #     bc1, bc2 = network.ppm_to_byte(conc)
-    #     bt = network.temp_to_byte(temp)
-    #
-    #     try:
-    #         # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
-    #         xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
-    #     except Exception as e:
-    #         rec_online = 0
-    #         print("Transmit failure: %s" % str(e))
-    #
-    # elif rec_online == 0 and transmit_active == 1:
-    #     addr64, rec_online = network.connect()
-    #
-    # # Check if there is an incoming broadcast
-    # received_msg = xbee.receive()
-    # if received_msg:
-    #     sender = received_msg['sender_eui64']
-    #     payload = received_msg['payload']
-    #     print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
-    #                                            payload.decode()))
+    if rec_online == 1 and transmit_active == 1:
+        bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
+        bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
+        bc1, bc2 = network.ppm_to_byte(conc)
+        bt = network.temp_to_byte(temp)
+
+        try:
+            # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
+            xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
+        except Exception as e:
+            rec_online = 0
+            print("Transmit failure: %s" % str(e))
+
+    elif rec_online == 0 and transmit_active == 1:
+        addr64, rec_online = network.connect()
+
+    # Check if there is an incoming broadcast
+    received_msg = xbee.receive()
+    if received_msg:
+        sender = received_msg['sender_eui64']
+        payload = received_msg['payload']
+        print("Data received from %s >> %s" % (''.join('{:02x}'.format(x).upper() for x in sender),
+                                               payload.decode()))
     #
     # # Wait for 3 Seconds According to Unix time
     # # time.sleep(3)

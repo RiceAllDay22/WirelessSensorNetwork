@@ -66,12 +66,12 @@ try:
         data = ser.readline().decode('utf-8').strip('\n').strip('\r')
         #print(len(data))
         if data:
-            if len(data) == 1:
-                sync_dt = get_datetime()
-                ser.write(bytes(sync_dt))
-                print("Sync:", sync_dt)
+            #if len(data) == 1:
+            #    sync_dt = get_datetime()
+            #    ser.write(bytes(sync_dt))
+            #    print("Sync:", sync_dt)
 
-            #print(data)
+            print(data)
             if record == 1:
                 target.write(data)
                 target.write("\n") 
@@ -80,17 +80,17 @@ try:
         # Create New File
         # Takes 0.015 seconds to run the checker
         # dt = get_datetime()
-        dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
-        ut = int(dt.timestamp())
-        print(ut)
-        now_dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
-        now_ut = int(now_dt.timestamp())
+        #dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
+        #ut = int(dt.timestamp())
+        #print(ut)
+        #now_dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
+        #now_ut = int(now_dt.timestamp())
 
-        while now_ut < ut + 1:
-            now_dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
-            now_ut = int(now_dt.timestamp())
+        #while now_ut < ut + 1:
+        #    now_dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
+        #    now_ut = int(now_dt.timestamp())
             # print(now_ut)
-            time.sleep(0.1)
+        #    time.sleep(0.1)
 
         # if dt[4] == 0 and dt[5] == 0:
         #     print("New File")
@@ -109,5 +109,5 @@ try:
         
 finally:
     print('Close the File')
-    if record == 1:
-        target.close()
+    #if record == 1:
+        #target.close()

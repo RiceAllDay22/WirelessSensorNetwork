@@ -8,6 +8,7 @@ import micropython
 userButton = Pin("D4", mode=Pin.IN)
 testButton = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
 micropython.kbd_intr(-1)
+print("CentralBoard online")
 
 while 1:
     #Check for incoming data via XBee
