@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="44d03781-9efb-425b-b113-08cbb5c2c3e3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../FramStorage/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../FramStorage/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FramStorage/build/fram.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../FramStorage/build/fram.mpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FramStorage/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../FramStorage/build/main.mpy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FramStorage/fram.py" beforeDir="false" afterPath="$PROJECT_DIR$/../FramStorage/fram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FramStorage/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../FramStorage/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DS3231.py" beforeDir="false" afterPath="$PROJECT_DIR$/DS3231.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/DS3231.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/DS3231.mpy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../NodeCode/MainCode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../NodeCode/MainCode/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../NodeCode/MainCode/rtc.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../NodeCode/MainCode/rtc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-19--22-49.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-19--7-10.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-19--7-14.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-19--7-23.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-20--0-4.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-20--21-53.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-20--4-20.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-20--5-32.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-21--0-40.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-21--1-29.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-21--18-10.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-21--18-4.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/2022-1-25--6-13.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Python/spike/FramRetrieval.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Python/spike/FramRetrieval.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

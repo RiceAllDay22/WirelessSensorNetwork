@@ -4,7 +4,7 @@ DateTime dt;
 const byte DETACH_PIN   = 5;
 
 //ADJUST THE UNIXTIME BELOW
-uint32_t TIME_VALUE = 1636359000;
+uint32_t TIME_VALUE = 1645469240;
 
 void setup() {
   Serial.begin(9600);
