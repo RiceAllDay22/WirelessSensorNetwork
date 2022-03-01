@@ -29,4 +29,11 @@ Arduino Library Requirments:
 resources:
 [One Drive Resources Folder](https://uofutah-my.sharepoint.com/:f:/g/personal/u1010401_umail_utah_edu/Ekx1kX9h63tNoVFmzbePeowB8LEIOgGHBQhFq369KU12vQ?e=vul3PO)
 
+
+Every hardware and every code in WirelessSensorNetwork is given the Creative Commons License and the MIT License, respectively. Any content in the repository can be used and changed freely. The only requirement is that the original [license notice](https://github.com/RiceAllDay22/CSR_Arduino_Collection/blob/main/LICENSE.md) is included in any copies of the software. 
+
+The CSR_Arduino_Collection project and the WirelessSensorNetwork project are led by Adriann Liceralde under the leadership of Dr. Brian McPherson from the Carbon Science Research group at the University of Utah. Any questions, comments, or concerns are welcome to be sent to adriann8399@gmail.com.
+
+Notable contributors to the project are Jacob Larkin, Charlie Leo, Tessa Bailey, Sean Taplin, and Andrew Winkelmann.
+
 (c) Copyright 2020 Jacob Larkin and Adriann Liceralde
