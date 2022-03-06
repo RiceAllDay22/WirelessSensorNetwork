@@ -87,6 +87,8 @@ def get_node_id():
         bn = 1
     elif NODE_ID == 'RyanBoard':
         bn = 2
+    elif NODE_ID == 'MockBoard1':
+        bn = 21
     else:
         bn = 111
     return bn

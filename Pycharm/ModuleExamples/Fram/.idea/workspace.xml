@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3b5dbde5-0e65-4f4d-9827-b6663c142173" name="Changes" comment="" />
+    <list default="true" id="3b5dbde5-0e65-4f4d-9827-b6663c142173" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Davis/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Davis/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Davis/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../RTC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../RTC/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,7 +47,7 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Davis" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunManager">

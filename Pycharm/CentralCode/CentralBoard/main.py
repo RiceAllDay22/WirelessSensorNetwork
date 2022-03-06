@@ -6,7 +6,7 @@ from machine import Pin
 import micropython
 
 userButton = Pin("D4", mode=Pin.IN)
-testButton = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
+testButton = Pin("D12", mode=Pin.IN, pull=Pin.PULL_DOWN)
 micropython.kbd_intr(-1)
 print("CentralBoard online")
 
@@ -48,5 +48,6 @@ while 1:
     #Check for Test Button press
     if testButton.value() == 1:
         print(testButton.value())
+
     #Wait
     time.sleep(1)

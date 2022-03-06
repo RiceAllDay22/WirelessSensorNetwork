@@ -1,5 +1,5 @@
 '''
-    Last updated: 2-12-2022
+    Last updated: 3-4-2022
     Adriann Liceralde
     Wireless Sensor Network Project
 '''
@@ -7,6 +7,7 @@
 # ----- IMPORT LIBRARIES
 import gc
 import time
+import machine
 from machine import Pin, ADC, I2C
 import rtc
 import davis
@@ -32,14 +33,18 @@ ds = rtc.DS3231(i2c)
 #ds.DateTime([2022, 2, 15, 17, 1, 30])  # [Year, Month, Day, Hour, Minute, Second]
 previous_ut = ds.UnixTime(*ds.DateTime())
 time.sleep(1)
-# 1642629612
+
+# ----- SETUP PINS
+battery_pin = ADC("D0")
+led_pin = Pin("D3", mode=Pin.OUT, value=1)
+button_pin = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
+fram_wp = Pin("D19", mode=Pin.OUT)
 
 # ----- CONNECT TO HUB
 addr64, rec_online = network.connect()
-
-# ----- PRINT SETTINGS
 xbee.transmit(addr64,  bytes([111, 111, 111, 111, 111, 111, 111, 111]))
 
+# ----- PRINT SETTINGS
 print('')
 print('Memory:      ', gc.mem_free())
 print('RF identifier', bn)
@@ -54,34 +59,17 @@ print('SCD Factor:  ', scd.get_forced_recalibration())
 print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
 print('------------------------------------------------------------------------------')
+
 # ----- FINALIZATION
-davis.MR()
 # gc.collect()
 # time.sleep(5)
 # true_ut = ds.UnixTime(*ds.DateTime())
-
-battery_pin = ADC("D0")
-#D1 is reserved for SCL
-wd_pin = ADC("D2")  # ANEM_DIR in schematic
-led_pin = Pin("D3", mode=Pin.OUT, value=1)
-#bit1 = Pin("D4", mode=Pin.IN)  # COUNT_0 in schematic
-#bit2 = Pin("D5", mode=Pin.IN)  # COUNT_1 in schematic
-#D6 is reserved for RTS
-#bit3 = Pin("D7", mode=Pin.IN)  # COUNT_2 in schematic
-#D8 is reserved for DTR
-#bit4 = Pin("D9", mode=Pin.IN)  # COUNT_3 in schematic
-button_pin = Pin("D10", mode=Pin.IN, pull=Pin.PULL_DOWN)
-#D11 is reserved for SDA
-#bit5 = Pin("D12", mode=Pin.IN)  # COUNT_4 in schematic
-#D13 is reserved for DOUT
-#D14 is reserved for DIN
-#MR_pin = Pin("D15", mode=Pin.OUT)  # COUNT_RST in schematic
-#bit8 = Pin("D16", mode=Pin.ALT)  # COUNT_7 in schematic
-#bit6 = Pin("D17", mode=Pin.ALT)  # COUNT_5 in schematic
-#bit7 = Pin("D18", mode=Pin.ALT)  # COUNT_6 in schematic
-fram_wp = Pin("D19", mode=Pin.OUT)
-
+davis.MR()
 counter = 0
+dog = machine.WDT(timeout=10000, response=machine.SOFT_RESET)
+
+
+# ----- MAIN LOOP
 while 1:
     led_pin.value(1)
     # Collect Time, Wind, and SCD30
@@ -103,8 +91,10 @@ while 1:
     wind_cyc = davis.ws()
 
     #Collect Battery Level and Button State
-    vcc = battery_pin.read()/4095*3.3*5
-    vcc = round(vcc, 2)
+    vcc = battery_pin.read()
+    bv1 = vcc // 256
+    bv2 = vcc - bv1*256
+    vcc = battery_pin.read() / 4095 * 3.3 * 5
     button_state = button_pin.value()
 
     # Check if Unix Time is synchronized
@@ -148,7 +138,7 @@ while 1:
 
         try:
             # xbee.transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
-            xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt]))
+            xbee.transmit(addr64, bytes([bn, bu1, bu2, bu3, bu4, bw1, bw2, bc1, bc2, bt, bv1, bv2]))
         except Exception as e:
             rec_online = 0
             print("Transmit failure: %s" % str(e))
@@ -177,3 +167,5 @@ while 1:
     counter += 1
     if counter == 255:
         counter = 0
+
+    dog.feed()

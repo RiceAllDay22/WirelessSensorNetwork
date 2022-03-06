@@ -1,0 +1,11 @@
+soft reboot
+Loading /flash/main.mpy...
+Running bytecode...
+SCD Initializing
+Instantiated FRAM
+Traceback (most recent call last):
+  File "/flash/main.py", line 45, in <module>
+TypeError: dest must be bytes
+MicroPython v1.12-1556-gcc82fa9 on 2021-06-22; XBee3 DigiMesh 2.4 with EFR32MG
+Type "help()" for more information.
+>>> 

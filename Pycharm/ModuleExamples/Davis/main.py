@@ -13,13 +13,13 @@ Davis.MR()  # Reset Counter Chip
 gc.collect()
 
 while 1:
-    #windDir = Davis.wd(dir_offset)
-    #windCyc = Davis.ws()
+    windDir = Davis.wd(dir_offset)
+    windCyc = Davis.ws()
 
-    #print(windDir, windCyc)
+    print(windDir, windCyc)
 
-    Davis.ws()
+    #Davis.ws()
 
-    if BUTTON_Pin.value() == 1:
-        Davis.MR()
+    #if BUTTON_Pin.value() == 1:
+    #    Davis.MR()
     time.sleep(0.2)
