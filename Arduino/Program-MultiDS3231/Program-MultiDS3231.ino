@@ -96,7 +96,7 @@ void loop() {
   Serial.print(",");
   Serial.println(dt3.second());
 
-  delay(1000);
+  delay(10000);
 
 
   if (digitalRead(DETACH_PIN) == 1) {
