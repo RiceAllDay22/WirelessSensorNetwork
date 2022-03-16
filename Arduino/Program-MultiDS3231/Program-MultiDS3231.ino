@@ -89,14 +89,14 @@ void loop() {
   Serial.print(",");
   Serial.print(dt2.second());
   Serial.print(",");
-
+  
   tcaselect(3);
   dt3 = rtc3.now(); 
   Serial.print(dt3.minute());
   Serial.print(",");
   Serial.println(dt3.second());
 
-  delay(10000);
+  delay(1000);
 
 
   if (digitalRead(DETACH_PIN) == 1) {
