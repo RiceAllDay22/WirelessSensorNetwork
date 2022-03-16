@@ -10,13 +10,8 @@ The overall project is divided into three sections. Section 1 focuses on the dev
 # Section 1: Developing the Sensor Nodes
 The Sensor Nodes are the backbone of WSN. Although there are two different variants: the Arduino Version and the XBee Version, they all consist of a CO2 sensor, a wind anemometer, and a time-keeping module. The two variants differ in the type of microcontroller and how data is saved. 
 
-## Arduino Version
-## XBee Version
-#
-
-
-[AnalyzerStep1](Analysis/AnalyzerStep1.ipynb)  
-[AnalyzerStep2](Analysis/AnalyzerStep1.ipynb)
+[Arduino Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section1-ArduinoVersion)  
+[XBee Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section2-XBeeVersion)
 
 # Section 2: Establishing the Network
 
