@@ -8,15 +8,20 @@ An external repository called the [CSR_Arduino_Collection](https://github.com/Ri
 The overall project is divided into three sections. Section 1 focuses on the development of the Sensor Nodes. Next, Section 2 establishes a wireless network between active nodes. Finally, section 3 uses the collected data to identify and locate possible CO2 sources. Below are summaries and highlights of each section. 
 
 # Section 1: Developing the Sensor Nodes
-The Sensor Nodes are the backbone of WSN. Although there are two different variants: the Arduino Version and the XBee Version, they all consist of a CO2 sensor, a wind anemometer, and a time-keeping module. The two variants differ in the type of microcontroller and how data is saved. 
+The Sensor Nodes are the backbone of WSN. Although there are two different variants: the Arduino Version and the XBee Version, they all consist of a CO2 sensor, a wind anemometer, and a time-keeping module.
 
-## Arduino Version
-## XBee Version
-#
+[Arduino Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section1-ArduinoVersion) 
+- Microcontroller is Arduino Nano
+- Data saved on to a local microSD card
+- Hardware is built on a solderless breadboard
+- Code is compiled using Arduino IDE <br>
+[XBee Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section2-XBeeVersion)
+- Microcontroller is Digi XBee3
+- Data transmitted to central hub
+- Hardware is assembled on a custom printed-cicuit board
+- Code is compiled using PyCharm
 
-
-[AnalyzerStep1](Analysis/AnalyzerStep1.ipynb)  
-[AnalyzerStep2](Analysis/AnalyzerStep1.ipynb)
+The codes controlling the Arduino Version nodes and the XBee Version nodes are complied through Arduino IDE, and PyCharm, respectively.
 
 # Section 2: Establishing the Network
 
