@@ -76,7 +76,7 @@ void setup() {
   CreateNewFile();
   delay(2000);
 
-  attachInterrupt(digitalPinToInterrupt(WSPEED_PIN), isr_rotation, FALLING);
+  attachInterrupt(digitalPinToInterrupt(WSPEED_PIN), WindRotation, FALLING);
   interrupts();
  
   digitalWrite(LED_PIN, LOW);
@@ -202,7 +202,7 @@ void CollectGas() {
 }
 
 //----------Retrieve Wind Speed----------//
-void isr_rotation() {
+void WindRotation() {
   if ((unsigned long)( millis() - lastWindIRQ) > 15 ) {
     lastWindIRQ = millis(); 
     windClicks++;           
