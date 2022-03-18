@@ -23,6 +23,7 @@ void loop() {
   //Wind Direction
   VaneValue = analogRead(A3);
   //Direction = map(VaneValue, 0, 813, 1, 360);
+  Serial.println(VaneValue);
   Direction = map(VaneValue, 0, 1023, 1, 360);
   CalDirection = Direction + Offset;
 
