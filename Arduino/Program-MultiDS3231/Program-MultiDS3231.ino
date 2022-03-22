@@ -102,13 +102,13 @@ void loop() {
   if (digitalRead(DETACH_PIN) == 1) {
     Serial.println("CALIBRATING");
     tcaselect(0);
-    //rtc0.adjust(DateTime(2022, 3, 20, 17, 16, 0));
+    //rtc0.adjust(DateTime(2022, 3, 22, 5, 41, 0));
     tcaselect(1);
-    //rtc1.adjust(DateTime(2022, 3, 20, 17, 16, 0));
+    //rtc1.adjust(DateTime(2022, 3, 22, 5, 41, 0));
     tcaselect(2);
-    //rtc2.adjust(DateTime(2022, 3, 20, 17, 16, 0));
+    //rtc2.adjust(DateTime(2022, 3, 22, 5, 41, 0));
     tcaselect(3);
-    //rtc3.adjust(DateTime(2022, 3, 20, 17, 16, 0));
+    //rtc3.adjust(DateTime(2022, 3, 22, 5, 41, 0));
     delay(5000);
   }
 }

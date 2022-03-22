@@ -15,7 +15,7 @@ import sys
 record = int(sys.argv[1])
 
 # SETUP SERIAL
-ser = serial.Serial('COM3', 9600, timeout=1)
+ser = serial.Serial('COM12', 9600, timeout=1)
 ser.flushInput()
 
 
