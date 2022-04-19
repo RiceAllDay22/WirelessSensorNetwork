@@ -7,10 +7,10 @@ bit2 = Pin("D5", Pin.IN)        # COUNT_1 in schematic
 bit3 = Pin("D7", Pin.IN)        # COUNT_2 in schematic
 bit4 = Pin("D9", Pin.IN)        # COUNT_3 in schematic
 bit5 = Pin("D12", Pin.IN)       # COUNT_4 in schematic
-bit6 = Pin("D17", Pin.ALT)      # COUNT_5 in schematic
-bit7 = Pin("D18", Pin.ALT)      # COUNT_6 in schematic
+bit6 = Pin("D18", Pin.ALT)      # COUNT_5 in schematic
+bit7 = Pin("D17", Pin.ALT)      # COUNT_6 in schematic
 bit8 = Pin("D16", Pin.ALT)      # COUNT_7 in schematic
-MR_pin = Pin("D15", Pin.OUT)             # COUNT_RST in schematic
+MR_pin = Pin("D15", Pin.OUT)    # COUNT_RST in schematic
 MR_pin.value(0)
 
 #Function to convert an array of booleans to an integer
@@ -34,8 +34,8 @@ def ws():
                  bit5.value(), bit6.value(), bit7.value(), bit8.value()]
     ws_integer = BoolToByte(ws_binary)
     #MR()
-    print(ws_binary, ws_integer)
-    #return ws_integer
+    #print(ws_binary, ws_integer)
+    return ws_integer
 
 
 #Function to read the analog reading of the anemometer

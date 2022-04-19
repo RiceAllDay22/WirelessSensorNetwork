@@ -6,7 +6,7 @@ import rtc
 from machine import Pin, ADC, I2C
 
 transmit_active = 1
-bn = 3
+bn = 2
 
 
 i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz

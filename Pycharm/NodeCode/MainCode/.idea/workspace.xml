@@ -2,9 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a8d7e6c-bc98-4e46-8beb-db3b999eb914" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../Arduino/Program-MultiDS3231/Program-MultiDS3231.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Arduino/Program-MultiDS3231/Program-MultiDS3231.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../CentralCode/CentralBoard/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../../CentralCode/CentralBoard/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../CentralCode/CentralBoard/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../CentralCode/CentralBoard/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../CentralCode/CentralBoard/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Davis/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Davis/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Davis/Davis.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Davis/Davis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Davis/build/Davis.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Davis/build/Davis.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Davis/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Davis/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Davis/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Davis/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Fram/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Fram/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Fram/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Fram/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/Fram/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/Fram/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/RTC/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/RTC/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ModuleExamples/RTC/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../ModuleExamples/RTC/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GroveCode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GroveCode/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../GroveCode/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/../GroveCode/build/main.mpy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/davis.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/davis.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/main.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/main.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/davis.py" beforeDir="false" afterPath="$PROJECT_DIR$/davis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Python/Central/CentralHub.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Python/Central/CentralHub.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Python/Central/TestHub.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Python/Central/TestHub.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +70,7 @@
     <property name="com.digi.pycharm.do_not_show_select_device_warning" value="false" />
     <property name="com.digi.pycharm.skip_equal_files" value="true" />
     <property name="com.digi.pycharm.transfer_sources" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ModuleExamples/Davis" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RunManager">
@@ -71,5 +88,16 @@
       <updated>1642544757694</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/fram.py</url>
+          <line>9</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

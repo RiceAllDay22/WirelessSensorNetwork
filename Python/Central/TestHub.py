@@ -1,7 +1,13 @@
 '''
-    Last updated: 2-9-2022
-    Adriann Liceralde
-    Wireless Sensor Network Project
+    Title:      Central Hub Continuous Extraction Code [TEST VERSION]
+    Project:    Wireless Sensor Network
+    By:         Adriann Liceralde
+    Updated:    3-25-2022
+    
+    This code is intended for the Central Hub of the Wireless Sensor Network.
+    The Central Hub consists of a Digi3 XBee3 RF Module attached to a computer.
+    The XBee3 receives all data from the Mesh Network and stores it into the computer.
+    Running this code on the Windows Powershell will continuously ave any incoming data from the XBee3.
 '''
 
 #IMPORT LIBRARIS
@@ -10,22 +16,19 @@ import time
 import serial
 import datetime
 import pytz
-import sys
 
-record = int(sys.argv[1])
+#SYSTEM ARGUMENTS
+record_on = int(sys.argv[1]) # Determines if incoming data is saaved to the computer
+com_port = str(sys.argv[2]) # Specifies the Serial port of the XBee 3 module
 
 # SETUP SERIAL
-ser = serial.Serial('COM12', 9600, timeout=1)
-ser.flushInput()
+ser = serial.Serial(com_port, 9600, timeout=1) # Sets the Serial port
+ser.flushInput() # Clears the Serial port                            
 
-
-# GET CURRENT TIME
-# Takes roughly 0.015 seconds to run get_datetime()
+# FUNCTION TO GET CURRENT TIME # Takes roughly 0.015 seconds to run get_datetime()
 def get_datetime():
-    # a = time.time()
     dt = datetime.datetime.now(tz = pytz.timezone('UTC'))
     ut = int(dt.timestamp())
-
     y = dt.year - 2000
     m = dt.month
     d = dt.day
@@ -33,16 +36,11 @@ def get_datetime():
     mm = dt.minute
     ss = dt.second
     dt_array = ([y, m, d, hh, mm, ss])
-
-    # time.sleep(0.001)
-    # b = time.time()
-    # print(b-a)
     return dt_array
 
 print(get_datetime())
 # Y, M, D, h, m, s  = map(int, (file_dt))
-
-# SETUP FILE
+# FUNCTION TO CREATE FILE
 def create_file():
     file_dt = get_datetime()
     Y, M, D, h, m, s  = map(int, (file_dt))
@@ -50,9 +48,9 @@ def create_file():
     return filename
 
 
-# LOOP
+# MAIN LOOP OF THE CODE
 try:
-    if record == 1:
+    if record_on == 1:
         filename = create_file()
         print(filename)
         target = open(filename, 'a')
@@ -66,7 +64,7 @@ try:
         data = ser.readline().decode('utf-8').strip('\n').strip('\r')
         if data:
             print(data)
-            if record == 1:
+            if record_on == 1:
                 target.write(data)
                 target.write("\n") 
 
@@ -89,7 +87,7 @@ try:
         
 finally:
     print('Close the File')
-    if record == 1:
+    if record_on == 1:
         target.close()
 
 

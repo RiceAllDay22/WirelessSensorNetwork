@@ -1,14 +1,14 @@
 '''
-    Last updated: 3-4-2022
+    Last updated: 4-15-2022
     Adriann Liceralde
     Wireless Sensor Network Project
 '''
 
 # ----- IMPORT LIBRARIES
+from machine import Pin, ADC, I2C
 import gc
 import time
 import machine
-from machine import Pin, ADC, I2C
 import rtc
 import davis
 import sensirion
@@ -17,9 +17,9 @@ import xbee
 import network
 
 # ----- NODE SPECIFIC SETTINGS
-transmit_active = 1
-dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
-bn = network.get_node_id()
+transmit_active = 1  # 0 = transmission to CentralHub is off. 1 = transmission is on.
+dir_offset = 0  # Specify the angular offset of the actual wind vane from true North (0 to 359)
+bn = network.get_node_id() # Retrieve the node number of this RF module
 
 # ----- SETUP MODULES
 i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
@@ -30,7 +30,7 @@ scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
 locator_byt = fram.get_locator(storage)
 ds = rtc.DS3231(i2c)
-#ds.DateTime([2022, 2, 15, 17, 1, 30])  # [Year, Month, Day, Hour, Minute, Second]
+#ds.DateTime([2022, 4, 15, 23, 0, 0])  # [Year, Month, Day, Hour, Minute, Second]
 previous_ut = ds.UnixTime(*ds.DateTime())
 time.sleep(1)
 
@@ -46,7 +46,7 @@ xbee.transmit(addr64,  bytes([111, 111, 111, 111, 111, 111, 111, 111]))
 
 # ----- PRINT SETTINGS
 print('')
-print('Memory:      ', gc.mem_free())
+print('Free Memory: ', gc.mem_free())
 print('RF identifier', bn)
 print('Firmware ver:', hex(xbee.atcmd("VR")))
 print('Hardware ver:', hex(xbee.atcmd("HV")))
@@ -87,7 +87,6 @@ while 1:
 
     if conc == 0 and temp == 0 and humid == 0:
         xbee.transmit(addr64, bytes([0, 0, 0, 0, 0, 0, 0]))
-    #wind_cyc = counter
     wind_cyc = davis.ws()
 
     #Collect Battery Level and Button State
@@ -113,6 +112,7 @@ while 1:
     # print(data)
     # print(ut, windDir, windCyc, int(conc), int(temp), gc.mem_free(), button, sync)
 
+    #Convert Data from Integers to Bytes
     bu1, bu2, bu3, bu4 = network.ut_to_byte(ut)
     bw1, bw2 = network.wind_to_byte(wind_cyc, wind_dir)
     bc1, bc2 = network.ppm_to_byte(conc)

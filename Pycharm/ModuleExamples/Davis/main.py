@@ -7,7 +7,7 @@ import Davis
 import gc
 
 # MISCELLANEOUS SETUPS
-BUTTON_Pin = machine.Pin("D10", machine.Pin.IN)
+#BUTTON_Pin = machine.Pin("D10", machine.Pin.IN)
 dir_offset = 0  # Specify the angular offset of the actual wind vane from true North.
 Davis.MR()  # Reset Counter Chip
 gc.collect()
@@ -17,7 +17,6 @@ while 1:
     windCyc = Davis.ws()
 
     print(windDir, windCyc)
-
     #Davis.ws()
 
     #if BUTTON_Pin.value() == 1:
