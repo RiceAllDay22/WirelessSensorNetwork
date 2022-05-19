@@ -50,11 +50,12 @@ if record_on == 1:
     filename = create_file()
     target = open(filename, 'a')
 
-# MAIN LOOP OF THE CODE
-try:
     print('Time:', get_datetime())
     print('File:', filename)
-    
+
+# MAIN LOOP OF THE CODE
+try:
+
     while 1:
         # wait = ser.inWaiting()
         # print(wait)
@@ -80,20 +81,21 @@ try:
                 if record_on == 1:
                     target.write(data)
                     target.write("\n") 
-        else:
-            print('No data')
+        # else:
+        #     print('No data')
 
         # Check if it is a new hour to create a new save file
         dt = dt = get_datetime()
         if dt[4] == 0 and dt[5] == 0:
-            print("New File")
-            if record == 1:
+            print("--------------------------------New File--------------------------------")
+            if record_on == 1:
                 target.close()
                 filename = create_file()
                 target = open(filename, 'a')
 
             # Check if it is a new day to broadcast a timestamp synchronization
             if dt[3] == 0:
+                print("--------------------------------New Day--------------------------------")
                 sync_dt = get_datetime()
                 sync_dt.insert(0, 255)
                 sync_dt.append(255)

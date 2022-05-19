@@ -1,5 +1,3 @@
-# Source: https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
-
 '''
     DS3231 RTC drive
 
@@ -9,9 +7,8 @@
     https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
 
     Edited by Adriann Liceralde
-    2/9/2022
+    4/21/2022
 '''
-from machine import I2C, Pin
 import time
 
 DS3231_I2C_ADDR = (0x68)
@@ -49,7 +46,7 @@ class DS3231():
     def __init__(self, i2c):
         success = 0
         while success == 0:
-            devices = i2c.scan()  # Line not in original
+            devices = i2c.scan()
             if DS3231_I2C_ADDR in devices:
                 success = 1
             else:
@@ -70,17 +67,6 @@ class DS3231():
     # def getReg(self, reg):
     #     self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
     #     return self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
-
-    # def getReg(self, reg):
-    #     try:
-    #         self.i2c.writeto(DS3231_I2C_ADDR, bytearray([reg]))
-    #     except:
-    #         print("error here")
-    #     try:
-    #         a = self.i2c.readfrom(DS3231_I2C_ADDR, 1)[0]
-    #     except:
-    #         print("Error there")
-    #     return a
 
     def getReg(self, reg):
         while 1:
@@ -153,62 +139,16 @@ class DS3231():
             self.Minute(dat[1] % 60)
             self.Second(dat[2] % 60)
 
-    # def DateTime(self, dat = None):
-    #     if dat == None:
-    #         return self.Date() + [self.Weekday()] + self.Time()
-    #     else:
-    #         self.Year(dat[0])
-    #         self.Month(dat[1])
-    #         self.Day(dat[2])
-    #         self.Weekday(dat[3])
-    #         self.Hour(dat[4])
-    #         self.Minute(dat[5])
-    #         self.Second(dat[6])
-
     def DateTime(self, dat=None):
-        if dat == None:
-            return self.Date() + self.Time()
-        else:
+        if dat is not None:
             self.Year(dat[0])
             self.Month(dat[1])
             self.Day(dat[2])
             self.Hour(dat[3])
             self.Minute(dat[4])
             self.Second(dat[5])
-
-    def ALARM(self, day, hour, minute, repeat):
-        IE = self.getReg(DS3231_REG_CTRL)
-        if repeat == PER_DISABLE:
-            self.setReg(DS3231_REG_CTRL, IE & 0xFC)  # disable ALARM OUT
-            return
-        IE |= 0x46
-        self.setReg(DS3231_REG_CTRL, IE)
-        M2 = M3 = M4 = 0x80
-        DT = 0
-        if repeat == PER_MINUTE:
-            pass
-        elif repeat == PER_HOUR:
-            M2 = 0
-        elif repeat == PER_DAY:
-            M2 = M3 = 0
         else:
-            M2 = M3 = M4 = 0
-            if repeat == PER_WEEKDAY:
-                DT = 0x40
-        self.setReg(DS3231_REG_A2MIN, self.DecToHex(minute % 60) | M2)
-        self.setReg(DS3231_REG_A2HOUR, self.DecToHex(hour % 24) | M3)
-        self.setReg(DS3231_REG_A2DAY, self.DecToHex(day % 32) | M4 | DT)
-
-    def ClearALARM(self):
-        self.setReg(DS3231_REG_STA, 0)
-
-    def Temperature(self):
-        t1 = self.getReg(DS3231_REG_TEMP)
-        t2 = self.getReg(DS3231_REG_TEMP + 1)
-        if t1 > 0x7F:
-            return t1 - t2 / 256 - 256
-        else:
-            return t1 + t2 / 256
+            return self.Date() + self.Time()
 
     # def time2ulong(self, days, hh, mm, ss):
     #     return ((days * 24 + hh) * 60 + mm) * 60 + ss

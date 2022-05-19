@@ -1,31 +1,19 @@
 import xbee
 
-# Function: 16 bit to 2 bytes
+# Function: Convert ppm from 16-bit integer to 2 bytes
 def ppm_to_byte(ppm):
     b1 = ppm // 256
     b2 = ppm - b1 * 256
     return b1, b2
 
 
-# Function: 2 bytes to 16 bit
+# Function: Convert ppm from 2 bytes to 16-bit integer
 def byte_to_ppm(b1, b2):
     ppm = b1 * 256 + b2
     return ppm
 
 
-# Function: 8 bit to 1 byte
-def temp_to_byte(temp):
-    b1 = temp + 40
-    return b1
-
-
-# Function: 1 byte to 8 bit
-def byte_to_temp(b1):
-    temp = b1 - 40
-    return temp
-
-
-# Function: 32 bit to 4 bytes
+# Function: Convert unixtime from 32-bit integer to 4 bytes
 def ut_to_byte(ut):
     b1 = ut // 256 ** 3
     b2 = ut // 256 ** 2 - b1 * 256
@@ -34,32 +22,32 @@ def ut_to_byte(ut):
     return b1, b2, b3, b4
 
 
-# Function: 4 bytes to 32 bit
+# Function: Convert unixtime from 4 bytes to 32-bit integer
 def byte_to_ut(b1, b2, b3, b4):
     ut = b1 * 256 ** 3 + b2 * 256 ** 2 + b3 * 256 + b4
     return ut
 
 
-# Function: ws and wd to 2 bytes
-def wind_to_byte(ws, wd):
+#Function: Convert wind direction and temperature from separate integers to 2 bytes
+def windtemp_to_byte(wd, temp):
+    temp += 40
     b1 = wd // 2
-
-    if (wd % 2) == 1:
-        b2 = ws + 128  # wd is odd
+    if (wd%2) == 1:
+        b2 = temp + 128 # wind dir is an odd number
     else:
-        b2 = ws  # wd is even
+        b2 = temp # wind dir is an even number
     return b1, b2
 
 
-# Function: 2 bytes to ws and wd
-def byte_to_wind(b1, b2):
+#Function: Convert wind direction and temperature from 2 bytes to separate integers
+def byte_to_windtemp(b1, b2):
     if b2 > 127:
-        wd = b1 * 2 + 1
-        ws = b2 - 128
+        wd = b1*2 + 1
+        temp = b2 - 40 - 128
     else:
-        wd = b1 * 2
-        ws = b2
-    return ws, wd
+        wd = b1*2
+        temp = b2 - 40
+    return wd, temp
 
 
 def find_device(node_id):
@@ -83,10 +71,12 @@ def connect():
 
 def get_node_id():
     NODE_ID = xbee.atcmd("NI")
-    if NODE_ID == 'PCBBoardNew':
+    if NODE_ID == 'Node#1':
         bn = 1
-    elif NODE_ID == 'RyanBoard':
+    elif NODE_ID == 'Node#2':
         bn = 2
+    elif NODE_ID == 'Node#3':
+        bn = 3
     else:
         bn = 111
     return bn

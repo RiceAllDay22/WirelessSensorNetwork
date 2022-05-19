@@ -1,6 +1,10 @@
+'''
+    Written by Adriann Liceralde
+    Last Updated on 4/21/2022
+'''
+
 from machine import ADC, Pin
 import time
-import xbee
 
 wd_pin = ADC("D2")  # ANEM_DIR in schematic
 bit1 = Pin("D4", Pin.IN)  # COUNT_0 in schematic
@@ -45,10 +49,8 @@ def wd(dir_offset):
     x = wd_pin.read()  # Reads analog value. Range is 0 to 4095.
     raw_dir = (x - 0) * (360 - 1) / (4095 - 0) + 1  # Converts analog to direction. Range is 1 to 360.
     new_dir = int(raw_dir) + int(dir_offset)  # Adds directional offset of the wind vane.
-
     if new_dir > 360:  # If new_dir is above the range of 1 to 360, then readjust it.
         new_dir = new_dir - 360
     elif new_dir < 1:  # If new_dir is below the range of 1 to 360, then readjust it.
         new_dir = new_dir + 360
-
     return new_dir

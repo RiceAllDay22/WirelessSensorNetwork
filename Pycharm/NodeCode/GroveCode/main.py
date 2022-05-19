@@ -6,7 +6,7 @@ import rtc
 from machine import Pin, ADC, I2C
 
 transmit_active = 1
-bn = 2
+bn = 1
 
 
 i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
@@ -50,20 +50,19 @@ while 1:
         # Send Fake Data
         transmit(addr64, bytes([bn, 10, 20, 30, 40, 50, 60, 70, 80, 90]))
 
-        # Check for incoming data
+        # Check if there is an incoming broadcast
         received_msg = xbee.receive()
         if received_msg:
-            print("Msg")
+            print("Incoming broadcast from Central Hub:")
             sender = received_msg['sender_eui64']
             payload = received_msg['payload']
             b = payload
 
             # Check if incoming data is a Time Sync from CentralHub
-            if len(b) == 6:
-                print(payload)
-                print("%s-%s-%s %s:%s:%s" % (
-                    payload[0] + 2000, payload[1], payload[2], payload[3], payload[4], payload[5]))
-                ds.DateTime([payload[0]+2000, payload[1], payload[2], payload[3], payload[4], payload[5]])
+            if len(b) == 8:
+                print("Time Sync to %s-%s-%s %s:%s:%s" % (
+                    payload[1] + 2000, payload[2], payload[3], payload[4], payload[5], payload[6]))
+                ds.DateTime([payload[1] + 2000, payload[2], payload[3], payload[4], payload[5], payload[6]])
 
     else:
         print("Did not send")

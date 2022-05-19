@@ -1,28 +1,35 @@
-# https://github.com/peterhinch/micropython_eeprom
-# bdevice.py Hardware-agnostic base classes.
-# BlockDevice Base class for general block devices e.g. EEPROM, FRAM.
-# FlashDevice Base class for generic Flash memory (subclass of BlockDevice).
-# Documentation in BASE_CLASSES.md
+'''
+    Source: https://github.com/peterhinch/micropython_eeprom
+    Released under the MIT License (MIT). See LICENSE.
+    Copyright (c) 2019 Peter Hinch
 
-# Released under the MIT License (MIT). See LICENSE.
-# Copyright (c) 2019 Peter Hinch
+    This code is a combination of two python files from the Source
+    https://github.com/peterhinch/micropython_eeprom/blob/master/bdevice.py
+    https://github.com/peterhinch/micropython_eeprom/blob/master/fram/fram_i2c.py
+
+
+    Edited by Adriann Liceralde
+    4/21/2022
+'''
 
 from micropython import const
-import uos
-import xbee
 import time
-
 import fram
-import network
+import xbee
+
+_SIZE = const(32768)  # Chip size 32KiB
+_ADDR = const(0x50)  # FRAM I2C address 0x50 to 0x57
+_FRAM_SLAVE_ID = const(0xf8)  # FRAM device ID location
+_MANF_ID = const(0x0a)
+_PRODUCT_ID = const(0x510)
 
 
 class BlockDevice:
-
     def __init__(self, nbits, nchips, chip_size):
         self._c_bytes = chip_size  # Size of chip in bytes
         self._a_bytes = chip_size * nchips  # Size of array
         self._nbits = nbits  # Block size in bits
-        self._block_size = 2**nbits
+        self._block_size = 2 ** nbits
         self._rwbuf = bytearray(1)
 
     def __len__(self):
@@ -45,57 +52,38 @@ class BlockDevice:
         start, stop = addr.split(", ")
         return int(start), int(stop)
 
+    # def _wslice(self, addr, value):
+    #     start, stop = self._do_slice(addr)
+    #     try:
+    #         if len(value) == (stop - start):
+    #             res = self.readwrite(start, value, False)
+    #         else:
+    #             raise RuntimeError('Slice must have same length as data')
+    #     except TypeError:
+    #         raise RuntimeError('Can only assign bytes/bytearray to a slice') # NEED TO FIX THIS
+    #     return res
+
     def _wslice(self, addr, value):
         start, stop = self._do_slice(addr)
-        try:
-            if len(value) == (stop - start):
-                res = self.readwrite(start, value, False)
-            else:
-                raise RuntimeError('Slice must have same length as data')
-        except TypeError:
-            raise RuntimeError('Can only assign bytes/bytearray to a slice')
+        success = 0
+        while success == 0:
+            try:
+                if len(value) == (stop - start):
+                    res = self.readwrite(start, value, False)
+                    success = 1
+                else:
+                    raise RuntimeError('Slice must have same length as data')
+            except:
+                print('Can only assign bytes/bytearray to a slice')
+                success = 0
         return res
+
+
 
     def _rslice(self, addr):
         start, stop = self._do_slice(addr)
         buf = bytearray(stop - start)
         return self.readwrite(start, buf, True)
-
-    # IOCTL protocol.
-    def sync(self):  # Nothing to do for unbuffered devices. Subclass overrides.
-        return
-
-    def readblocks(self, blocknum, buf, offset=0):
-        self.readwrite(offset + (blocknum << self._nbits), buf, True)
-
-    def writeblocks(self, blocknum, buf, offset=0):
-        self.readwrite(offset + (blocknum << self._nbits), buf, False)
-
-    # https://docs.micropython.org/en/latest/library/os.html#os.AbstractBlockDev.ioctl
-    def ioctl(self, op, arg):  # ioctl calls: see extmod/vfs.h
-        if op == 3:  # SYNCHRONISE
-            self.sync()
-            return
-        if op == 4:  # BP_IOCTL_SEC_COUNT
-            return self._a_bytes >> self._nbits
-        if op == 5:  # BP_IOCTL_SEC_SIZE
-            return self._block_size
-        if op == 6:  # Ignore ERASE because handled by driver.
-            return 0
-
-
-
-# https://github.com/peterhinch/micropython_eeprom
-# fram_i2c.py Driver for Adafruit 32K Ferroelectric RAM module (Fujitsu MB85RC256V)
-
-# Released under the MIT License (MIT). See LICENSE.
-# Copyright (c) 2019 Peter Hinch
-
-_SIZE = const(32768)  # Chip size 32KiB
-_ADDR = const(0x50)  # FRAM I2C address 0x50 to 0x57
-_FRAM_SLAVE_ID = const(0xf8)  # FRAM device ID location
-_MANF_ID = const(0x0a)
-_PRODUCT_ID = const(0x510)
 
 
 # A logical ferroelectric RAM made up of from 1 to 8 chips
@@ -105,33 +93,10 @@ class FRAM(BlockDevice):
         self._buf1 = bytearray(1)
         self._addrbuf = bytearray(2)  # Memory offset into current chip
         self._buf3 = bytearray(3)
-        #self._nchips = self.scan(verbose, _SIZE)
+        # self._nchips = self.scan(verbose, _SIZE)
         self._nchips = 1
         super().__init__(block_size, self._nchips, _SIZE)
-        self._i2c_addr = 0x50  #None # i2c address of current chip
-
-    def scan(self, verbose, chip_size):
-        devices = self._i2c.scan()
-        chips = [d for d in devices if d in range(_ADDR, _ADDR + 8)]
-        nchips = len(chips)
-        if nchips == 0:
-            raise RuntimeError('FRAM not found.')
-        if min(chips) != _ADDR or (max(chips) - _ADDR) >= nchips:
-            raise RuntimeError('Non-contiguous chip addresses', chips)
-        for chip in chips:
-            if not self._available(chip):
-                raise RuntimeError('FRAM at address 0x{:02x} reports an error'.format(chip))
-        if verbose:
-            s = '{} chips detected. Total FRAM size {}bytes.'
-            print(s.format(nchips, chip_size * nchips))
-        return nchips
-
-    def _available(self, device_addr):
-        res = self._buf3
-        self._i2c.readfrom_mem_into(_FRAM_SLAVE_ID >> 1, device_addr << 1, res)
-        manufacturerID = (res[0] << 4) + (res[1]  >> 4)
-        productID = ((res[1] & 0x0F) << 8) + res[2]
-        return manufacturerID == _MANF_ID and productID == _PRODUCT_ID
+        self._i2c_addr = 0x50  # None # i2c address of current chip
 
     # In the context of FRAM a page == a chip.
     # Args: an address and a no. of bytes. Set ._i2c_addr to correct chip.
@@ -153,7 +118,7 @@ class FRAM(BlockDevice):
             npage = self._getaddr(addr, nbytes)  # No of bytes that fit on current chip
             if read:
                 self._i2c.writeto(self._i2c_addr, self._addrbuf)
-                self._i2c.readfrom_into(self._i2c_addr, mvb[start : start + npage])  # Sequential read
+                self._i2c.readfrom_into(self._i2c_addr, mvb[start: start + npage])  # Sequential read
             else:
                 self._i2c.writevto(self._i2c_addr, (self._addrbuf, buf[start: start + npage]))
             nbytes -= npage
@@ -162,67 +127,16 @@ class FRAM(BlockDevice):
         return buf
 
 
-# Return an FRAM array. Adapt for platforms other than Pyboard.
+# Return a FRAM array. Adapt for platforms other than Pyboard.
 def get_fram(i2c):
     fram = FRAM(i2c)
     print('Instantiated FRAM')
     return fram
 
 
-# def test():
-#     fram = get_fram()
-#     sa = 1000
-#     for v in range(256):
-#         fram[sa + v] = v
-#     for v in range(256):
-#         if fram[sa + v] != v:
-#             print('Fail at address {} data {} should be {}'.format(sa + v, fram[sa + v], v))
-#             break
-#     else:
-#         print('Test of byte addressing passed')
-#     data = uos.urandom(30)
-#     sa = 2000
-#     fram[sa:sa + 30] = data
-#     if fram[sa:sa + 30] == data:
-#         print('Test of slice readback passed')
-
-
-# ***** TEST OF HARDWARE *****
-# def full_test():
-#     fram = get_fram()
-#     page = 0
-#     for sa in range(0, len(fram), 256):
-#         data = uos.urandom(256)
-#         fram[sa:sa + 256] = data
-#         if fram[sa:sa + 256] == data:
-#             pass
-#             #print('Page {} passed'.format(page))
-#         else:
-#             print('Page {} readback failed.'.format(page))
-#         page += 1
-#     print('Complete')
-
-
-# Function: 4 bytes to 32 bit
-def byte_to_ut(b1, b2, b3, b4):
-    ut = b1 * 256 ** 3 + b2 * 256 ** 2 + b3 * 256 + b4
-    return ut
-
-def ut_to_byte(ut):
-    b1 = ut // 256 ** 3
-    b2 = ut // 256 ** 2 - b1 * 256
-    b3 = ut // 256 ** 1 - b1 * 256 ** 2 - b2 * 256
-    b4 = ut - b1 * 256 ** 3 - b2 * 256 ** 2 - b3 * 256
-    return b1, b2, b3, b4
-
-
-
-def locator_reset(storage):
-    storage[0:2] = b'\x00\x02'
-    return None
-
-def get_locator(storage):
-    return storage[0:2]
+# -----------------------------------------------------------------------------------------------------------------#
+# -----------------------------------------------------------------------------------------------------------------#
+# -----------------------------------------------------------------------------------------------------------------#
 
 def check(storage):
     for i in range(20):
@@ -230,191 +144,66 @@ def check(storage):
     print("")
     return None
 
-def retrieve_storage(locator_byt):
-    locator_int = int.from_bytes(locator_byt, "big")
-    print(locator_byt, locator_int)
-    return None
 
-def reset(storage):
-    storage[0:500] = b'\x00' * 500
-    time.sleep(1)
-    locator_reset(storage)
-    return None
-
-# def large_reset(storage, amount): #Max is 32
-#     for i in range(0, amount*2):
-#         storage[i*1024/2:(i+1)*1024/2] = b'\x00' * 1024/2
-#         print(i*1024/2, (i+1)*1024/2)
-#         locator_reset(storage)
-#     return None
-def battery_storage(storage, locator_byt, data, previous_ut, include_unix):
-    now_ut = int.from_bytes(data[0:4], "big")
-    bs = now_ut - previous_ut
-    data_to_store = data + bytes([bs])
-
-    locator_int = int.from_bytes(locator_byt, "big")
-    if locator_int < 32700:
-        storage[locator_int:locator_int + 12] = data_to_store
-        locator_int = locator_int + 12
-    else:
-        print("-------------------------------------------------FRAM is FULL-------------------------------------------------")
-        print("1" + 3)
-
-    # Update FRAM Locator
-    locator_byt = locator_int.to_bytes(2, "big")
-    storage[0:2] = locator_byt
-    #print('Loc:', locator_byt[0] * 256 + locator_byt[1])
-
-    return locator_byt
+def get_locator(storage):
+    return storage[0:2]
 
 
-
-def battery_retrieve(storage, indexer):
-    locator_byt = storage[0:2]
-    locator_int = int.from_bytes(locator_byt, "big")
-    #indexer = 2
-
-    while indexer < locator_int:
-        chunk = storage[indexer:indexer + 12]
-        ut = byte_to_ut(chunk[0], chunk[1], chunk[2], chunk[3])
-        sec = chunk[11]
-        ws, wd = byte_to_wind(chunk[4], chunk[5])
-        ppm = byte_to_ppm(chunk[6], chunk[7])
-        temp = chunk[8] - 40
-
-        vcc = (chunk[9]*256 + chunk[10])/1000
-
-        data = [ut, sec, ws, wd, ppm, temp, vcc]
-        for i in range(0, len(data)):
-            if i == len(data) - 1:
-                print(data[i])
-            else:
-                print(data[i], end=",")
-                time.sleep(0.01)
-        indexer += 12
-
-        if indexer > 32750:
-            break
-
+def locator_reset(storage):
+    storage[0:2] = b'\x00\x02'
     return None
 
 
-def emergency_storage(storage, locator_byt, data, previous_ut, include_unix):
-    # Get Data
-    now_ut = int.from_bytes(data[1:5], "big")
-    sensor_data = data[5:10]
-    bs = now_ut - previous_ut
-    bs = 3
-    data_to_store = bytes([bs])+sensor_data
+def bulk_reset(storage, amount):  # Max is 32
+    for i in range(0, amount * 2):
+        storage[i * 512:(i + 1) * 512] = b'\x00' * 512
+        print(i * 512, (i + 1) * 512)
+        locator_reset(storage)
+    return None
 
+
+def emergency_storage(storage, locator_byt, data):
     # Get FRAM Locator
     locator_int = int.from_bytes(locator_byt, "big")
 
-
-    if locator_int < 32700:
-        # # Save Data to FRAM with Unix included
-        if include_unix == True:
-            storage[locator_int:locator_int + 12] = bytes([255]) + data[1:5] + bytes([255]) + data_to_store[0:6]
-            time.sleep(1)
-            locator_int = locator_int + 12
-
-        # Save Data to FRAM without Unix included
-        elif include_unix == False:
-            #print('Before:', storage[locator_int:locator_int + 6])
-            storage[locator_int:locator_int + 6] = data_to_store
-            time.sleep(1)
-            #print('After:', storage[locator_int:locator_int + 6])
-            locator_int = locator_int + 6
-    else:
-        print("-------------------------------------------------FRAM is FULL-------------------------------------------------")
-        print("1" + 3)
+    # Save Data to FRAM
+    storage[locator_int:locator_int+9] = bytes(data[1:10])
+    locator_int += 9
 
     # Update FRAM Locator
     locator_byt = locator_int.to_bytes(2, "big")
     storage[0:2] = locator_byt
-    #print('Loc:', locator_byt[0] * 256 + locator_byt[1])
+    print('Loc:', locator_byt[0] * 256 + locator_byt[1])
 
     return locator_byt
 
 
-# def emergency_retrieval(storage, addr64, bn):
-#     locator_byt = storage[0:2]
-#     locator_int = int.from_bytes(locator_byt, "big")
-#     indexer = 2
-#
-#     while indexer < locator_int:
-#         chunk = storage[indexer:indexer + 6]
-#         if (chunk[0] == 255) and (chunk[5] == 255):
-#             current_ut = byte_to_ut(chunk[1], chunk[2], chunk[3], chunk[4])
-#         else:
-#             current_ut += chunk[0]
-#             b1, b2, b3, b4 = ut_to_byte(current_ut)
-#             data = bytes([bn, b1,b2,b3,b4]) + chunk[1:6]
-#             xbee.transmit(addr64, data)
-#             time.sleep(0.2)
-#         indexer += 6
-#     return None
-
-
-
-def byte_to_wind(b1, b2):
-    if b2 > 127:
-        wd = b1 * 2 + 1
-        ws = b2 - 128
-    else:
-        wd = b1 * 2
-        ws = b2
-    return ws, wd
-
-def byte_to_ppm(b1, b2):
-    ppm = b1 * 256 + b2
-    return ppm
-
-
-def emergency_retrieve(storage, indexer):
+def emergency_retrieve(storage, addr64, bn):
+    # Get FRAM Locator
     locator_byt = storage[0:2]
     locator_int = int.from_bytes(locator_byt, "big")
-    #indexer = 2
+    indexer = 2
 
+    # Retrieve data from FRAM
     while indexer < locator_int:
-        chunk = storage[indexer:indexer + 12]
-        ut = byte_to_ut(chunk[1], chunk[2], chunk[3], chunk[4])
-        sec = chunk[6]
-        ws, wd = byte_to_wind(chunk[7], chunk[8])
-        ppm = byte_to_ppm(chunk[9], chunk[10])
-        temp = chunk[11] - 40
-
-        data = [ut, sec, ws, wd, ppm, temp]
-        for i in range(0, len(data)):
-            if i == len(data) - 1:
-                print(data[i])
+        chunk = storage[indexer:indexer+9]
+        for i in range(0, len(chunk)):
+            if i == len(chunk) - 1:
+                print(chunk[i])
             else:
-                print(data[i], end=",")
-                time.sleep(0.01)
-        indexer += 12
+                print(chunk[i], end=",")
 
-        if indexer > 32750:
-            break
+        if sum(chunk) > 0:
+            xbee.transmit(addr64, bytes([bn])+chunk)
+            storage[indexer:indexer+9] = b'\x00' * 9
+            time.sleep(1)
+        indexer += 9
+
+    # Reset FRAM board
+    locator_reset(storage)
+
+
+    # amount = locator_int // 1024 + 1
+    # bulk_reset(storage, amount)
 
     return None
-
-
-def retrieve(storage,indexer):
-    print("Retrieve")
-    time.sleep(5)
-    a = time.ticks_ms()
-    fram.emergency_retrieve(storage, indexer)
-    b = time.ticks_ms()
-    print((b-a)/1000)
-    return None
-
-def reset_all(storage, end):
-    print("Reset")
-    a = time.ticks_ms()
-    for i in range(end):
-        storage[i] = 0
-    b = time.ticks_ms()
-    print((b-a)/1000)
-    storage[1] = 2
-    return None
-

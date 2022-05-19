@@ -1,8 +1,13 @@
-from machine import I2C
+'''
+    Source: https://github.com/agners/micropython-scd30/blob/master/scd30.py
+
+    Edited by Adriann Liceralde
+    4/21/2022
+'''
+
 import utime
 import time
 import struct
-import xbee
 
 class SCD30:
     class NotFoundException(Exception):
@@ -59,15 +64,18 @@ class SCD30:
         print("SCD Initializing")
         success = 0
         while success == 0:
+            devices = i2c.scan()
             self.i2c = i2c
             self.pause = pause
             self.addr = addr
-            if not addr in i2c.scan():
-                print("SCD not found")
-                time.sleep(1)
-            else:
+
+            if addr in devices:
                 success = 1
-                #raise self.NotFoundException
+            else:
+                print("Did not find SCD30")
+                time.sleep(1)
+                # raise self.NotFoundException
+
 
     def start_continous_measurement(self, ambient_pressure=0):
         bint = struct.pack('>H', ambient_pressure)
