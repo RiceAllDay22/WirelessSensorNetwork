@@ -5,9 +5,9 @@ Both variants have the same essential function of collecting CO2 and wind data. 
 
 An external repository called the [CSR_Arduino_Collection](https://github.com/RiceAllDay22/CSR_Arduino_Collection) is a complementary project that contains guides, codes, schematics, and datasheets for operating various sensors and modules, including the ones used in WSN. 
 
-The overall WSN project is divided into three sections. Section 1 focuses on the development of the Sensor Nodes. Next, Section 2 establishes a wireless network between active nodes. Finally, Section 3 uses the collected data to identify and locate possible CO2 sources. Below are summaries and highlights of each section. 
+The overall WSN project is divided into three sections. ![Section 1](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping) focuses on the development of the Sensor Nodes. Next, Section 2 establishes a wireless network between active nodes. Finally, Section 3 uses the collected data to identify and locate possible CO2 sources. Below are summaries and highlights of each section. 
 
-# Section 1: Developing the Sensor Nodes
+# ![Section 1: Developing the Sensor Nodes](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping)
 The Sensor Nodes are the backbone of WSN. Although there are two different variants: the Arduino Version and the XBee Version, they all consist of a CO2 sensor, a wind anemometer, and a time-keeping module.
 
 [Arduino Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section1-ArduinoVersion) 
