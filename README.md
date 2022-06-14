@@ -15,6 +15,7 @@ The Sensor Nodes are the backbone of WSN. Although there are two different varia
 - Data saved on to a local microSD card
 - Hardware is built on a solderless breadboard
 - Code is compiled using Arduino IDE <br>
+
 [XBee Version](https://github.com/jkub6/WirelessSensorNetwork/tree/master/Section2-XBeeVersion)
 - Microcontroller is Digi XBee3
 - Data transmitted to central hub
