@@ -22,7 +22,10 @@ The Sensor Nodes are the backbone of WSN. Although there are two different varia
 - Hardware is assembled on a custom printed-cicuit board
 - Code is compiled using PyCharm
 
-The codes controlling the Arduino Version nodes and the XBee Version nodes are complied through Arduino IDE, and PyCharm, respectively.
+## Assessments of Individual Components
+- [CU1106 CO2 Sensor](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Assessment-CU1106) (not used for in current Node iterations)
+- [SCD30 CO2 Sensor](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Assessment-SCD30) (currently implemented in both Node versions)
+- [DS3231 Timekeeping Module](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Assessment-DS3231) (currently implemented in both Node versions)
 
 # [Section 2: Establishing the Network](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section2-Networking)
 
