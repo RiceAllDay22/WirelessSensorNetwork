@@ -32,8 +32,8 @@ The Sensor Nodes are the backbone of WSN. Although there are two different varia
 - [DS3231 Timekeeping Module](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Assessment-DS3231) (currently implemented in both Node versions)
 
 ## Power Evaluations
--[Power Usage of Nodes](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Evaluation-PowerUsage)
--[Solar Requirement](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Evaluation-PowerUsage)
+- [Power Usage of Nodes](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Evaluation-PowerUsage)
+- [Solar Requirement](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section1-Prototyping/Evaluation-PowerUsage)
 
 # [Section 2: Establishing the Network](https://github.com/RiceAllDay22/WirelessSensorNetwork/tree/master/Section2-Networking)
 
