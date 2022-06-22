@@ -1,11 +1,11 @@
 '''
-    Last updated: 4-21-2022
+    Last updated: 6-15-2022
     Adriann Liceralde
     Wireless Sensor Network Project
 '''
 
 # ----- IMPORT LIBRARIES
-from machine import Pin, ADC, I2C, WDT, SOFT_RESET
+from machine import Pin, ADC, I2C, WDT, SOFT_RESET, HARD_RESET
 import gc
 import time
 import rtc
@@ -22,13 +22,13 @@ bn = network.get_node_id()  # Retrieve the node number of this RF module
 
 # ----- SETUP MODULES
 i2c = I2C(1, freq=32000)  # DS3231 is 32kHz, SCD-30 is 50kHz, # ORIGINAL: 40kHz
-#scd = sensirion.SCD30(i2c, 0x61)
-#scd.set_measurement_interval(2)
-#scd.set_altitude_comp(1300)
-#scd.start_continous_measurement()
+scd = sensirion.SCD30(i2c, 0x61)
+scd.set_measurement_interval(2)
+scd.set_altitude_comp(650)
+scd.start_continous_measurement()
 storage = fram.get_fram(i2c)
 locator_byt = fram.get_locator(storage)
-locator_int = int.from_bytes(locator_byt, "big")
+locator_int = int.from_bytes(locator_byt, 'big')
 ds = rtc.DS3231(i2c)
 # ds.DateTime([2022, 4, 15, 23, 0, 0])  # [Year, Month, Day, Hour, Minute, Second]
 
@@ -51,10 +51,10 @@ print('Hardware ver:', hex(xbee.atcmd("HV")))
 print('Hub Address: ', addr64)
 print('Hub Connect: ', rec_online)
 print('Transmit On: ', transmit_active)
-#print('SCD Interval:', scd.get_measurement_interval())
-#print('SCD Altitude:', scd.get_altitude_comp())
-#print('SCD Factor:  ', scd.get_forced_recalibration())
-#print('SCD Auto?    ', scd.get_automatic_recalibration())
+print('SCD Interval:', scd.get_measurement_interval())
+print('SCD Altitude:', scd.get_altitude_comp())
+print('SCD Factor:  ', scd.get_forced_recalibration())
+print('SCD Auto?    ', scd.get_automatic_recalibration())
 print('')
 print('------------------------------------------------------------------------------')
 
@@ -66,18 +66,18 @@ if locator_int > 2:
     fram.emergency_retrieve(storage, addr64, bn)
     locator_byt = storage[0:2]
 
-#previous_ut = ds.get_unixtime()
+previous_ut = ds.get_unixtime()
 
 #dog = WDT(timeout=60000, response=SOFT_RESET)
-
+dog = WDT(timeout=60000, response=HARD_RESET)
 # ----- MAIN LOOP
 while 1:
     led_pin.value(1)
 
     # Collect Time, Wind, and SCD30 data
     ut = ds.get_unixtime()
-    conc, temp, humid = 400, 20, 20 # For testing purposes when SCD30 is disconnected
-    #conc, temp, humid = scd.getData()
+    #conc, temp, humid = 400, 20, 20 # For testing purposes when SCD30 is disconnected
+    conc, temp, humid = scd.getData()
     wind_dir = davis.wd(dir_offset)
     if conc == 0 and temp == 0 and humid == 0:
         xbee.transmit(addr64, bytes([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
@@ -89,7 +89,7 @@ while 1:
     button_state = button_pin.value()
 
     # Print Data
-    full_data = [transmit_active, rec_online, ut, conc, temp, humid, wind_cyc, wind_dir, gc.mem_free(), button_state, vcc]
+    full_data = [ut-previous_ut, transmit_active, rec_online, ut, conc, temp, humid, wind_cyc, wind_dir, gc.mem_free(), button_state, vcc]
     print(full_data)
 
     # Convert Data from Integers to Bytes
@@ -126,17 +126,16 @@ while 1:
         if len(b) == 8:
             print("Time Sync to %s-%s-%s %s:%s:%s" % (
                 payload[1] + 2000, payload[2], payload[3], payload[4], payload[5], payload[6]))
-            ds.DateTime([payload[1] + 2000, payload[2], payload[3], payload[4], payload[5], payload[6]])
-
-    # Wait for 3 Seconds According to Unix time
+    #             ds.DateTime([payload[1] + 2000, payload[2], payload[3],
     led_pin.value(0)
     now_ut = ds.UnixTime(*ds.DateTime())
     while now_ut < ut + 3:
         now_ut = ds.UnixTime(*ds.DateTime())
         time.sleep(0.1)
+    previous_ut = ut
     gc.collect()
 
-    #dog.feed()
+    dog.feed()
 
 
 

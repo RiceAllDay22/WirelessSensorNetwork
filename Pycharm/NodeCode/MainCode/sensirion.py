@@ -2,7 +2,7 @@
     Source: https://github.com/agners/micropython-scd30/blob/master/scd30.py
 
     Edited by Adriann Liceralde
-    4/21/2022
+    6/20/2022
 '''
 
 import utime
@@ -95,22 +95,31 @@ class SCD30:
         return struct.unpack('BB', ver)
 
     def read_measurement(self):
+        crc_fail = 0
         measurement = self.__read_bytes(self.READ_MEASUREMENT, 18)
         for i in range(0, len(measurement), 3):
-            self.__check_crc(measurement[i:i + 3])
+            if self.__check_crc(measurement[i:i + 3]) == 0:
+                print('check_crc failed at read_measurements')
+                crc_fail = 1
+                break
 
-        value = measurement[0:]
-        co2 = struct.unpack('>f', value[0:2] + value[3:5])[0]
-        value = measurement[6:]
-        temperature = struct.unpack('>f', value[0:2] + value[3:5])[0]
-        value = measurement[12:]
-        relh = struct.unpack('>f', value[0:2] + value[3:5])[0]
+        if crc_fail == 0:
+            value = measurement[0:]
+            co2 = struct.unpack('>f', value[0:2] + value[3:5])[0]
+            value = measurement[6:]
+            temperature = struct.unpack('>f', value[0:2] + value[3:5])[0]
+            value = measurement[12:]
+            relh = struct.unpack('>f', value[0:2] + value[3:5])[0]
+        else:
+            co2, temperature, relh = 0, 0, 0
+
         return [co2, temperature, relh]
         #return (co2, temperature, relh) #This is the original line, which causes minor issues
 
     def get_status_ready(self):
         ready = self.__read_bytes(self.GET_STATUS_READY, 3)
-        self.__check_crc(ready)
+        if self.__check_crc(ready) == 0:
+            print('check_crc failed at get_status_ready')
         return struct.unpack('>H', ready)[0]
 
     def get_measurement_interval(self):
@@ -181,19 +190,19 @@ class SCD30:
     # def __check_crc(self, arr):
     #     assert (len(arr) == 3)
     #     if self.__crc(arr[0], arr[1]) != arr[2]:
-    #         print('---------------------')
-    #         print(arr[0], arr[1], arr[2])
     #         raise self.CRCException
 
     def __check_crc(self, arr):
         assert (len(arr) == 3)
         if self.__crc(arr[0], arr[1]) != arr[2]:
-            print('---------------------')
+            print('------------------------------------------------------------------------------')
+            print('________________ERROR #12: CRC error_______________________________________________________________________________________')
+            print('------------------------------------------------------------------------------')
             print(arr[0], arr[1], arr[2])
             return 0
         else:
             return 1
-            #raise self.CRCException
+
 
     def __crc(self, msb, lsb):
         crc = 0xff
@@ -207,12 +216,30 @@ class SCD30:
     def getData(self):
         if self.get_status_ready() == 1:
             conc, temp, humid = self.read_measurement()
+
+            if conc == 0 and temp == 0 and humid == 0:
+                time.sleep(1)
+                conc, temp, humid = self.read_measurement()
+
             conc = int(conc)
             temp = int(temp)
             humid = int(humid)
+
         else:
-            conc, temp, humid = 0, 0, 0
-            print('-')
-            print('--------------------------------SCD Zeros Occurred--------------------------------')
-            print('-')
+            print('------------------------------------------------------------------------------')
+            print('--------------------------------FIRST getData FAILED--------------------------------')
+            print('------------------------------------------------------------------------------')
+            time.sleep(1)
+            if self.get_status_ready() == 1:
+                conc, temp, humid = self.read_measurement()
+                conc = int(conc)
+                temp = int(temp)
+                humid = int(humid)
+
+            else:
+                conc, temp, humid = 0, 0, 0
+                print('------------------------------------------------------------------------------')
+                print('--------------------------------SECOND getData FAILED--------------------------------')
+                print('------------------------------------------------------------------------------')
+
         return [conc, temp, humid]

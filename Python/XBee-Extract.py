@@ -15,7 +15,7 @@ m = computer_time.minute
 #filename = str(Y)+'-'+str(M)+'-'+str(D)+'-'+str(H)+'-'+str(m)+'.csv'
 #open(filename, 'w').close()
 
-ser = serial.Serial('COM5', 9600, timeout=1)
+ser = serial.Serial('COM4', 9600, timeout=1)
 ser.flushInput()
 
 target = open(filename, 'a')
