@@ -52,9 +52,16 @@ def byte_to_windtemp(b1, b2):
         temp = b2 - 40
     return wd, temp
 
-wd = 3
-temp = 70
-b1, b2 = windtemp_to_byte(wd, temp)
-print(wd, temp)
-print(b1, b2)
-print(byte_to_windtemp(b1,b2))
+# wd = 3
+# temp = 70
+# b1, b2 = windtemp_to_byte(wd, temp)
+# print(wd, temp)
+# print(b1, b2)
+# print(byte_to_windtemp(b1,b2))
+
+
+for wd in range(0, 361):
+    for temp in range(-40, 70):
+        b1, b2 = windtemp_to_byte(wd, temp)
+        #print(wd, temp, b1, b2)
+        assert b1 < 255 and b2 < 255 and b1 >= 0 and b2 >= 0
