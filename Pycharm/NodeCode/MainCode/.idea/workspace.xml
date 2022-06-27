@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2a8d7e6c-bc98-4e46-8beb-db3b999eb914" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../../Python/Central/C-2022-6-23--4-0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Python/Central/C-2022-6-23--4-0.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/sensirion.mpy" beforeDir="false" afterPath="$PROJECT_DIR$/build/sensirion.mpy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Python/Central/C-2022-6-23--5-0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Python/Central/C-2022-6-23--5-0.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
