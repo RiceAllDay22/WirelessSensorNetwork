@@ -218,9 +218,7 @@ class SCD30:
             conc, temp, humid = self.read_measurement()
 
             if conc == 0 and temp == 0 and humid == 0:
-                print('------------------------------------------------------------------------------')
                 print('----------------First self.read_measurement() returned zeros------------------')
-                print('------------------------------------------------------------------------------')
                 time.sleep(1)
                 conc, temp, humid = self.read_measurement()
 

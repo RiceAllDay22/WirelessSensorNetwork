@@ -7,7 +7,7 @@
     https://github.com/micropython-Chinese-Community/mpy-lib/tree/master/misc/DS3231
 
     Edited by Adriann Liceralde
-    4/21/2022
+    6/28/2022
 '''
 import time
 
@@ -76,9 +76,8 @@ class DS3231():
                 if read != None:
                     break
             except:
-                print('------------------------------------------------------------------------------')
-                print('________________ERROR #18: getReg Error_______________________________________')
-                print('------------------------------------------------------------------------------')
+                pass
+            #     print('________________ERROR #18: getReg Error_______________________________________')
         return read
 
     def Second(self, second=None):
@@ -158,11 +157,10 @@ class DS3231():
             a = ((days * 24 + hh) * 60 + mm) * 60 + ss
         except:
             print('------------------------------------------------------------------------------')
-            print('________________ERROR #10: getReg Error_______________________________________________________________________________________')
+            print('________________ERROR #10: getReg Error_______________________________________')
             print('------------------------------------------------------------------------------')
             print(type(days), type(hh), type(mm), type(ss))
         return a
-
 
     def date2days(self, y, m, d):
         y -= 2000
@@ -188,6 +186,7 @@ class DS3231():
                 if dt[0] == dt[0]:
                     break
             except:
-                print("RTC Error Trying again...____________________________________________________________________________________________________")
+                print(
+                    "RTC Error Trying again..._______________________________________________________________________")
         ut = self.UnixTime(*dt)
         return ut
