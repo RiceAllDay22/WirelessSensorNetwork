@@ -9,7 +9,18 @@ void setup() {
 
 void loop() {
   dt = rtc.now(); 
-  Serial.println(dt.unixtime());
+  Serial.print(dt.year(), DEC);
+  Serial.print('/');
+  Serial.print(dt.month(), DEC);
+  Serial.print('/');
+  Serial.print(dt.day(), DEC);
+  Serial.print(" ");
+  Serial.print(dt.hour(), DEC);
+  Serial.print(':');
+  Serial.print(dt.minute(), DEC);
+  Serial.print(':');
+  Serial.print(dt.second(), DEC);
+  Serial.println();
   while (rtc.now().unixtime() == dt.unixtime());  
 }
 
